@@ -1,13 +1,11 @@
 package com.jhu.Clueless.model;
 
 public class User {
-   Integer id;
-   String password;
+   String userId;
 
    // Constructor
-   public User(Integer id, String password){
-      this.id = id;
-      this.password = password;
+   public User(String userId){
+      this.userId = userId;
    }
 
 }
