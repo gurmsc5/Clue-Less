@@ -7,6 +7,7 @@ this class defines the controller that is handling any request regarding a game
 
 package com.jhu.Clueless.controller;
 
+import com.jhu.Clueless.service.GameService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +27,8 @@ public class GameController {
    @PostMapping
    public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType, @RequestParam(value="userCount") Integer userCount) {
       JsonObject gameObject = new JsonObject();
-      gameObject.addProperty("gameId",99);
+      int gameId = GameService.createNewGame(userId, gameType, userCount);
+      gameObject.addProperty("gameId",gameId);
       gameObject.addProperty("gameType",0);
       gameObject.addProperty("userCount",1);
       gameObject.addProperty("Message","success");
