@@ -7,12 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { BannerComponent } from './banner/banner.component';
 import { MessagesComponent } from './messages/messages.component';
+import { GameSessionComponent } from './game-session/game-session.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BannerComponent,
-    MessagesComponent
+    MessagesComponent,
+    GameSessionComponent
   ],
   imports: [
     BrowserModule,

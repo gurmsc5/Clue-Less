@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ConnectionService } from '../connection.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-banner',
@@ -9,12 +8,12 @@ import { ConnectionService } from '../connection.service';
 })
 export class BannerComponent implements OnInit {
 
-  constructor(private connectionService: ConnectionService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  joinSession(): void {
-    this.connectionService.joinSession();
+  joinLobby(): void {
+    this.router.navigate(['/game-session']);
   }
 }
