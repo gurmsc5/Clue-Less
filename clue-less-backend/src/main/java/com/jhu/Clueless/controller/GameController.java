@@ -22,15 +22,17 @@ public class GameController {
    @param userId: identify the user that initiates the new game creation
    @param gameType: identify the game to be a (single player game: 0) or (multiple player game: 1)
    @param userCount: identify the number of active players in this game. single player game requires this filed to be 1
+   @param size: identify the total number of players in the game. range[3,6]
     */
    @RequestMapping(value="/game", produces="application/json")
    @PostMapping
-   public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType, @RequestParam(value="userCount") Integer userCount) {
+   public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType, @RequestParam(value="userCount") Integer userCount, @RequestParam(value="size") Integer size) {
       JsonObject gameObject = new JsonObject();
-      int gameId = GameService.createNewGame(userId, gameType, userCount);
+      int gameId = GameService.createNewGame(userId, gameType, userCount, size);
       gameObject.addProperty("gameId",gameId);
-      gameObject.addProperty("gameType",0);
-      gameObject.addProperty("userCount",1);
+      gameObject.addProperty("gameType",gameType);
+      gameObject.addProperty("userCount",userCount);
+      gameObject.addProperty("size",size);
       gameObject.addProperty("Message","success");
 
       return gameObject.toString();

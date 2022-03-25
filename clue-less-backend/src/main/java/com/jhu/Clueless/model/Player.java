@@ -6,6 +6,7 @@ public class Player {
    // test class for Git push
    public String playerName;
    public Integer playerType;  // 1 stands for actual player; 2 stands for AI
+   public String color;
    private ArrayList<Card> cardInHand = new ArrayList<Card>();
    Location location;
 
