@@ -13,12 +13,28 @@ import java.util.Random;
 @Service
 public class GameService {
 
-
+   /*
+   create a game session associated with userId
+   in this case is the user initialize the game session with predefined game constraints provided
+   this method is not needed in the skeletal version since the main service will always initialize a game session with gameId:999
+    */
    public static Integer createNewGame(String userId, int gameType, int userCount, int size) {
       Random rand = new Random();
       int gameId = rand.nextInt(1000);
+
+
       return gameId;
 
+   }
+
+   /*
+   create a game session with predefined gameId
+   no userId is associated with this game session initially
+   this method is used in the skeletal version where main service will always initialize a game session with gameId:999
+    */
+   public static Integer createNewGame(int gameType, int userCount, int size, int gameId) {
+
+      return gameId;
    }
 
 
