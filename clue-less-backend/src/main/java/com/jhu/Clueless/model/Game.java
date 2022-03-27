@@ -11,8 +11,7 @@ public class Game {
    HashMap<String, String> userToPlayerMap;
    CardEnvelope cardFile;
    HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
-   ArrayList<Room> Rooms;
-   ArrayList<Hallway> Hallways;
+   ClueMap Map;
    Turn turn;
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
