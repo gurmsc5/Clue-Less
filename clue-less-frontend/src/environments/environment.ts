@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  gameServerPort: "4200",
+  gameServerApiUrl: "http://localhost",
+  lobbyApiUrl: "api/lobby"
 };
 
 /*
