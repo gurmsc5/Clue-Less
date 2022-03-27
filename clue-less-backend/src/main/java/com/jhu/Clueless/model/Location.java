@@ -7,9 +7,9 @@ this class contains the basic coordinate for each Location and provides basic me
 package com.jhu.Clueless.model;
 
 public class Location {
-   Integer[] coordinate;
-   Boolean isOccupied;
-   Player player;
+   private Integer[] coordinate;
+   private Boolean isOccupied;
+   private Player player;
 
    // constructor
    public Location(Integer[] coordinate) {
