@@ -6,7 +6,7 @@ import { MessageService } from "../message.service";
 import { PLAYERS } from "../mock-players";
 
 @Injectable()
-export class HttpMockinterceptor implements HttpInterceptor {
+export class HttpMockLobbyInterceptor implements HttpInterceptor {
 
   constructor(private messageService: MessageService) {}
 
@@ -14,7 +14,7 @@ export class HttpMockinterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<Lobby>, next: HttpHandler): Observable<HttpEvent<Lobby>> {
     if (req.method == 'GET') {
       this.messageService.add(`Intercepted request to fetch Lobby data`);
-      let lobby: Lobby = { players: PLAYERS };
+      let lobby: Lobby = { id: 999, players: PLAYERS };
       return of(new HttpResponse({ status: 200, body: lobby}));
     }
 

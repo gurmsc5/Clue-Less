@@ -24,16 +24,19 @@
   background-color: #42545C;
 }
 
+
 .players {
   margin: 0 0 2em 0;
-  list-style-type: none;
+  list-style: none;
   padding: 0;
   width: 15em;
+  display: flex;
 }
 
 .players li {
-  display: flex;
+  display: inline;
 }
+
 .players button {
   flex: 1;
   cursor: pointer;
