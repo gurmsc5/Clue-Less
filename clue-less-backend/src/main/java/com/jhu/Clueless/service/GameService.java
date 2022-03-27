@@ -6,6 +6,8 @@ it preserves all active Game objects in memory
 
 package com.jhu.Clueless.service;
 
+import com.jhu.Clueless.model.Game;
+import com.jhu.Clueless.model.GameList;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -32,8 +34,9 @@ public class GameService {
    no userId is associated with this game session initially
    this method is used in the skeletal version where main service will always initialize a game session with gameId:999
     */
-   public static Integer createNewGame(int gameType, int userCount, int size, int gameId) {
-
+   public static Integer createNewGame(int userCount, int size, int gameId) {
+      Game newGame = new Game(userCount, gameId, size);
+      GameList.getInstance().addGame(newGame);
       return gameId;
    }
 

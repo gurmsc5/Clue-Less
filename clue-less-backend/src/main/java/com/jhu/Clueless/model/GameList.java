@@ -43,6 +43,16 @@ public class GameList {
       return gameMap.get(gameId);
    }
 
+   // verify if certain gameId is already created
+   public boolean isGameExist(int gameId) {
+      if (gameMap.containsKey(gameId)) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+
 
 
 
