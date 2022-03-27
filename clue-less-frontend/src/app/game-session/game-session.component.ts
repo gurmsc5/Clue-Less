@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ConnectionService } from '../connection.service';
+import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GameService } from '../game.service';
+import { Lobby } from '../lobby';
+import { Player } from '../player';
 
 @Component({
   selector: 'app-game-session',
@@ -8,12 +12,27 @@ import { ConnectionService } from '../connection.service';
 })
 export class GameSessionComponent implements OnInit {
 
-  constructor(private connectionService: ConnectionService) { }
+  lobby$!: Observable<Lobby>;
+  selectedPlayer?: Player;
+
+  constructor(
+    private gameService: GameService,
+    private location: Location) { }
 
   ngOnInit(): void {
+    this.lobby$ = this.gameService.getLobby();
+  }
+
+  exitGame(): void {
+    this.gameService.exitGame();
+    this.location.back();
+  }
+
+  onSelect(player: Player): void {
+    this.selectedPlayer = player;
   }
 
   startSession(): void {
-    this.connectionService.startSession();
+
   }
 }

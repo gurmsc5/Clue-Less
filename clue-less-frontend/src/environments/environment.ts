@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  gameServerUrl: ""
+  gameServerPort: "4200",
+  gameServerApiUrl: "http://localhost",
+  lobbyApiUrl: "api/lobby"
 };
 
 /*
