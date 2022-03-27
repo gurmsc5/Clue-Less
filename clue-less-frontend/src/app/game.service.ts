@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, retry } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { Lobby } from './lobby';
 
 import { environment } from '../environments/environment';
 import { MessageService } from './message.service';
+import { Player } from './player';
 
 const env = environment;
 
@@ -14,18 +15,33 @@ const env = environment;
 })
 export class GameService {
 
+  private selectPlayerApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.selectPlayerApiUrl}`;
+  private lobbyApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.lobbyApiUrl}`;
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
   getLobby(): Observable<Lobby> {
-    const lobbyApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}` + `${env.lobbyApiUrl}`
-    return this.http.get<Lobby>(lobbyApiUrl)
+
+    return this.http.get<Lobby>(this.lobbyApiUrl)
       .pipe(
         tap(_ => this.log('fetch lobby info')),
         retry(3),
         catchError(this.handleError<Lobby>('getLobby'))
       );
+  }
+
+  selectPlayer(player: Player): Observable<Player> {
+
+    return this.http.post<Player>(this.selectPlayerApiUrl, player, this.httpOptions).pipe(
+      tap((selectedPlayer: Player) => this.log(`Selected player w/ id=${selectedPlayer.id}`)),
+      catchError(this.handleError<Player>('selectPlayer'))
+    );
   }
 
   exitGame(): void {

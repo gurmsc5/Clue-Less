@@ -21,6 +21,7 @@ export class GameSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.lobby$ = this.gameService.getLobby();
+
   }
 
   exitGame(): void {
@@ -29,7 +30,8 @@ export class GameSessionComponent implements OnInit {
   }
 
   onSelect(player: Player): void {
-    this.selectedPlayer = player;
+    this.gameService.selectPlayer(player)
+      .subscribe(p => this.selectedPlayer = player);
   }
 
   startSession(): void {
