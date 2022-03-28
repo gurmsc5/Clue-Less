@@ -46,11 +46,10 @@ public class GameController {
     */
    @RequestMapping(value="/game", produces="application/json")
    @PostMapping
-   public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType) {
+   public String createGame(@RequestParam(value="userCount") int userCount, @RequestParam(value="size") int size, @RequestParam(value="gameId") int gameId) {
       JsonObject gameObject = new JsonObject();
-      int gameId = gameService.createNewGame(userId, gameType, 6, 6);
+      gameService.createNewGame(userCount,size,gameId);
       gameObject.addProperty("gameId",gameId);
-      gameObject.addProperty("gameType",gameType);
       gameObject.addProperty("Message","success");
 
       return gameObject.toString();
