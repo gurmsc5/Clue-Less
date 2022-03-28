@@ -70,7 +70,6 @@ public class GameController {
       if (!GameList.getInstance().isGameExist(gameId)){
          joinObject.addProperty("Error","The target game session does not exist!");
          joinObject.addProperty("Message","fail");
-         joinObject.addProperty("Status",500);
          return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
       }
 
@@ -78,7 +77,6 @@ public class GameController {
       if (!targetGame.availablePlayers().containsKey(playerName)) {
          joinObject.addProperty("Error","The target suspect is selected by other user!");
          joinObject.addProperty("Message","fail");
-         joinObject.addProperty("Status",500);
          return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
       }
       if (targetGame.userJoin(userId)) {
@@ -87,7 +85,6 @@ public class GameController {
          joinObject.addProperty("activeUserCount",targetGame.activeUserCount());
          joinObject.addProperty("size",targetGame.getSize());
          joinObject.addProperty("Message","success");
-         joinObject.addProperty("Status",200);
 
          // Return player info
          Player player = targetGame.getUserPlayer(userId);
@@ -97,7 +94,6 @@ public class GameController {
       else {
          joinObject.addProperty("Error","userId already in the game or already reach the maximum allowed users count");
          joinObject.addProperty("Message","fail");
-         joinObject.addProperty("Status",500);
       }
 
       return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
