@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GameService } from '../game.service';
 import { Lobby } from '../lobby';
+import { MessageService } from '../message.service';
 import { Player } from '../player';
 
 @Component({
@@ -17,7 +18,8 @@ export class GameSessionComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private location: Location) { }
+    private location: Location,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.lobby$ = this.gameService.getLobby();
@@ -35,6 +37,11 @@ export class GameSessionComponent implements OnInit {
   }
 
   startSession(): void {
-
+    if (this.selectedPlayer) {
+      this.gameService.startSession(this.selectedPlayer.id);
+    }
+    else {
+      this.messageService.add("Unable to start game: Character selection wasn't confirmed!")
+    }
   }
 }

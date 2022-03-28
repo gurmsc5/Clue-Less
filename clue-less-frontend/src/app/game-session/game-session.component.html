@@ -2,7 +2,7 @@
   <h2>Lobby: Available characters</h2>
   <ul class="players">
     <li *ngFor="let player of lobby.players">
-      <button type="button" [disabled]="!player.isAvailable" (click)="onSelect(player)">
+      <button type="button" [disabled]="!player.available" (click)="onSelect(player)">
       <span class="badge">{{player.id}}</span>
       <span class="name">{{player.name}}</span>
       </button>

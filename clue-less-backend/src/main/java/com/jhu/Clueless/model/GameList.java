@@ -52,9 +52,4 @@ public class GameList {
          return false;
       }
    }
-
-
-
-
-
 }

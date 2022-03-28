@@ -14,7 +14,7 @@ export class HttpMockPlayerInterceptor implements HttpInterceptor {
     if (req.method == 'POST') {
       this.messageService.add(`Intercepted request to select Player`);
       const player: Player = req.body as Player;
-      player.isAvailable = true;
+      player.available = true;
       return of(new HttpResponse({ status: 200, body: player}));
     }
 

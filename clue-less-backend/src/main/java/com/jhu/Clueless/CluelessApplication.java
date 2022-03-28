@@ -1,5 +1,7 @@
 package com.jhu.Clueless;
 
+import com.jhu.Clueless.model.Game;
+import com.jhu.Clueless.model.GameList;
 import com.jhu.Clueless.service.GameService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +13,8 @@ public class CluelessApplication {
 		SpringApplication.run(CluelessApplication.class, args);
 
 		// initialize a game session with gameId=999 for skeletal inc
-		GameService.createNewGame(4, 6, 999);
+		Game newGame = new Game(4, 999, 6);
+		GameList.getInstance().addGame(newGame);
 		System.out.println("Create a gameId:999");
 	}
 
