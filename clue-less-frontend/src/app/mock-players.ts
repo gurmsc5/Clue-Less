@@ -1,9 +1,9 @@
 import { Player } from "./player";
 
 export const PLAYERS: Player[] = [
-  { id: 1, name: 'Mrs. White', isAvailable: true},
-  { id: 2, name: 'Professor Plum', isAvailable: true},
-  { id: 3, name: 'Mrs. Peacock', isAvailable: true},
-  { id: 4, name: 'Colonel Mustard', isAvailable: true},
-  { id: 5, name: 'Mr. Green', isAvailable: false}
+  { id: 1, name: 'Mrs. White', available: true},
+  { id: 2, name: 'Professor Plum', available: true},
+  { id: 3, name: 'Mrs. Peacock', available: true},
+  { id: 4, name: 'Colonel Mustard', available: true},
+  { id: 5, name: 'Mr. Green', available: false}
 ];

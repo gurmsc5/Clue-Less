@@ -1,23 +1,34 @@
 package com.jhu.Clueless.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
+@NoArgsConstructor
 public class Player {
+   private Long id;
+
    // test class for Git push
-   public String playerName;
-   public Integer playerType;  // 1 stands for actual player; 2 stands for AI
-   public String color;
-   public Integer[] coordinate;
+   private String name;
+   private String color;
+   private boolean available;
+
+   private Integer[] coordinate;
    private ArrayList<Card> cardInHand = new ArrayList<Card>();
 
-
-
    // constructor
-   public Player(String playerName, Integer playerType, String color) {
-      this.playerName = playerName;
-      this.playerType = playerType;
+   public Player(Long id, String name, String color) {
+      this.id = id;
+      this.name = name;
       this.color = color;
+      this.available = true;
    }
 
    // build the card in hand for the player
@@ -31,7 +42,16 @@ public class Player {
       return cardInHand;
    }
 
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Player player = (Player) o;
+      return id.equals(player.id) && name.equals(player.name);
+   }
 
-
-
+   @Override
+   public int hashCode() {
+      return Objects.hash(id, name);
+   }
 }

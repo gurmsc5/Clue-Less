@@ -7,17 +7,34 @@ this class defines the controller that is handling any request regarding a game
 
 package com.jhu.Clueless.controller;
 
+import com.google.gson.JsonObject;
 import com.jhu.Clueless.model.Game;
 import com.jhu.Clueless.model.GameList;
+import com.jhu.Clueless.model.Lobby;
+import com.jhu.Clueless.model.Player;
 import com.jhu.Clueless.service.GameService;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.*;
 
 import java.util.ArrayList;
 import java.util.Set;
 
+import java.util.*;
+
+@Log4j2
+@CrossOrigin
 @RestController
 public class GameController {
+
+   private final GameService gameService;
+
+   @Autowired
+   public GameController(GameService gameService) {
+      this.gameService = gameService;
+   }
 
    /*
    this method handle the create game POST request
@@ -28,13 +45,11 @@ public class GameController {
     */
    @RequestMapping(value="/game", produces="application/json")
    @PostMapping
-   public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType, @RequestParam(value="userCount") Integer userCount, @RequestParam(value="size") Integer size) {
+   public String createGame(@RequestParam(value="userId") String userId, @RequestParam(value="gameType") Integer gameType) {
       JsonObject gameObject = new JsonObject();
-      int gameId = GameService.createNewGame(userId, gameType, userCount, size);
+      int gameId = gameService.createNewGame(userId, gameType, 6, 6);
       gameObject.addProperty("gameId",gameId);
       gameObject.addProperty("gameType",gameType);
-      gameObject.addProperty("userCount",userCount);
-      gameObject.addProperty("size",size);
       gameObject.addProperty("Message","success");
 
       return gameObject.toString();
@@ -74,21 +89,21 @@ public class GameController {
     */
    @RequestMapping(value="/joingame/{gameId}", produces="application/json")
    @PutMapping
-   public String joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
+   public ResponseEntity<?> joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
       JsonObject joinObject = new JsonObject();
       if (!GameList.getInstance().isGameExist(gameId)){
          joinObject.addProperty("Error","The target game session does not exist!");
          joinObject.addProperty("Message","fail");
          joinObject.addProperty("Status",500);
-         return joinObject.toString();
+         return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
       }
 
       Game targetGame = GameList.getInstance().getGame(gameId);
-      if (!targetGame.availablePlayer().contains(playerName)) {
+      if (!targetGame.availablePlayers().containsKey(playerName)) {
          joinObject.addProperty("Error","The target suspect is selected by other user!");
          joinObject.addProperty("Message","fail");
          joinObject.addProperty("Status",500);
-         return joinObject.toString();
+         return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
       }
       if (targetGame.userJoin(userId)) {
          targetGame.userSelectPlayer(userId, playerName);
@@ -97,6 +112,11 @@ public class GameController {
          joinObject.addProperty("size",targetGame.getSize());
          joinObject.addProperty("Message","success");
          joinObject.addProperty("Status",200);
+
+         // Return player info
+         Player player = targetGame.getUserPlayer(userId);
+         return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
+
       }
       else {
          joinObject.addProperty("Error","userId already in the game or already reach the maximum allowed users count");
@@ -104,7 +124,7 @@ public class GameController {
          joinObject.addProperty("Status",500);
       }
 
-      return joinObject.toString();
+      return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
    }
 
    /*
@@ -118,9 +138,10 @@ public class GameController {
    # maxUserAllowed: maximum allowed Users in this game
     */
 
-   @RequestMapping(value="/lobby/{gameId}", produces="application/json")
+   @RequestMapping(value="/api/lobby/{gameId}", produces="application/json")
    @GetMapping
-   public String viewGameLobby(@PathVariable(value="gameId") int gameId) {
+   public ResponseEntity<?> viewGameLobby(@PathVariable(value="gameId") int gameId) {
+      log.debug("Received lobby information request for game id: " +gameId);
       JsonObject joinObject = new JsonObject();
       JsonArray playerArray = new JsonArray();
 
@@ -151,8 +172,6 @@ public class GameController {
       }
 
 
-      joinObject.addProperty("activeUserList",activeUserList);
-      joinObject.addProperty("activeUserCount",targetGame.activeUserCount());
       joinObject.addProperty("availableSusPool",availableSusPool);
       joinObject.add("Players", playerArray);
       joinObject.addProperty("size",targetGame.getSize());
@@ -160,10 +179,15 @@ public class GameController {
       joinObject.addProperty("Message","success");
       joinObject.addProperty("Status",200);
 
-      return joinObject.toString();
+      Game targetGame = GameList.getInstance().getGame(gameId);
+
+      Lobby lobby = new Lobby();
+      lobby.setId((long)gameId);
+      Map<String, Player> players = targetGame.availablePlayers();
+
+      lobby.setPlayers(new HashSet<>(players.values()));
+
+      return new ResponseEntity<>(lobby, HttpStatus.ACCEPTED);
    }
-
-
-
 
 }

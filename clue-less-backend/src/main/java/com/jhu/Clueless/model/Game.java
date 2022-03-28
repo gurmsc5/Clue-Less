@@ -33,7 +33,7 @@ public class Game {
       // initialize the Player/character
       this.playerList = new HashMap<>();
       for (int i=0; i<size; i++) {
-         Player tempPlayer = new Player(fullPlayerList.get(i), 2, colorMap.get(fullPlayerList.get(i)));
+         Player tempPlayer = new Player((long)i, fullPlayerList.get(i), colorMap.get(fullPlayerList.get(i)));
          playerList.put(fullPlayerList.get(i), tempPlayer);
       }
 
@@ -93,13 +93,13 @@ public class Game {
    /*
    this method return the available character name(playerName) as a List of String
     */
-   public ArrayList<String> availablePlayer() {
-      ArrayList<String> result = new ArrayList<>();
+   public Map<String, Player> availablePlayers() {
+      Map<String, Player> result = new HashMap<>();
 
-      for (String player : playerList.keySet()) {
+      for (Map.Entry<String, Player> entry : playerList.entrySet()) {
          // if the playerName has not been bound to any userId
-         if (!userToPlayerMap.containsValue(player)) {
-            result.add(player);
+         if (!userToPlayerMap.containsValue(entry.getKey())) {
+            result.put(entry.getKey(), entry.getValue());
          }
       }
       return result;
@@ -144,7 +144,7 @@ public class Game {
    this method binds a userId to a specific character(Player)
     */
    public void userSelectPlayer(String userId, String playerName) {
-      if (availablePlayer().contains(playerName)) {
+      if (availablePlayers().containsKey(playerName)) {
          userToPlayerMap.put(userId, playerName);
          System.out.println("User: " + userId + " selected suspect: " + playerName);
       }
@@ -177,6 +177,11 @@ public class Game {
          tempTurn.nextTurn();
       }
       return result;
+   public Player getUserPlayer(String userId) {
+      if (userToPlayerMap.containsKey(userId)) {
+         return playerList.get(userToPlayerMap.get(userId));
+      }
+      return null;
    }
 
 
