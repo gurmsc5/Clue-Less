@@ -9,11 +9,7 @@ import { Lobby } from '../lobby';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent implements OnInit {
-  lobby: Lobby | undefined;
-
-  constructor(
-    private router: Router,
-    private gameService: GameService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
