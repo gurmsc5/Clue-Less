@@ -56,6 +56,30 @@ public class GameController {
 
    }
 
+   @RequestMapping(value="/exitgame/{gameId}", produces="application/json")
+   @PutMapping
+   public ResponseEntity<?> exitGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
+      JsonObject exitObject = new JsonObject();
+      if (!GameList.getInstance().isGameExist(gameId)){
+         exitObject.addProperty("Error","The target game session does not exist!");
+         exitObject.addProperty("Message","fail");
+         return new ResponseEntity<>(exitObject, HttpStatus.BAD_REQUEST);
+      }
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      if (targetGame.userExit(userId)) {
+         exitObject.addProperty("gameId",gameId);
+         exitObject.addProperty("Message","success");
+         return new ResponseEntity<>(exitObject, HttpStatus.ACCEPTED);
+      }
+      else {
+         exitObject.addProperty("Error","userId not found or already exited");
+         exitObject.addProperty("Message","fail");
+      }
+
+      return new ResponseEntity<>(exitObject, HttpStatus.BAD_REQUEST);
+
+   }
+
    /*
    this method handle the join game PUT request
    @param userId: identify the user that tries to join the game
@@ -160,5 +184,6 @@ public class GameController {
 
       return new ResponseEntity<>(lobby, HttpStatus.ACCEPTED);
    }
+
 
 }

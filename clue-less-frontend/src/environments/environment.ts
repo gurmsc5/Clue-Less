@@ -9,7 +9,7 @@ export const environment = {
   lobbyApiUrl: "api/lobby/999",
   selectPlayerApiUrl: "joingame/999",
   startGameApiUrl: "game",
-  exitGameApiUrl: "exitgame/999",
+  exitGameApiUrl: "exitgame",
 };
 
 /*

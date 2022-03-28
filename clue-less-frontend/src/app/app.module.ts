@@ -36,6 +36,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    !environment.production ? HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    ) : [],
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -48,7 +51,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     LayoutModule,
   ],
   providers: [
-    //httpInterceptorProviders
+    !environment.production ? httpInterceptorProviders : []
   ],
   bootstrap: [AppComponent]
 })

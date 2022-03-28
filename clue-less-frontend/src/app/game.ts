@@ -1,4 +1,4 @@
 export interface Game {
   gameId: number;
-  gameType: number;
+  Message?: string;
 }
