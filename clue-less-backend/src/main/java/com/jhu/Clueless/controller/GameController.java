@@ -7,6 +7,7 @@ this class defines the controller that is handling any request regarding a game
 
 package com.jhu.Clueless.controller;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.jhu.Clueless.model.Game;
 import com.jhu.Clueless.model.GameList;
@@ -145,39 +146,39 @@ public class GameController {
       JsonObject joinObject = new JsonObject();
       JsonArray playerArray = new JsonArray();
 
-      if (!GameList.getInstance().isGameExist(gameId)){
-         joinObject.addProperty("Error","The target game session does not exist!");
-         joinObject.addProperty("Message","fail");
-         joinObject.addProperty("Status",500);
-         return joinObject.toString();
-      }
+//      if (!GameList.getInstance().isGameExist(gameId)){
+//         joinObject.addProperty("Error","The target game session does not exist!");
+//         joinObject.addProperty("Message","fail");
+//         joinObject.addProperty("Status",500);
+//         return joinObject.toString();
+//      }
 
-      Game targetGame = GameList.getInstance().getGame(gameId);
-      String availableSusPool = String.join(",",targetGame.availablePlayer());
-      String activeUserList = String.join(",",targetGame.getUserList());
-      ArrayList<String> playerList = targetGame.getPlayerList();
-      int id = 1;
-      for (String player : playerList) {
-         JsonObject playerObject = new JsonObject();
-         playerObject.addProperty("id",id);
-         playerObject.addProperty("name",player);
-         if (availableSusPool.contains(player)) {
-            playerObject.addProperty("isAvailable",true);
-         }
-         else {
-            playerObject.addProperty("isAvailable",false);
-         }
-         playerArray.add(playerObject);
-         id ++;
-      }
-
-
-      joinObject.addProperty("availableSusPool",availableSusPool);
-      joinObject.add("Players", playerArray);
-      joinObject.addProperty("size",targetGame.getSize());
-      joinObject.addProperty("maxUserAllowed",targetGame.getUserAllowed());
-      joinObject.addProperty("Message","success");
-      joinObject.addProperty("Status",200);
+//      Game targetGame = GameList.getInstance().getGame(gameId);
+//      String availableSusPool = String.join(",",targetGame.availablePlayer());
+//      String activeUserList = String.join(",",targetGame.getUserList());
+//      ArrayList<String> playerList = targetGame.getPlayerList();
+//      int id = 1;
+//      for (String player : playerList) {
+//         JsonObject playerObject = new JsonObject();
+//         playerObject.addProperty("id",id);
+//         playerObject.addProperty("name",player);
+//         if (availableSusPool.contains(player)) {
+//            playerObject.addProperty("isAvailable",true);
+//         }
+//         else {
+//            playerObject.addProperty("isAvailable",false);
+//         }
+//         playerArray.add(playerObject);
+//         id ++;
+//      }
+//
+//
+//      joinObject.addProperty("availableSusPool",availableSusPool);
+//      joinObject.add("Players", playerArray);
+//      joinObject.addProperty("size",targetGame.getSize());
+//      joinObject.addProperty("maxUserAllowed",targetGame.getUserAllowed());
+//      joinObject.addProperty("Message","success");
+//      joinObject.addProperty("Status",200);
 
       Game targetGame = GameList.getInstance().getGame(gameId);
 
