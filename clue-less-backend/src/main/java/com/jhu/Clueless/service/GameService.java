@@ -10,21 +10,10 @@ import com.jhu.Clueless.model.Game;
 import com.jhu.Clueless.model.GameList;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 
 @Service
 public class GameService {
 
-   /*
-   create a game session associated with userId
-   in this case is the user initialize the game session with predefined game constraints provided
-   this method is not needed in the skeletal version since the main service will always initialize a game session with gameId:999
-    */
-   public Integer createNewGame(String userId, int gameType, int userCount, int size) {
-      Random rand = new Random();
-      int gameId = rand.nextInt(1000);
-      return gameId;
-   }
 
    /*
    create a game session with predefined gameId
