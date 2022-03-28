@@ -123,7 +123,7 @@ public class Game {
       }
    }
    /*
-   this method is called when a user is joining this game
+   this method is called when a user is exiting this game
     */
    public boolean userExit(String userId) {
       if(userList.contains(userId)) {
@@ -132,7 +132,7 @@ public class Game {
          return true;
       }if ((userList.size() < userAllowed) && !userList.contains(userId)) {
          System.out.println("User not found in this game session");
-         return true;
+         return false;
       }
       else {
          System.out.println("Already reach the maximum allowed Users count...");

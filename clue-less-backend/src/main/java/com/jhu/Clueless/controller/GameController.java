@@ -65,7 +65,6 @@ public class GameController {
          return exitObject.toString();
       }
       Game targetGame = GameList.getInstance().getGame(gameId);
-      targetGame.userExit(userId);
       if (targetGame.userExit(userId)) {
          exitObject.addProperty("gameId",gameId);
          exitObject.addProperty("activeUserCount",targetGame.activeUserCount());
@@ -73,8 +72,9 @@ public class GameController {
          exitObject.addProperty("Message","success");
       }
       else {
-         exitObject.addProperty("Error","userId already in the game or already reach the maximum allowed users count");
+         exitObject.addProperty("Error","userId not found or already exited");
          exitObject.addProperty("Message","fail");
+         return exitObject.toString();
       }
 
       return exitObject.toString();
