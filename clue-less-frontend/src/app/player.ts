@@ -3,6 +3,8 @@ import { Card } from "./card";
 export interface Player {
   id: number;
   name: string;
-  isAvailable: boolean;
-  cards?: Card[]
+  available: boolean;
+  color?: string;
+  cardInHand?: Card[];
+  coordinate?: number[];
 }
