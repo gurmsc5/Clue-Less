@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { GameService } from '../game.service';
 
 import { GameSessionComponent } from './game-session.component';
 
@@ -8,7 +10,9 @@ describe('GameSessionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameSessionComponent ]
+      declarations: [ GameSessionComponent ],
+      imports: [ HttpClientTestingModule ],
+      providers: [ GameService ]
     })
     .compileComponents();
   });
