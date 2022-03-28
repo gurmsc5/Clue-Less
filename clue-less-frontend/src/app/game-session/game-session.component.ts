@@ -27,7 +27,13 @@ export class GameSessionComponent implements OnInit {
   }
 
   exitGame(): void {
-    this.gameService.exitGame();
+    if (this.selectedPlayer) {
+      this.gameService.exitGame(this.selectedPlayer.id);
+    }
+    else {
+      this.messageService.add("Unable to exit game: Character selection wasn't confirmed!")
+    }
+    
     this.location.back();
   }
 
@@ -44,4 +50,5 @@ export class GameSessionComponent implements OnInit {
       this.messageService.add("Unable to start game: Character selection wasn't confirmed!")
     }
   }
+  
 }

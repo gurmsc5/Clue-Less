@@ -19,7 +19,7 @@ export class GameService {
   private selectPlayerApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.selectPlayerApiUrl}`;
   private lobbyApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.lobbyApiUrl}`;
   private startGameApiUrl = `${env.startGameApiUrl}:${env.gameServerPort}/${env.startGameApiUrl}`;
-
+  private exitGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.exitGameApiUrl}`;
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -58,8 +58,13 @@ export class GameService {
     );
   }
 
-  exitGame(): void {
+  exitGame(playerId:number): Observable<any> {
+    const exitGameUrl = `${this.exitGameApiUrl}?userId=${playerId}`;
     this.log("Exiting game");
+    return this.http.post<Player>(exitGameUrl, playerId, this.httpOptions).pipe(
+      tap((selectedPlayer: Player) => this.log(`Started Game session w/ id=${selectedPlayer.id}`)),
+      catchError(this.handleError<Player>('exitGame'))
+    );
   }
 
   /**
