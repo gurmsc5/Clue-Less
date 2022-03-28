@@ -37,6 +37,31 @@ public class GameController {
       return gameObject.toString();
 
    }
+   @RequestMapping(value="/exitgame/{gameId}", produces="application/json")
+   @PutMapping
+   public String exitGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
+      JsonObject exitObject = new JsonObject();
+      if (!GameList.getInstance().isGameExist(gameId)){
+         exitObject.addProperty("Error","The target game session does not exist!");
+         exitObject.addProperty("Message","fail");
+         return exitObject.toString();
+      }
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      targetGame.userExit(userId);
+      if (targetGame.userExit(userId)) {
+         exitObject.addProperty("gameId",gameId);
+         exitObject.addProperty("activeUserCount",targetGame.activeUserCount());
+         exitObject.addProperty("size",targetGame.getSize());
+         exitObject.addProperty("Message","success");
+      }
+      else {
+         exitObject.addProperty("Error","userId already in the game or already reach the maximum allowed users count");
+         exitObject.addProperty("Message","fail");
+      }
+
+      return exitObject.toString();
+
+   }
 
    /*
    this method handle the join game PUT request
