@@ -152,5 +152,15 @@ public class Game {
       return this.userAllowed;
    }
 
+   public ArrayList<String> getPlayerList() {
+      Turn tempTurn = new Turn(size);
+      ArrayList<String> result = new ArrayList<>();
+      for (int i=0; i<size; i++) {
+         result.add(tempTurn.getTurn());
+         tempTurn.nextTurn();
+      }
+      return result;
+   }
+
 
 }
