@@ -59,9 +59,10 @@ export class GameService {
     );
   }
 
-  exitGame(playerId:number, gameId:number): Observable<any> {
-    const exitGameUrl = `${this.exitGameApiUrl}/${gameId}?userId=${playerId}`;
-    this.log(`Exiting game w/id=${gameId}`);
+  exitGame(playerId:number): Observable<any> {
+    const exitGameUrl = `${this.exitGameApiUrl}?userId=${playerId}`;
+    this.log(`Sending request to exit game at url: ${exitGameUrl}`);
+
     return this.http.post<Game>(exitGameUrl, playerId, this.httpOptions).pipe(
       tap((game: Game) => this.log(`Exiting Game session w/ id=${game.gameId}`)),
       catchError(this.handleError<Game>('exitGame'))

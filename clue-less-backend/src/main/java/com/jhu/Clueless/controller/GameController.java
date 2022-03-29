@@ -47,6 +47,7 @@ public class GameController {
    @RequestMapping(value="/game", produces="application/json")
    @PostMapping
    public String createGame(@RequestParam(value="userCount") int userCount, @RequestParam(value="size") int size, @RequestParam(value="gameId") int gameId) {
+      log.info("Request received to start a new game session with id: " +gameId);
       JsonObject gameObject = new JsonObject();
       gameService.createNewGame(userCount,size,gameId);
       gameObject.addProperty("gameId",gameId);
@@ -58,25 +59,26 @@ public class GameController {
 
    @RequestMapping(value="/exitgame/{gameId}", produces="application/json")
    @PutMapping
-   public ResponseEntity<?> exitGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
+   public String exitGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
+      log.info("Request received to exit game with id: " +gameId+ " by userId: " +userId);
       JsonObject exitObject = new JsonObject();
       if (!GameList.getInstance().isGameExist(gameId)){
          exitObject.addProperty("Error","The target game session does not exist!");
          exitObject.addProperty("Message","fail");
-         return new ResponseEntity<>(exitObject, HttpStatus.BAD_REQUEST);
+         return exitObject.toString();
       }
       Game targetGame = GameList.getInstance().getGame(gameId);
       if (targetGame.userExit(userId)) {
          exitObject.addProperty("gameId",gameId);
          exitObject.addProperty("Message","success");
-         return new ResponseEntity<>(exitObject, HttpStatus.ACCEPTED);
+         return exitObject.toString();
       }
       else {
          exitObject.addProperty("Error","userId not found or already exited");
          exitObject.addProperty("Message","fail");
       }
 
-      return new ResponseEntity<>(exitObject, HttpStatus.BAD_REQUEST);
+      return exitObject.toString();
 
    }
 

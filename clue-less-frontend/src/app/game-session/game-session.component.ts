@@ -29,8 +29,9 @@ export class GameSessionComponent implements OnInit {
   }
 
   exitGame(): void {
-    if (this.selectedPlayer && this.game) {
-      this.gameService.exitGame(this.selectedPlayer.id, this.game.gameId);
+    if (this.selectedPlayer) {
+      this.gameService.exitGame(this.selectedPlayer.id)
+        .subscribe(g => this.game = g);
     }
     else {
       this.messageService.add("Unable to exit game: Character selection wasn't confirmed!")
@@ -41,7 +42,7 @@ export class GameSessionComponent implements OnInit {
 
   onSelect(player: Player): void {
     this.gameService.selectPlayer(player)
-      .subscribe(p => this.selectedPlayer = player);
+      .subscribe(p => this.selectedPlayer = p);
   }
 
   startSession(): void {
