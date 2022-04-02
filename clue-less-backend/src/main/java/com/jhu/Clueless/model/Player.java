@@ -20,7 +20,8 @@ public class Player {
    private String color;
    private boolean available;
 
-   private Integer[] coordinate;
+   private Integer xCord;
+   private Integer yCord;
    private ArrayList<Card> cardInHand = new ArrayList<Card>();
 
    // constructor

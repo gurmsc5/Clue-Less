@@ -13,6 +13,7 @@ public class Game {
    HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
    ClueMap Map;
    Turn turn;
+
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
       put("Miss Scarlet", "red");
@@ -21,6 +22,14 @@ public class Game {
       put("Mrs. White", "white");
       put("Mrs. Peacock", "blue");
       put("Colonel Mustard", "yellow");
+   }};
+   private static final HashMap<String, Integer[]> iniLocation = new HashMap<>() {{
+      put("Miss Scarlet", new Integer[] {4,5});
+      put("Professor Plum", new Integer[] {1,4});
+      put("Mr. Green", new Integer[] {2,1});
+      put("Mrs. White", new Integer[] {4,1});
+      put("Mrs. Peacock", new Integer[] {1,2});
+      put("Colonel Mustard", new Integer[] {1,2});
    }};
 
    // constructor
@@ -78,11 +87,20 @@ public class Game {
          cardDistribution.put(player, playerList.get(player).showCardInHand());
       }
 
-      // TODO: initialize Rooms
+      // initialize the Map and distribute each Player to pre-defined location
+      this.Map = new ClueMap();
+      for (String playerName : fullPlayerList) {
+         if (playerList.containsKey(playerName)) {
+            int x = iniLocation.get(playerName)[0];
+            int y = iniLocation.get(playerName)[1];
+            // set the X,Y cord in Player object
+            playerList.get(playerName).setXCord(x);
+            playerList.get(playerName).setYCord(y);
+            // mark the Map as occupied
+            Map.moveInto(x,y);
+         }
+      }
 
-      // TODO: initialize Hallways
-
-      // TODO: Assign each Player to its initial Room
 
       // turn the Turn back to Miss Scarlet
       while(!turn.isMyTurn("Miss Scarlet")) {

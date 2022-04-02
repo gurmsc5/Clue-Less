@@ -31,9 +31,6 @@ public class ClueMap {
 
    public HashMap<String, Boolean> occupationMap;
 
-
-
-
    // constructor
    public ClueMap() {
       occupationMap = new HashMap<>();
@@ -60,9 +57,42 @@ public class ClueMap {
       this.occupationMap.put("(5,5)", false);
    }
 
-   // check whether a room is empty and ready to handle new move in
-   public boolean isRoomEmpty(int x, int y) {
-      return !occupationMap.get("(" + x + "," + y +")");
+
+   // check whether the destination is a valid destination to move in
+   public boolean isValidDest(int x, int y) {
+      // construct the location to String
+      String destination = "(" + Integer.toString(x) + "," + Integer.toString(y) + ")";
+
+      // first it has to be a valid location in Clue static Map (either a Room or a Hallway)
+      if (!occupationMap.containsKey(destination)) {
+         System.out.println(destination + " is not a valid location");
+         return false;
+      }
+      else if (occupationMap.get(destination)){
+         System.out.println(destination + " is already occupied");
+         return false;
+      }
+      else {
+         System.out.println(destination + " is valid Destination");
+         return true;
+      }
+   }
+
+
+   // move someone into to a location
+   // mark that location to be true
+   public void moveInto(int x, int y) {
+      // construct the location to String
+      String destination = "(" + Integer.toString(x) + "," + Integer.toString(y) + ")";
+      occupationMap.put(destination, true);
+   }
+
+   // move someone out of a location
+   // mark that location to be false
+   public void moveOutof(int x, int y) {
+      // construct the location to String
+      String destination = "(" + Integer.toString(x) + "," + Integer.toString(y) + ")";
+      occupationMap.put(destination, false);
    }
 
 
