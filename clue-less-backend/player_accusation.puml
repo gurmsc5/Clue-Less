@@ -5,7 +5,7 @@ actor Player
 boundary PlayerBoundary
 entity GameController
 
-PlayerBoundary -> GameController: makeAccusation(gameId, userId, accusedPlayer)
+PlayerBoundary -> GameController: makeAccusation(gameId, userId, accusedPlayerId,weaponType,room)
 database GameList
 entity GameService
 entity Games
@@ -13,10 +13,10 @@ GameController -> GameList: isGameExist(gameId)
 
 alt Game with id exists
     GameList -> GameController: Game
-    GameController -> GameService: makeAccusation(gameId, userId, accusedPlayer)
+    GameController -> GameService: makeAccusation(gameId, userId, accusedPlayerId,weaponType,room)
     alt Accusation is valid
         GameController -> PlayerBoundary: Broadcast notification with Player's accusation
-        GameService->Game: CheckAccusation(accusedPlayer)
+        GameService->Game: checkAccusation(accusedPlayer)
         GameService-> GameController: Accusation =True or False
         group Accusation is Correct
             GameController -> PlayerBoundary: Player has won end game
@@ -25,6 +25,7 @@ alt Game with id exists
     else
         group Accusation is Incorrect
             GameController -> PlayerBoundary: Skip turn
+            GameController->GameList: markPlayerLost(userId)
             
         end
     end
