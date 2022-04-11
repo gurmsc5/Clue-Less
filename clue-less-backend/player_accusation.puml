@@ -13,20 +13,21 @@ GameController -> GameList: isGameExist(gameId)
 
 alt Game with id exists
     GameList -> GameController: Game
-    GameController -> GameService: makeAccusation(gameId, userId, accusedPlayerId,weaponType,room)
+    GameController -> GameService: makeAccusation(Game, userId, accusedPlayerId, weaponType, room)
     alt Accusation is valid
-        GameController -> PlayerBoundary: Broadcast notification with Player's accusation
-        GameService->Game: checkAccusation(accusedPlayer)
-        GameService-> GameController: Accusation =True or False
+        GameService-> Game: checkAccusation(accusedPlayerId, weaponType, room)
         group Accusation is Correct
+            Game -> GameService: ok
             GameController -> PlayerBoundary: Player has won end game
-            GameController -> Game: endGame()
+            GameController -> PlayerBoundary: Broadcast notification with Player's accusation
+            GameController -> GameService: endGame(gameId)
         end
     else
         group Accusation is Incorrect
-            GameController -> PlayerBoundary: Skip turn
-            GameController->GameList: markPlayerLost(userId)
-            
+            Game -> GameService: fail
+            GameService -> Game: markPlayerLost(userId)
+            GameService -> GameController: error message
+            GameController -> PlayerBoundary: Skip turn and notify user of wrong accusation
         end
     end
 else Game with id not found
