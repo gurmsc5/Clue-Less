@@ -12,7 +12,6 @@ database GameList
 GameService -> GameList: getGame(name)
 
 alt Game with name wasn't created yet
-    note over GameList: Game with name wasn't found
     GameList -> GameService: Game not found(null)
     GameService -> CharacterDB: getCharacters()
     CharacterDB -> GameService: List<Players>

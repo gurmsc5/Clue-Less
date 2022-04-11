@@ -13,6 +13,7 @@ entity Game
 alt Game with id exists
     GameList -> GameController: Game
     GameController -> Game: startGame()
+    GameController -> GameList: updateGame(gameId)
     GameController -> PlayerBoundary: Game started response message
 
 else Game with id not found

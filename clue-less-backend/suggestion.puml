@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor Player
+boundary PlayerBoundary
+entity GameController
+entity GameService
+database GameList
+PlayerBoundary -> GameController: makeSuggestion(gameId, playerId, otherPlayerId, weaponId, roomId)
+GameController -> GameList: isGameExist(gameId)
+entity Game
+database WeaponDB
+
+alt Game with id exists
+    GameList -> GameService: Game
+    GameService -> WeaponDB: getWeapon(weaponId)
+    WeaponDB -> GameService: Weapon
+    GameService -> ClueMap: roomId
+    ClueMap -> GameService: Room
+    alt Player making suggestion is in the same room
+        note over Game: Update the coordinates for otherPlayerId to that of the room
+        GameService -> Game: makeSuggestion(playerId, otherPlayerId, weapon, room)
+        note over GameService: Disable Suggestion action for user with playerId
+        GameService -> Game: disablePlayerActions(playerId, actionType)
+        GameService -> GameController: ok
+        GameController -> PlayerBoundary: Broadcast notification
+    else Player making suggestion is not in the same room
+        GameService -> GameController: fail
+        GameController -> PlayerBoundary: Failure message with reason
+    end
+
+else Game with id not found
+    GameList -> GameController: Game not found(null)
+    GameController -> PlayerBoundary: Game not found error message
+end
+@enduml

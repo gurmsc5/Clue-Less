@@ -19,6 +19,7 @@ alt Game with id exists
 else User can't join the game (character is already taken)
     GameList -> GameController: Game
     GameController -> Game: userJoin(userId)
+    GameController -> GameList: update Game with gameId
     GameController -> PlayerBoundary: Character already selected error message
 
 else Game with id not found
