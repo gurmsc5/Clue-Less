@@ -1,0 +1,29 @@
+@startuml
+actor Player
+boundary PlayerBoundary
+autonumber
+entity GameController
+entity GameService
+
+PlayerBoundary -> GameController: createGame(total_players)
+GameController -> GameService: createGame(name, total_players)
+database CharacterDB
+database GameList
+GameService -> GameList: getGame(name)
+
+alt Game with name wasn't created yet
+    note over GameList: Game with name wasn't found
+    GameList -> GameService: Game not found(null)
+    GameService -> CharacterDB: getCharacters()
+    CharacterDB -> GameService: List<Players>
+    GameService -> GameList: addGame(Game(List<Players>))
+    GameList -> GameService: gameId
+    GameService -> GameController: gameId
+    GameController -> PlayerBoundary: gameId
+
+else Game with name is already in GameList
+    GameList -> GameService: gameId
+    GameService -> GameController: gameId
+    GameController -> PlayerBoundary: gameId
+end
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+autonumber
+actor Player
+boundary PlayerBoundary
+entity GameController
+
+PlayerBoundary -> GameController: startGame(gameId)
+database GameList
+GameController -> GameList: isGameExist(gameId)
+entity Game
+
+alt Game with id exists
+    GameList -> GameController: Game
+    GameController -> Game: startGame()
+    GameController -> PlayerBoundary: Game started response message
+
+else Game with id not found
+    GameList -> GameController: Game not found(null)
+    GameController -> PlayerBoundary: Game not found error message
+end
+
+@enduml

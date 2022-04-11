@@ -1,0 +1,35 @@
+@startuml
+
+autonumber
+actor Player
+boundary PlayerBoundary
+entity GameController
+
+PlayerBoundary -> GameController: moveCharacter(gameId, userId, direction)
+database GameList
+entity Game
+GameController -> GameList: isGameExist(gameId)
+entity GameService
+
+alt Game with id exists
+    GameList -> GameController: Game
+    GameController -> GameService: moveCharacter(Game, userId, direction)
+    GameService -> Game: moveCharacter(userId, direction)
+    alt direction is valid
+        group Movement Success
+            Game -> GameService: ok
+            Game -> GameService: disable player with userId's turn
+            Game -> GameService: enable next player's turn
+            GameService -> PlayerBoundary: Broadcast notification with Player's current coordinates
+        end
+    else
+        group Movement Failure
+            Game -> GameService: fail
+            GameService -> PlayerBoundary: movement failure message with reason
+        end
+    end
+else Game with id not found
+    GameList -> GameController: Game not found(null)
+    GameController -> PlayerBoundary: Game not found error message
+end
+@enduml
