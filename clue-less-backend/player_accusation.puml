@@ -8,7 +8,7 @@ entity GameController
 PlayerBoundary -> GameController: moveCharacter(gameId, userId, direction)
 database GameList
 entity GameService
-entity Game
+entity Games
 GameController -> GameList: isGameExist(gameId)
 
 alt Game with id exists
