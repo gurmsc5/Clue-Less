@@ -13,7 +13,7 @@ public class Game {
    HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
    ClueMap Map;
    Turn turn;
-
+   public Game(){}
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
       put("Miss Scarlet", "red");
