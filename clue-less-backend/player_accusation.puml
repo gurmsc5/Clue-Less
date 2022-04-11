@@ -5,7 +5,7 @@ actor Player
 boundary PlayerBoundary
 entity GameController
 
-PlayerBoundary -> GameController: moveCharacter(gameId, userId, direction)
+PlayerBoundary -> GameController: makeAccusation(gameId, userId, accusedPlayer)
 database GameList
 entity GameService
 entity Games
@@ -13,23 +13,19 @@ GameController -> GameList: isGameExist(gameId)
 
 alt Game with id exists
     GameList -> GameController: Game
-    GameController -> GameService: moveCharacter(Game, userId, direction)
-    alt direction is valid
-        group Movement Success
-            GameService -> Game: Update Player with userId's coordinates
-            GameService -> GameList: updateGame(gameId)
-            GameService -> GameController: ok
-            GameService -> GameController: disable player with userId's turn
-            alt Player makes Accusation
-                GameService->GameList:updatePlayerAccusation(Player, Accused_Player)
-            end
-            GameService -> GameController: enable next player's turn
-            GameController -> PlayerBoundary: Broadcast notification with Player's current coordinates and accusation
+    GameController -> GameService: makeAccusation(gameId, userId, accusedPlayer)
+    alt Accusation is valid
+        GameController -> PlayerBoundary: Broadcast notification with Player's accusation
+        GameService->Game: CheckAccusation(accusedPlayer)
+        GameService-> GameController: Accusation =True or False
+        group Accusation is Correct
+            GameController -> PlayerBoundary: Player has won end game
+            GameController -> Game: endGame()
         end
     else
-        group Movement Failure
-            GameService -> GameController: fail
-            GameController -> PlayerBoundary: movement failure message with reason
+        group Accusation is Incorrect
+            GameController -> PlayerBoundary: Skip turn
+            
         end
     end
 else Game with id not found
