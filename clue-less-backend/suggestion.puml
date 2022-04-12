@@ -9,7 +9,7 @@ boundary AngularUI
 entity GameController
 entity GameService
 database GameList
-AngularUI -> GameController: makeSuggestion(gameId, playerId, otherPlayerId, weaponId, roomId)
+AngularUI -> GameController: makeSuggestion(gameId, playerId, otherPlayerId, weaponId, roomXY)
 GameController -> GameList: isGameExist(gameId)
 entity Game
 database WeaponDB
@@ -18,7 +18,7 @@ alt Game with id exists
     GameList -> GameService: Game
     GameService -> WeaponDB: getWeapon(weaponId)
     WeaponDB -> GameService: Weapon
-    GameService -> ClueMap: roomId
+    GameService -> ClueMap: roomXY
     ClueMap -> GameService: Room
     alt Player making suggestion is in the same room
         note over Game: Update the coordinates for otherPlayerId to that of the room
