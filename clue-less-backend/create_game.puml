@@ -1,11 +1,14 @@
 @startuml
+
+title Create Game Sequence Diagram
+
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 autonumber
 entity GameController
 entity GameService
 
-PlayerBoundary -> GameController: createGame(total_players)
+AngularUI -> GameController: createGame(total_players)
 GameController -> GameService: createGame(name, total_players)
 database CharacterDB
 database GameList
@@ -18,11 +21,11 @@ alt Game with name wasn't created yet
     GameService -> GameList: addGame(Game(List<Players>))
     GameList -> GameService: gameId
     GameService -> GameController: gameId
-    GameController -> PlayerBoundary: gameId
+    GameController -> AngularUI: gameId
 
 else Game with name is already in GameList
     GameList -> GameService: gameId
     GameService -> GameController: gameId
-    GameController -> PlayerBoundary: gameId
+    GameController -> AngularUI: gameId
 end
 @enduml

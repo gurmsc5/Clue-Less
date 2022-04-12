@@ -1,11 +1,13 @@
 @startuml
 
+title Accusation Mechanism Sequence Diagram
+
 autonumber
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 entity GameController
 
-PlayerBoundary -> GameController: makeAccusation(gameId, userId, accusedPlayerId,weaponType,room)
+AngularUI -> GameController: makeAccusation(gameId, userId, accusedPlayerId,weaponType,room)
 database GameList
 entity GameService
 entity Games
@@ -18,8 +20,8 @@ alt Game with id exists
         GameService-> Game: checkAccusation(accusedPlayerId, weaponType, room)
         group Accusation is Correct
             Game -> GameService: ok
-            GameController -> PlayerBoundary: Player has won end game
-            GameController -> PlayerBoundary: Broadcast notification with Player's accusation
+            GameController -> AngularUI: Player has won end game
+            GameController -> AngularUI: Broadcast notification with Player's accusation
             GameController -> GameService: endGame(gameId)
         end
     else
@@ -27,11 +29,11 @@ alt Game with id exists
             Game -> GameService: fail
             GameService -> Game: markPlayerLost(userId)
             GameService -> GameController: error message
-            GameController -> PlayerBoundary: Skip turn and notify user of wrong accusation
+            GameController -> AngularUI: Skip turn and notify user of wrong accusation
         end
     end
 else Game with id not found
     GameList -> GameController: Game not found(null)
-    GameController -> PlayerBoundary: Game not found error message
+    GameController -> AngularUI: Game not found error message
 end
 @enduml

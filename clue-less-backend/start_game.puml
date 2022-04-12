@@ -1,11 +1,13 @@
 @startuml
 
+title Start Game Sequence Diagram
+
 autonumber
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 entity GameController
 
-PlayerBoundary -> GameController: startGame(gameId)
+AngularUI -> GameController: startGame(gameId)
 database GameList
 GameController -> GameList: isGameExist(gameId)
 entity Game
@@ -14,11 +16,11 @@ alt Game with id exists
     GameList -> GameController: Game
     GameController -> Game: startGame()
     GameController -> GameList: updateGame(gameId)
-    GameController -> PlayerBoundary: Game started response message
+    GameController -> AngularUI: Game started response message
 
 else Game with id not found
     GameList -> GameController: Game not found(null)
-    GameController -> PlayerBoundary: Game not found error message
+    GameController -> AngularUI: Game not found error message
 end
 
 @enduml

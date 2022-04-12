@@ -1,11 +1,13 @@
 @startuml
 
+title Player Movement Sequence Diagram
+
 autonumber
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 entity GameController
 
-PlayerBoundary -> GameController: moveCharacter(gameId, userId, direction)
+AngularUI -> GameController: moveCharacter(gameId, userId, direction)
 database GameList
 entity GameService
 entity Game
@@ -21,16 +23,16 @@ alt Game with id exists
             GameService -> GameController: ok
             GameService -> GameController: disable player with userId's turn
             GameService -> GameController: enable next player's turn
-            GameController -> PlayerBoundary: Broadcast notification with Player's current coordinates
+            GameController -> AngularUI: Broadcast notification with Player's current coordinates
         end
     else
         group Movement Failure
             GameService -> GameController: fail
-            GameController -> PlayerBoundary: movement failure message with reason
+            GameController -> AngularUI: movement failure message with reason
         end
     end
 else Game with id not found
     GameList -> GameController: Game not found(null)
-    GameController -> PlayerBoundary: Game not found error message
+    GameController -> AngularUI: Game not found error message
 end
 @enduml

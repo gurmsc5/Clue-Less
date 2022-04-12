@@ -1,10 +1,12 @@
 @startuml
 
+title Join Game Sequence Diagram
+
 autonumber
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 entity GameController
-PlayerBoundary -> GameController: joinGame(gameId, userId, playerName)
+AngularUI -> GameController: joinGame(gameId, userId, playerName)
 database GameList
 entity Game
 GameController -> GameList: isGameExist(gameId)
@@ -14,16 +16,16 @@ alt Game with id exists
     GameController -> Game: userJoin(userId)
     GameController -> Game: getUserPlayer(userId)
     Game -> GameController: PlayerData
-    GameController -> PlayerBoundary: PlayerData
+    GameController -> AngularUI: PlayerData
 
 else User can't join the game (character is already taken)
     GameList -> GameController: Game
     GameController -> Game: userJoin(userId)
     GameController -> GameList: update Game with gameId
-    GameController -> PlayerBoundary: Character already selected error message
+    GameController -> AngularUI: Character already selected error message
 
 else Game with id not found
     GameList -> GameController: Game not found(null)
-    GameController -> PlayerBoundary: Game not found error message
+    GameController -> AngularUI: Game not found error message
 end
 @enduml

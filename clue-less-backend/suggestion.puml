@@ -1,13 +1,15 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
+title Suggestion Mechanism Sequence Diagram
+
 autonumber
 actor Player
-boundary PlayerBoundary
+boundary AngularUI
 entity GameController
 entity GameService
 database GameList
-PlayerBoundary -> GameController: makeSuggestion(gameId, playerId, otherPlayerId, weaponId, roomId)
+AngularUI -> GameController: makeSuggestion(gameId, playerId, otherPlayerId, weaponId, roomId)
 GameController -> GameList: isGameExist(gameId)
 entity Game
 database WeaponDB
@@ -24,14 +26,14 @@ alt Game with id exists
         note over GameService: Disable Suggestion action for user with playerId
         GameService -> Game: disablePlayerActions(playerId, actionType)
         GameService -> GameController: ok
-        GameController -> PlayerBoundary: Broadcast notification
+        GameController -> AngularUI: Broadcast notification
     else Player making suggestion is not in the same room
         GameService -> GameController: fail
-        GameController -> PlayerBoundary: Failure message with reason
+        GameController -> AngularUI: Failure message with reason
     end
 
 else Game with id not found
     GameList -> GameController: Game not found(null)
-    GameController -> PlayerBoundary: Game not found error message
+    GameController -> AngularUI: Game not found error message
 end
 @enduml
