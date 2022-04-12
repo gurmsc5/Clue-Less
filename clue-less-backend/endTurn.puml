@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+actor Player
+boundary PlayerBoundary
+entity GameController
+database GameList
+PlayerBoundary -> GameController: endTurn(gameId, playerId)
+GameController -> GameList: isGameExist(gameId)
+entity Game
+entity Turn
+
+alt Game with id exists
+    GameList -> GameController: Game
+    GameController -> Game: Game.Turn
+    Game -> GameController: Turn
+    GameController -> Turn: isMyTurn(playerId)
+
+    alt It is the Player's turn
+        Turn -> GameController: ok
+        GameController -> Turn: nextTurn()
+        note over Game: The Turn object of certain Game will shift its internal queue accordingly
+        GameController -> PlayerBoundary: Success message
+    else It is not the Player's turn
+        Turn -> GameController: not my turn
+        GameController -> PlayerBoundary: Failure message with reason
+    end
+
+else Game with id not found
+    GameList -> GameController: Game not found(null)
+    GameController -> PlayerBoundary: Game not found error message
+end
+@enduml
