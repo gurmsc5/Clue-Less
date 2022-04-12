@@ -15,6 +15,7 @@ entity Game
 database WeaponDB
 
 alt Game with id exists
+    GameController -> GameService: makeSuggestion(game, playerId, otherPlayerId, weaponId, roomXY)
     GameList -> GameService: Game
     GameService -> WeaponDB: getWeapon(weaponId)
     WeaponDB -> GameService: Weapon
