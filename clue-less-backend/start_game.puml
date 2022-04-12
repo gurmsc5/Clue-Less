@@ -16,7 +16,7 @@ alt Game with id exists
     GameList -> GameController: Game
     GameController -> Game: startGame()
     GameController -> GameList: updateGame(gameId)
-    GameController -> AngularUI: Game started response message
+    GameController -> AngularUI: Game started broadcast notification message
 
 else Game with id not found
     GameList -> GameController: Game not found(null)

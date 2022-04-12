@@ -7,20 +7,24 @@ actor Player
 boundary AngularUI
 entity GameController
 
-AngularUI -> GameController: EndGame(gameId)
+AngularUI -> GameController: endGame(gameId)
 database GameList
 GameController -> GameList: isGameExist(gameId)
 entity Game
 
 alt Game with id exists
     GameList -> GameController: Game
-    alt Game Player <=1
-        GameController->GameList: removeGame()
-    else Game Players> 1
-        GameController -> GameList: updateGame(gameId)
-        GameController -> AngularUI: Player left the game response message
-    end
     GameController -> Game: endGame()
+    Game -> GameController: ok
+    GameController -> GameList: updateGame(gameId)
+    GameController -> AngularUI: Player left the game broadcast notification message
+    alt Game Player <=1
+        note over GameList: Perform cleanup service
+        GameController -> GameList: removeGame(gameId)
+        GameList -> GameController: ok
+        GameController -> AngularUI: Game session ended notification message
+    end
+
 else Game with id not found
     GameList -> GameController: Game not found(null)
     GameController -> AngularUI: Game not found error message
