@@ -13,7 +13,8 @@ public class Game {
    HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
    ClueMap Map;
    Turn turn;
-   public Game(){}
+   Weapons weapons;
+//   public Game(){}
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
       put("Miss Scarlet", "red");
@@ -38,6 +39,7 @@ public class Game {
       this.size = size;
       this.userList = new ArrayList<>();
       this.userAllowed = userAllowed;
+      this.weapons = new Weapons();
 
       // initialize the Player/character
       this.playerList = new HashMap<>();
@@ -202,6 +204,9 @@ public class Game {
       else {
          System.out.println("Already reach the maximum allowed Users count...");
       }
+      return false;
+   }
+   public boolean makeSuggestion(String UserId, String Suspect, Integer x, Integer y,WeaponType weapon){
       return false;
    }
 }
