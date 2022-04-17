@@ -1,0 +1,850 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>clue-less-frontend documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">clue-less-frontend documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  GameSessionComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/game-session/game-session.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-game-session</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./game-session.component.css</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./game-session.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#lobby" >lobby</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#selectedPlayer" >selectedPlayer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#exitGame" >exitGame</a>
+                            </li>
+                            <li>
+                                <a href="#getGameSession" >getGameSession</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSelect" >onSelect</a>
+                            </li>
+                            <li>
+                                <a href="#startSession" >startSession</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, gameService: <a href="../injectables/GameService.html" target="_self">GameService</a>, location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>, messageService: <a href="../injectables/MessageService.html" target="_self">MessageService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/game-session/game-session.component.ts:19</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>gameService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GameService.html" target="_self" >GameService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>location</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/Location" target="_blank" >Location</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>messageService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/MessageService.html" target="_self" >MessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exitGame"></a>
+                    <span class="name">
+                        <span ><b>exitGame</b></span>
+                        <a href="#exitGame"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>exitGame()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">src/app/game-session/game-session.component.ts:37</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGameSession"></a>
+                    <span class="name">
+                        <span ><b>getGameSession</b></span>
+                        <a href="#getGameSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getGameSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">src/app/game-session/game-session.component.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">src/app/game-session/game-session.component.ts:27</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSelect"></a>
+                    <span class="name">
+                        <span ><b>onSelect</b></span>
+                        <a href="#onSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSelect(player: <a href="../interfaces/Player.html" target="_self">Player</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">src/app/game-session/game-session.component.ts:47</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>player</td>
+                                    <td>
+                                                <code><a href="../interfaces/Player.html" target="_self" >Player</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startSession"></a>
+                    <span class="name">
+                        <span ><b>startSession</b></span>
+                        <a href="#startSession"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startSession()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">src/app/game-session/game-session.component.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lobby"></a>
+                    <span class="name">
+                        <span ><b>lobby</b></span>
+                        <a href="#lobby"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Lobby.html" target="_self" >Lobby | undefined</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/game-session/game-session.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedPlayer"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>selectedPlayer</b></span>
+                        <a href="#selectedPlayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/Player.html" target="_self" >Player</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/game-session/game-session.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Location } from &#x27;@angular/common&#x27;;
+import { Component, Input, OnInit } from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { Game } from &#x27;../game&#x27;;
+import { GameService } from &#x27;../game.service&#x27;;
+import { Lobby } from &#x27;../lobby&#x27;;
+import { MessageService } from &#x27;../message.service&#x27;;
+import { Player } from &#x27;../player&#x27;;
+import {ActivatedRoute} from &quot;@angular/router&quot;;
+
+@Component({
+  selector: &#x27;app-game-session&#x27;,
+  templateUrl: &#x27;./game-session.component.html&#x27;,
+  styleUrls: [&#x27;./game-session.component.css&#x27;]
+})
+export class GameSessionComponent implements OnInit {
+
+  lobby: Lobby | undefined;
+  selectedPlayer?: Player;
+
+  constructor(
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private location: Location,
+    private messageService: MessageService) { }
+
+  ngOnInit(): void {
+    this.getGameSession();
+  }
+
+  getGameSession(): void {
+    const gameId &#x3D; parseInt(this.route.snapshot.paramMap.get(&#x27;id&#x27;)!, 10);
+    this.gameService.getLobby(gameId)
+     .subscribe(l &#x3D;&gt; this.lobby &#x3D; l);
+  }
+
+  exitGame(): void {
+    if (this.selectedPlayer &amp;&amp; this.lobby) {
+      this.gameService.exitGame(this.selectedPlayer.id, this.lobby.id)
+        .subscribe(g &#x3D;&gt; this.messageService.add(&#x60;Exited game session: ${g.gameId}&#x60;));
+    }
+    else {
+      this.messageService.add(&quot;Unable to exit game: Character selection wasn&#x27;t confirmed!&quot;)
+    }
+  }
+
+  onSelect(player: Player): void {
+    if (this.lobby) {
+      this.gameService.selectPlayer(player, this.lobby.id)
+        .subscribe(p &#x3D;&gt; this.selectedPlayer &#x3D; p);
+    }
+  }
+
+  startSession(): void {
+
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;lobby&quot; *ngIf&#x3D;&quot;lobby&quot;&gt;
+  &lt;h2&gt;Lobby: Available characters&lt;/h2&gt;
+  &lt;ul class&#x3D;&quot;players&quot;&gt;
+    &lt;li *ngFor&#x3D;&quot;let player of lobby.players&quot;&gt;
+      &lt;button type&#x3D;&quot;button&quot; [disabled]&#x3D;&quot;!player.available&quot; (click)&#x3D;&quot;onSelect(player)&quot;&gt;
+      &lt;span class&#x3D;&quot;badge&quot;&gt;{{player.id}}&lt;/span&gt;
+      &lt;span class&#x3D;&quot;name&quot;&gt;{{player.name}}&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+&lt;app-gameboard&gt;&lt;/app-gameboard&gt;
+&lt;div *ngIf&#x3D;&quot;selectedPlayer&quot;&gt;
+
+  &lt;h2&gt;Selected {{selectedPlayer.name | uppercase}}&lt;/h2&gt;
+  &lt;div&gt;id: {{selectedPlayer.id}}&lt;/div&gt;
+
+  &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;start&quot; title&#x3D;&quot;start game&quot;
+  (click)&#x3D;&quot;startSession()&quot;&gt;Start Game!&lt;/button&gt;
+  &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;exit&quot; (click)&#x3D;&quot;exitGame()&quot;&gt;Exit Game&lt;/button&gt;
+&lt;/div&gt;
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./game-session.component.css</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.start {
+  color: #333;
+  background-color: #eee;
+  margin-bottom: 12px;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.start:hover {
+  color: #fff;
+  background-color: #42545C;
+}
+
+.exit {
+  color: #333;
+  background-color: #eee;
+  margin-bottom: 12px;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.exit:hover {
+  color: #fff;
+  background-color: #42545C;
+}
+
+
+.players {
+  margin: 0 0 2em 0;
+  list-style: none;
+  padding: 0;
+  width: 15em;
+  display: flex;
+}
+
+.players li {
+  display: inline;
+}
+
+.players button {
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  background-color: #EEE;
+  margin: .5em;
+  padding: 0;
+  border-radius: 4px;
+  display: flex;
+  align-items: stretch;
+  height: 1.8em;
+}
+
+.players button:hover {
+  color: #2c3a41;
+  background-color: #e6e6e6;
+  left: .1em;
+}
+
+.players button:active {
+  background-color: #525252;
+  color: #fafafa;
+}
+
+.players button.selected {
+  background-color: black;
+  color: white;
+}
+
+.players button.selected:hover {
+  background-color: #505050;
+  color: white;
+}
+
+.players button.selected:active {
+  background-color: black;
+  color: white;
+}
+
+.players .badge {
+  display: inline-block;
+  font-size: small;
+  color: white;
+  padding: 0.8em 0.7em 0 0.7em;
+  background-color: #405061;
+  line-height: 1em;
+  margin-right: .8em;
+  border-radius: 4px 0 0 4px;
+}
+
+.players .name {
+  align-self: center;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div id="lobby" *ngIf="lobby">  <h2>Lobby: Available characters</h2>  <ul class="players">    <li *ngFor="let player of lobby.players">      <button type="button" [disabled]="!player.available" (click)="onSelect(player)">      <span class="badge">{{player.id}}</span>      <span class="name">{{player.name}}</span>      </button>    </li>  </ul></div><app-gameboard></app-gameboard><div *ngIf="selectedPlayer">  <h2>Selected {{selectedPlayer.name | uppercase}}</h2>  <div>id: {{selectedPlayer.id}}</div>  <button type="button" class="start" title="start game"  (click)="startSession()">Start Game!</button>  <button type="button" class="exit" (click)="exitGame()">Exit Game</button></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BannerComponent', 'selector': 'app-banner'},{'name': 'GameboardComponent', 'selector': 'app-gameboard'},{'name': 'GameSessionComponent', 'selector': 'app-game-session'},{'name': 'GameSessionCreatorComponent', 'selector': 'app-game-session-creator'},{'name': 'MessagesComponent', 'selector': 'app-messages'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'GameSessionComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'GameSessionComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
