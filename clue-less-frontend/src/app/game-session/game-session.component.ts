@@ -6,6 +6,7 @@ import { GameService } from '../game.service';
 import { Lobby } from '../lobby';
 import { MessageService } from '../message.service';
 import { Player } from '../player';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-game-session',
@@ -14,45 +15,43 @@ import { Player } from '../player';
 })
 export class GameSessionComponent implements OnInit {
 
-  lobby$!: Observable<Lobby>;
+  lobby: Lobby | undefined;
   selectedPlayer?: Player;
-  game?: Game;
 
   constructor(
+    private route: ActivatedRoute,
     private gameService: GameService,
     private location: Location,
     private messageService: MessageService) { }
 
   ngOnInit(): void {
-    this.lobby$ = this.gameService.getLobby();
+    this.getGameSession();
+  }
 
+  getGameSession(): void {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.gameService.getLobby(gameId)
+     .subscribe(l => this.lobby = l);
   }
 
   exitGame(): void {
-    if (this.selectedPlayer) {
-      this.gameService.exitGame(this.selectedPlayer.id)
-        .subscribe(g => this.game = g);
+    if (this.selectedPlayer && this.lobby) {
+      this.gameService.exitGame(this.selectedPlayer.id, this.lobby.id)
+        .subscribe(g => this.messageService.add(`Exited game session: ${g.gameId}`));
     }
     else {
       this.messageService.add("Unable to exit game: Character selection wasn't confirmed!")
     }
-
-    this.location.back();
   }
 
   onSelect(player: Player): void {
-    this.gameService.selectPlayer(player)
-      .subscribe(p => this.selectedPlayer = p);
+    if (this.lobby) {
+      this.gameService.selectPlayer(player, this.lobby.id)
+        .subscribe(p => this.selectedPlayer = p);
+    }
   }
 
   startSession(): void {
-    if (this.selectedPlayer) {
-      this.gameService.startSession(this.selectedPlayer.id)
-        .subscribe(g => this.game = g);
-    }
-    else {
-      this.messageService.add("Unable to start game: Character selection wasn't confirmed!")
-    }
-  }
 
+  }
 }
