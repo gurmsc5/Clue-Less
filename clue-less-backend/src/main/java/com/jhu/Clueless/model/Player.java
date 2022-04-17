@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Player extends Game {
+public class Player extends Object {
    private Long id;
 
    // test class for Git push
