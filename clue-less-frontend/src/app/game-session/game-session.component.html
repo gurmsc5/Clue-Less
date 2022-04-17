@@ -1,4 +1,4 @@
-<div id="lobby" *ngIf="lobby$ | async as lobby">
+<div id="lobby" *ngIf="lobby">
   <h2>Lobby: Available characters</h2>
   <ul class="players">
     <li *ngFor="let player of lobby.players">

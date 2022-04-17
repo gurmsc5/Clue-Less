@@ -4,6 +4,8 @@ import { Observable, of } from "rxjs";
 import { MessageService } from "../message.service";
 import { Player } from "../player";
 
+import {environment} from "../../environments/environment";
+
 @Injectable()
 export class HttpMockPlayerInterceptor implements HttpInterceptor {
 
@@ -11,7 +13,7 @@ export class HttpMockPlayerInterceptor implements HttpInterceptor {
 
   // Intercept any requests for Player info (selection)
   intercept(req: HttpRequest<Player>, next: HttpHandler): Observable<HttpEvent<Player>> {
-    if (req.method == 'POST') {
+    if (req.method == 'POST' && req.url.includes(environment.selectPlayerApiUrl)) {
       this.messageService.add(`Intercepted request to select Player`);
       const player: Player = req.body as Player;
       player.available = true;
