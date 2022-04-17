@@ -28,4 +28,8 @@ public class Location {
       occupancy += 1;
    }
 
+   // move one player out of this location
+   public void removeOne() {
+      occupancy -= 1;
+   }
 }

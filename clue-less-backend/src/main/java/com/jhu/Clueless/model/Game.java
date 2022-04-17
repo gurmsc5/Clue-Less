@@ -14,7 +14,7 @@ public class Game {
    ClueMap Map;
    Turn turn;
    Weapons weapons;
-//   public Game(){}
+
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
       put("Miss Scarlet", "red");
