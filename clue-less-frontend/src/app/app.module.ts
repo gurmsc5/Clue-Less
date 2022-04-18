@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ReactiveFormsModule } from "@angular/forms";
 import { GameSessionCreatorComponent } from './game-session-creator/game-session-creator.component';
+import { JoinExistingGameComponent } from './join-existing-game/join-existing-game.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GameSessionCreatorComponent } from './game-session-creator/game-session
     GameSessionComponent,
     GameBoardComponent,
     GameSessionCreatorComponent,
+    JoinExistingGameComponent,
   ],
     imports: [
         BrowserModule,

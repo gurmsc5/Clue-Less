@@ -68,7 +68,6 @@ export class GameSessionComponent implements OnInit {
 
         this.resetPlayerOccupancy();
         this.gameState.playerLocation.forEach(item => {
-          this.messageService.add(`${item.name} -> (${item.xCoord}, ${item.yCoord})`)
           this.clueMap[item.xCoord][item.yCoord].playerOccupancy = item.name;
         })
 

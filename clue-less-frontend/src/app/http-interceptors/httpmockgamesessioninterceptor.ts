@@ -12,7 +12,7 @@ export class HttpMockGameSessionInterceptor implements HttpInterceptor {
 
   constructor(private messageService: MessageService) {}
 
-  // Intercept any requests for Player info (selection)
+  // Intercept any requests for Creating or getting game session
   intercept(req: HttpRequest<Game>, next: HttpHandler): Observable<HttpEvent<Game>> {
     if (req.method == "GET" || req.method == "POST") {
       this.messageService.add(`Intercepted request to create game`);

@@ -11,11 +11,11 @@ export class HttpMockLobbyInterceptor implements HttpInterceptor {
 
   constructor(private messageService: MessageService) {}
 
-  // Intercept any requests for Creating game session
+  // Intercept any requests for Joining game lobby
   intercept(req: HttpRequest<Lobby>, next: HttpHandler): Observable<HttpEvent<Lobby>> {
     if (req.method == 'GET' && req.url.includes(environment.lobbyApiUrl)) {
       this.messageService.add(`Intercepted request to fetch Lobby data`);
-      let lobby: Lobby = { id: 999, gameName: "test", players: PLAYERS };
+      let lobby: Lobby = { id: 999, players: PLAYERS };
       return of(new HttpResponse({ status: 200, body: lobby}));
     }
 
