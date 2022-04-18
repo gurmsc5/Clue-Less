@@ -22,7 +22,8 @@ export class GameService {
   private createGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.createGameApiUrl}`;
   private exitGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.exitGameApiUrl}`;
   private startGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.startGameApiUrl}`;
-  private gameStatusApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.gameStatusApiUrl};`
+  private gameStatusApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.gameStatusApiUrl}`;
+  private movePlayerApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.movePlayerApiUrl}`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -38,7 +39,7 @@ export class GameService {
    */
   getLobby(gameId: number): Observable<Lobby> {
     this.log("Sending request to fetch lobby info");
-    const lobbyApiUrl = `${this.lobbyApiUrl}?gameId=${gameId}`
+    const lobbyApiUrl = `${this.lobbyApiUrl}/${gameId}`
     return this.http.get<Lobby>(lobbyApiUrl)
       .pipe(
         tap(lobby => {
@@ -70,7 +71,7 @@ export class GameService {
    * @param gameId - ID of the game session
    */
   selectPlayer(player: Player, gameId: number): Observable<Player> {
-    const selectPlayerUrl = `${this.selectPlayerApiUrl}?gameId=${gameId}`;
+    const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
     return this.http.post<Player>(selectPlayerUrl, player, this.httpOptions).pipe(
       tap((selectedPlayer: Player) => this.log(`Selected player w/ id=${selectedPlayer.id}`)),
       catchError(this.handleError<Player>('selectPlayer'))
@@ -114,12 +115,28 @@ export class GameService {
    * @param gameId - game session ID
    */
   exitGame(playerId: number, gameId: number): Observable<any> {
-    const exitGameUrl = `${this.exitGameApiUrl}?userId=${playerId}&gameId=${gameId}`;
+    const exitGameUrl = `${this.exitGameApiUrl}/${gameId}?userId=${playerId}`;
 
     return this.http.post<Game>(exitGameUrl, playerId, this.httpOptions).pipe(
       tap((game: Game) => this.log(`Exiting Game session w/ id=${game.gameId}`)),
       catchError(this.handleError<Game>('exitGame'))
     );
+  }
+
+  /**
+   * Method to send request for player movement
+   * @param userId - player ID
+   * @param gameId - game session ID
+   * @param action - movement requested
+   */
+  movePlayer(userId: number, gameId: number, action: string): Observable<any> {
+    const movePlayerUrl = `${this.movePlayerApiUrl}/${gameId}/move?userId=${userId}&action=${action}`;
+
+    return this.http.post<any>(movePlayerUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player movement request completed successfully for player w/ id=${userId}`)),
+      catchError(this.handleError<any>('movePlayer'))
+    )
+
   }
 
   /**
@@ -146,4 +163,6 @@ export class GameService {
     private log(message: string) {
       this.messageService.add(`GameService: ${message}`);
     }
+
+
 }

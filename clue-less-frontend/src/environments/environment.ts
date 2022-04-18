@@ -4,14 +4,15 @@
 
 export const environment = {
   production: false,
-  gameServerPort: "8080",
+  gameServerPort: "8088",
   gameServerApiUrl: "http://localhost",
   lobbyApiUrl: "api/lobby",
   selectPlayerApiUrl: "joingame",
   createGameApiUrl: "game",
   exitGameApiUrl: "exitgame",
   startGameApiUrl: "startgame",
-  gameStatusApiUrl: "status"
+  gameStatusApiUrl: "status",
+  movePlayerApiUrl: "playgame"
 };
 
 /*

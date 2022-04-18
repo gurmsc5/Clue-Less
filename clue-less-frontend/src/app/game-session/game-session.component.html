@@ -1,4 +1,4 @@
-<div id="lobby" *ngIf="lobby">
+<div id="lobby" *ngIf="lobby && !selectedPlayer">
   <h2>Lobby: Available characters</h2>
   <ul class="players">
     <li *ngFor="let player of lobby.players">
@@ -22,10 +22,35 @@
 <div *ngIf="selectedPlayer">
 
   <h2>Selected {{selectedPlayer.name | uppercase}}</h2>
-  <div>id: {{selectedPlayer.id}}</div>
+  <h3>Player Cards</h3>
+  <ul class="player-cards">
+    <li *ngFor="let card of selectedPlayer.cardInHand">
+      <span class="badge">({{card.name}}: {{card.type}})</span>
+    </li>
+  </ul>
 
+</div>
+<!--
+
+<div *ngIf="gameState && !gameState.inProgress">
   <button type="button" class="start" title="start game"
   (click)="startSession()">Start Game!</button>
+</div>
+-->
+
+<div *ngIf="selectedPlayer && gameState">
+
+  <div class="movements">
+    <label>Player movements: </label>
+    <button type="button" class="move-left" title="move left"
+    (click)="moveLeft()">Move Left</button>
+    <button type="button" class="move-right" title="move right"
+            (click)="moveRight()">Move Right</button>
+    <button type="button" class="move-up" title="move up"
+            (click)="moveUp()">Move Up</button>
+    <button type="button" class="move-down" title="move down"
+            (click)="moveDown()">Move Down</button>
+  </div>
   <button type="button" class="exit" (click)="exitGame()">Exit Game</button>
 </div>
 

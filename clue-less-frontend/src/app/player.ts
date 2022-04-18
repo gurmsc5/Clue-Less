@@ -1,9 +1,8 @@
 import { Card } from "./card";
 
 export interface PlayerLocation {
-  name: string;
-  xCoord: number;
-  yCoord: number;
+  x: number;
+  y: number;
 }
 
 export interface Player {
