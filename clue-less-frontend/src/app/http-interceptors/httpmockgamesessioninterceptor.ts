@@ -5,6 +5,7 @@ import { MessageService } from "../message.service";
 import { Game } from "../game";
 
 import {environment} from "../../environments/environment";
+import {MOCKGAME} from "../mock-game";
 
 @Injectable()
 export class HttpMockGameSessionInterceptor implements HttpInterceptor {
@@ -13,10 +14,9 @@ export class HttpMockGameSessionInterceptor implements HttpInterceptor {
 
   // Intercept any requests for Player info (selection)
   intercept(req: HttpRequest<Game>, next: HttpHandler): Observable<HttpEvent<Game>> {
-    if (req.method == 'POST' && req.url.includes(environment.createGameApiUrl)) {
+    if (req.method == "GET" || req.method == "POST") {
       this.messageService.add(`Intercepted request to create game`);
-      let game: Game = {gameId: 1, gameName: "test-game"};
-      return of(new HttpResponse({ status: 200, body: game}));
+      return of(new HttpResponse({ status: 200, body: MOCKGAME}));
     }
 
     return next.handle(req);

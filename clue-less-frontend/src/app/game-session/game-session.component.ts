@@ -1,12 +1,11 @@
-import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Game } from '../game';
 import { GameService } from '../game.service';
 import { Lobby } from '../lobby';
 import { MessageService } from '../message.service';
 import { Player } from '../player';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {BoardLocation} from "../boardLocation";
 
 @Component({
   selector: 'app-game-session',
@@ -16,12 +15,14 @@ import {ActivatedRoute} from "@angular/router";
 export class GameSessionComponent implements OnInit {
 
   lobby: Lobby | undefined;
+  gameState: Game | undefined;
+  clueMap?: BoardLocation[];
   selectedPlayer?: Player;
 
   constructor(
     private route: ActivatedRoute,
     private gameService: GameService,
-    private location: Location,
+    private router: Router,
     private messageService: MessageService) { }
 
   ngOnInit(): void {
@@ -32,12 +33,26 @@ export class GameSessionComponent implements OnInit {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.gameService.getLobby(gameId)
      .subscribe(l => this.lobby = l);
+
+    this.gameService.getGameStatus(gameId)
+      .subscribe(g => {
+        this.gameState = g;
+        if (this.gameState.Map){
+          const keys: string[] = Object.keys(this.gameState.Map.mainMap)
+          const sortedLocations = keys.sort();
+          this.clueMap = [];
+          sortedLocations.forEach(loc => {
+            let boardLoc: BoardLocation = this.gameState?.Map?.mainMap[loc]!;
+            this.clueMap?.push(boardLoc);
+          })
+        }
+      });
   }
 
   exitGame(): void {
     if (this.selectedPlayer && this.lobby) {
       this.gameService.exitGame(this.selectedPlayer.id, this.lobby.id)
-        .subscribe(g => this.messageService.add(`Exited game session: ${g.gameId}`));
+        .subscribe(() => { this.router.navigate(["/banner"])});
     }
     else {
       this.messageService.add("Unable to exit game: Character selection wasn't confirmed!")
@@ -52,6 +67,12 @@ export class GameSessionComponent implements OnInit {
   }
 
   startSession(): void {
-
+    if (this.gameState) {
+      this.gameService.startGame(this.gameState.gameId)
+        .subscribe(g => {
+          this.gameState = g;
+          this.lobby = undefined;
+        });
+    }
   }
 }

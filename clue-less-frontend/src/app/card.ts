@@ -1,10 +1,4 @@
-enum CardType {
-  SUSPECT,
-  WEAPON,
-  ROOM
-}
-
 export interface Card {
-  cardType: CardType;
+  type: string;
   name: string;
 }

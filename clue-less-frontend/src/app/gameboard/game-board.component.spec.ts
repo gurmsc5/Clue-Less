@@ -7,15 +7,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { GameboardComponent } from './gameboard.component';
+import { GameBoardComponent } from './game-board.component';
 
 describe('GameboardComponent', () => {
-  let component: GameboardComponent;
-  let fixture: ComponentFixture<GameboardComponent>;
+  let component: GameBoardComponent;
+  let fixture: ComponentFixture<GameBoardComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [GameboardComponent],
+      declarations: [GameBoardComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -29,7 +29,7 @@ describe('GameboardComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameboardComponent);
+    fixture = TestBed.createComponent(GameBoardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,7 +9,16 @@
     </li>
   </ul>
 </div>
-<app-gameboard></app-gameboard>
+
+<div *ngIf="gameState && clueMap">
+  <mat-grid-list cols="5" rowHeight="100px">
+    <mat-grid-tile
+      *ngFor="let loc of clueMap">
+      {{loc.name}}
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+
 <div *ngIf="selectedPlayer">
 
   <h2>Selected {{selectedPlayer.name | uppercase}}</h2>

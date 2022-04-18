@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 import { MessageService } from './message.service';
 import { Player } from './player';
 import { Game } from './game';
+import {FormGroup} from "@angular/forms";
 
 const env = environment;
 
@@ -20,6 +21,8 @@ export class GameService {
   private lobbyApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.lobbyApiUrl}`;
   private createGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.createGameApiUrl}`;
   private exitGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.exitGameApiUrl}`;
+  private startGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.startGameApiUrl}`;
+  private gameStatusApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.gameStatusApiUrl};`
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -47,6 +50,21 @@ export class GameService {
   }
 
   /**
+   * Get game status information
+   * @param gameId - game to get status information for
+   */
+  getGameStatus(gameId: number): Observable<Game> {
+    this.log("Sending request to fetch game status info");
+    const gameStatusUrl = `${this.gameStatusApiUrl}/${gameId}`;
+    return this.http.get<Game>(gameStatusUrl).pipe(
+      tap(game => {
+        this.log(`fetched game status info: ${game.gameId}`);
+      }),
+      catchError(this.handleError<Game>('getGameStatus'))
+    );
+  }
+
+  /**
    * Request to select a player for a given game session
    * @param player - Player character selected by user
    * @param gameId - ID of the game session
@@ -59,18 +77,34 @@ export class GameService {
     );
   }
 
-
   /**
    * Sends request to create a game session
    *
    * @param gameSessionData - Game session settings (name, player count etc)
    */
-  createSession(gameSessionData: FormData): Observable<any> {
-    const startGameUrl = `${this.createGameApiUrl}`;
+  createSession(gameSessionData: FormGroup): Observable<Game> {
+    const userCount = gameSessionData.get('playerCount')?.value;
+    const gameId = gameSessionData.get('playerId')?.value;
+
+    const startGameUrl = `${this.createGameApiUrl}?userCount=${userCount}&size=6&gameId=${gameId}`;
     this.log("Sending request to start game session");
     return this.http.post<Game>(startGameUrl, gameSessionData, this.httpOptions).pipe(
       tap((game: Game) => this.log(`Created Game session w/ id=${game.gameId}`)),
       catchError(this.handleError<Game>('createSession'))
+    );
+  }
+
+  /**
+   * Method to start game session
+   * @param gameId - game session ID
+   */
+  startGame(gameId: number): Observable<Game> {
+    const startGameUrl = `${this.startGameApiUrl}?gameId=${gameId}`;
+    this.log(`Sending request to start game w\ id: ${gameId}`);
+
+    return this.http.post<Game>(startGameUrl, gameId, this.httpOptions).pipe(
+      tap((game: Game) => this.log(`Staring Game session w/ id=${game.gameId}`)),
+      catchError(this.handleError<Game>('startGame'))
     );
   }
 
@@ -80,11 +114,10 @@ export class GameService {
    * @param gameId - game session ID
    */
   exitGame(playerId: number, gameId: number): Observable<any> {
-    const exitGameUrl = `${this.exitGameApiUrl}?userId=${playerId}&gameName=${gameId}`;
-    this.log(`Sending request to exit game at url: ${exitGameUrl}`);
+    const exitGameUrl = `${this.exitGameApiUrl}?userId=${playerId}&gameId=${gameId}`;
 
     return this.http.post<Game>(exitGameUrl, playerId, this.httpOptions).pipe(
-      tap((game: Game) => this.log(`Exiting Game session w/ name=${game.gameName}`)),
+      tap((game: Game) => this.log(`Exiting Game session w/ id=${game.gameId}`)),
       catchError(this.handleError<Game>('exitGame'))
     );
   }
