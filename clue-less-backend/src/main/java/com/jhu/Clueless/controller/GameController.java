@@ -220,6 +220,27 @@ public class GameController {
       return new ResponseEntity(result, HttpStatus.ACCEPTED);
    }
 
+   /*
+   end a user/player turn
+    */
+   @RequestMapping(value="/playgame/{gameId}/endturn", produces="application/json")
+   @PutMapping
+   public String endTurn(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
+      JsonObject resultObject = new JsonObject();
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      String msg = targetGame.endTurn(userId);
+      if (msg.equals("ended")) {
+         resultObject.addProperty("userId","turn ended for: " + userId);
+         resultObject.addProperty("Message","success");
+      }
+      else {
+         resultObject.addProperty("Error",msg);
+         resultObject.addProperty("Message","fail");
+      }
+
+      return resultObject.toString();
+   }
+
 
 
 

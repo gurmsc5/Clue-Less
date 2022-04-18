@@ -269,4 +269,33 @@ public class Game {
    public boolean makeSuggestion(String UserId, String Suspect, Integer x, Integer y,WeaponType weapon){
       return false;
    }
+
+   /*
+   this method is used to end a player turn
+    */
+   public String endTurn(String userId) {
+      String playerName = userToPlayerMap.get(userId);
+      Player player = playerList.get(playerName);
+      if (player.getAvailableMove().contains("suggestion") || !hasMadeSuggestion.get(playerName)) {
+         return "Please make suggestion before ending your turn!";
+      }
+      else {
+         // rebuild his available move list
+         player.refreshAvailableMove();
+         player.addAvailableMove("accusation");
+         String key = playerLocation.get(playerName);
+         for (String move : Map.potentialMove(key)) {
+            player.addAvailableMove(move);
+         }
+
+         // re-mark player status tracker
+         hasMadeSuggestion.put(playerName, false);
+         hasMoved.put(playerName, false);
+
+         turn.nextTurn();;
+         return "ended";
+      }
+   }
+
+
 }
