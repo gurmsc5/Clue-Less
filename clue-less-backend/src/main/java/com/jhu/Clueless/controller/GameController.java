@@ -248,15 +248,16 @@ public class GameController {
                                   @RequestParam(value="weapon") String weapon) {
       JsonObject resultObject = new JsonObject();
       Game targetGame = GameList.getInstance().getGame(gameId);
-      targetGame.makeSuggestion(userId,suspect, location, weapon);
-      String msg = targetGame.endTurn(userId);
-      if (msg.equals("ended")) {
-         resultObject.addProperty("userId","turn ended for: " + userId);
-         resultObject.addProperty("Message","success");
+      String result =targetGame.makeSuggestion(userId,suspect, location, weapon);
+
+      if (result.contains("error")) {
+         resultObject.addProperty("Error",result);
+         resultObject.addProperty("Message","fail");
+
       }
       else {
-         resultObject.addProperty("Error",msg);
-         resultObject.addProperty("Message","fail");
+         resultObject.addProperty("userId",result);
+         resultObject.addProperty("Message","success");
       }
 
       return resultObject.toString();
