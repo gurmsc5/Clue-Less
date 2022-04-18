@@ -91,3 +91,14 @@
 .players .name {
   align-self: center;
 }
+
+.row
+{
+  display:inline-block;
+}
+.cell
+{
+  width: 200px;
+  height: 200px;
+  border: solid 1px #ccc;
+}

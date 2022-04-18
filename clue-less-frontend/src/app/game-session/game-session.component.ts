@@ -16,7 +16,25 @@ export class GameSessionComponent implements OnInit {
 
   lobby: Lobby | undefined;
   gameState: Game | undefined;
-  clueMap?: BoardLocation[];
+
+  public clueMap: Array<Array<BoardLocation>> = [
+    [{name: "Conservatory", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#10", xCord: 1, yCord: 0, occupancy: 0, playerOccupancy: ""},
+      {name: "Ballroom", xCord: 2, yCord: 0, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#30", xCord: 3, yCord: 0, occupancy: 0, playerOccupancy: ""},
+      {name: "Kitchen", xCord: 4, yCord: 0, occupancy: 0, playerOccupancy: ""}],
+    [{name: "Library", xCord: 0, yCord: 1, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#11", xCord: 1, yCord: 1, occupancy: 0, playerOccupancy: ""},
+      {name: "Billiard Room", xCord: 2, yCord: 1, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#31", xCord: 3, yCord: 1, occupancy: 0, playerOccupancy: ""},
+      {name: "Dining Room", xCord: 4, yCord: 1, occupancy: 0, playerOccupancy: ""}],
+    [{name: "Study", xCord: 0, yCord: 2, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#12", xCord: 1, yCord: 2, occupancy: 0, playerOccupancy: ""},
+      {name: "Hall", xCord: 2, yCord: 2, occupancy: 0, playerOccupancy: ""},
+      {name: "Hallway#32", xCord: 3, yCord: 2, occupancy: 0, playerOccupancy: ""},
+      {name: "Lounge", xCord: 4, yCord: 2, occupancy: 0, playerOccupancy: ""}]
+  ]
+
   selectedPlayer?: Player;
 
   constructor(
@@ -37,15 +55,13 @@ export class GameSessionComponent implements OnInit {
     this.gameService.getGameStatus(gameId)
       .subscribe(g => {
         this.gameState = g;
-        if (this.gameState.Map){
-          const keys: string[] = Object.keys(this.gameState.Map.mainMap)
-          const sortedLocations = keys.sort();
-          this.clueMap = [];
-          sortedLocations.forEach(loc => {
-            let boardLoc: BoardLocation = this.gameState?.Map?.mainMap[loc]!;
-            this.clueMap?.push(boardLoc);
-          })
-        }
+
+        this.resetPlayerOccupancy();
+        this.gameState.playerLocation.forEach(item => {
+          this.messageService.add(`${item.name} -> (${item.xCoord}, ${item.yCoord})`)
+          this.clueMap[item.xCoord][item.yCoord].playerOccupancy = item.name;
+        })
+
       });
   }
 
@@ -74,5 +90,17 @@ export class GameSessionComponent implements OnInit {
           this.lobby = undefined;
         });
     }
+  }
+
+  /**
+   * clear out all player occupancy
+   */
+  resetPlayerOccupancy(): void {
+
+    this.clueMap.forEach(row => {
+      row.forEach(boardItem => {
+        boardItem.playerOccupancy = '';
+      })
+    })
   }
 }

@@ -3,4 +3,5 @@ export interface BoardLocation {
   xCord: number;
   yCord: number;
   occupancy: number;
+  playerOccupancy: string;
 }
