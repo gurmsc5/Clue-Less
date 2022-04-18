@@ -12,7 +12,7 @@ public class Game {
    private CardEnvelope cardFile;
    private Map<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
    private ClueMap Map;
-   private Map<String, String> playerLocation;    // map each Player name to Location key
+   private Map<String, Coordinates> playerLocation;    // map each Player name to Location key
    private Map<String, Boolean> hasMadeSuggestion;      // track each Player status in order to define the available action
    private Map<String, Boolean> hasMoved;      // track each Player move status
    public Turn turn;
@@ -103,7 +103,7 @@ public class Game {
             // addOne to the room
             Map.moveInto(x,y);
             String key = "(" + x + "," + y + ")";
-            playerLocation.put(playerName, key);   // map the Player to his location key
+            playerLocation.put(playerName, new Coordinates(x,y));   // map the Player to his location key
             hasMadeSuggestion.put(playerName, false);  // track Player status
             hasMoved.put(playerName, false);
             // build availableMove list for each player
@@ -223,7 +223,7 @@ public class Game {
             System.out.println("user "+playerName+" has already moved in this turn.");
             return false;
          }
-         String keyOfCurrLoc = playerLocation.get(playerName);
+         String keyOfCurrLoc = playerLocation.get(playerName).CoordinatesToString();
          Location current = Map.mainMap.get(keyOfCurrLoc);
          String neighbourKey = "";
          if (action.equals("up")) {
@@ -246,7 +246,7 @@ public class Game {
          current.removeOne();
          destination.addOne();
          // update playerLocation Map
-         playerLocation.put(playerName, neighbourKey);
+         playerLocation.put(playerName, new Coordinates(neighbourKey));
          // clear Player availableMove list of all move option
          Player player = getUserPlayer(userId);
          player.refreshAvailableMove();
@@ -266,7 +266,14 @@ public class Game {
    /*
    this method make a suggestion
     */
-   public boolean makeSuggestion(String UserId, String Suspect, Integer x, Integer y,WeaponType weapon){
+   public boolean makeSuggestion(String userId, String suspect, String location ,String weapon){
+      String playerName = userToPlayerMap.get(userId);
+      if(hasMadeSuggestion.get(playerName)){ //if player has already made suggestion return error
+         return false;
+      }
+      hasMadeSuggestion.put(playerName,true);
+
+
       return false;
    }
 
@@ -283,7 +290,7 @@ public class Game {
          // rebuild his available move list
          player.refreshAvailableMove();
          player.addAvailableMove("accusation");
-         String key = playerLocation.get(playerName);
+         String key = playerLocation.get(playerName).CoordinatesToString();
          for (String move : Map.potentialMove(key)) {
             player.addAvailableMove(move);
          }

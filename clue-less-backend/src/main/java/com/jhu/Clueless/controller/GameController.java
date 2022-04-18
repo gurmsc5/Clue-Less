@@ -240,7 +240,27 @@ public class GameController {
 
       return resultObject.toString();
    }
+   @RequestMapping(value="/playgame/{gameId}/suggestion", produces="application/json")
+   @PutMapping
+   public String handleSuggestion(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId,
+                                  @RequestParam(value="suspect") String suspect,
+                                  @RequestParam(value="location") String location, // location format-> (x,y)
+                                  @RequestParam(value="weapon") String weapon) {
+      JsonObject resultObject = new JsonObject();
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      targetGame.makeSuggestion(userId,suspect, location, weapon);
+      String msg = targetGame.endTurn(userId);
+      if (msg.equals("ended")) {
+         resultObject.addProperty("userId","turn ended for: " + userId);
+         resultObject.addProperty("Message","success");
+      }
+      else {
+         resultObject.addProperty("Error",msg);
+         resultObject.addProperty("Message","fail");
+      }
 
+      return resultObject.toString();
+   }
 
 
 
