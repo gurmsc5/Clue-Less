@@ -1,0 +1,14 @@
+<form [formGroup]="gameSessionForm" (ngSubmit)="createGameSession()">
+  <label for="game-name">Name: </label>
+  <input id="game-name" type="text" formControlName="name" required>
+
+  <label for="player-count">Player Count: </label>
+  <input id="player-count" type="number" formControlName="playerCount" required>
+</form>
+
+<button type="submit"
+        [disabled]="!gameSessionForm.valid"
+        (click)="createGameSession()"
+>
+  Submit
+</button>

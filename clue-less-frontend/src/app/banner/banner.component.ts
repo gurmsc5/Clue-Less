@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { GameService } from '../game.service';
-import { Lobby } from '../lobby';
 
 @Component({
   selector: 'app-banner',
@@ -9,8 +6,10 @@ import { Lobby } from '../lobby';
   styleUrls: ['./banner.component.css']
 })
 export class BannerComponent implements OnInit {
-  constructor() { }
+  constructor()
+  {}
 
   ngOnInit(): void {
   }
+
 }

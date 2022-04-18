@@ -23,6 +23,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
+import { ReactiveFormsModule } from "@angular/forms";
+import { GameSessionCreatorComponent } from './game-session-creator/game-session-creator.component';
 
 @NgModule({
   declarations: [
@@ -31,25 +33,27 @@ import { LayoutModule } from '@angular/cdk/layout';
     MessagesComponent,
     GameSessionComponent,
     GameboardComponent,
+    GameSessionCreatorComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    !environment.production ? HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ) : [],
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    LayoutModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        !environment.production ? HttpClientInMemoryWebApiModule.forRoot(
+            InMemoryDataService, {dataEncapsulation: false}
+        ) : [],
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatGridListModule,
+        MatCardModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        LayoutModule,
+        ReactiveFormsModule,
+    ],
   providers: [
     !environment.production ? httpInterceptorProviders : []
   ],
