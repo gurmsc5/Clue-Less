@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -19,12 +20,8 @@ public class Player extends Object {
    private String name;
    private String color;
    private boolean available;
-
-   private Integer xCord;
-   private Integer yCord;
    private ArrayList<Card> cardInHand = new ArrayList<Card>();
    private ArrayList<String> availableMove = new ArrayList<>();
-   private boolean isMovedBySuggestion;
 
 
    // constructor
@@ -33,7 +30,6 @@ public class Player extends Object {
       this.name = name;
       this.color = color;
       this.available = true;
-      this.isMovedBySuggestion = false;
    }
 
    // build the card in hand for the player
@@ -45,6 +41,21 @@ public class Player extends Object {
    // show cards in hand
    public ArrayList<Card> showCardInHand() {
       return cardInHand;
+   }
+
+   // check if the intended move is available
+   public boolean isAvailableMove(String move) {
+      return availableMove.contains(move);
+   }
+
+   // add move option into availableMove list
+   public void addAvailableMove(String move) {
+      availableMove.add(move);
+   }
+
+   // re-initial the availableMove list
+   public void refreshAvailableMove(){
+      availableMove.clear();
    }
 
    @Override

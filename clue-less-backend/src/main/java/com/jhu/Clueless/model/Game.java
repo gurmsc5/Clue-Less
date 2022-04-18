@@ -3,17 +3,21 @@ package com.jhu.Clueless.model;
 import java.util.*;
 
 public class Game {
-   int gameId;
-   int size;         // number of Players in this Game session (# of characters, not the active users)
-   int userAllowed;    // maximum number of human users accepted in the game session
-   ArrayList<String> userList;
-   HashMap<String, Player> playerList;
-   HashMap<String, String> userToPlayerMap;
-   CardEnvelope cardFile;
-   HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
-   ClueMap Map;
-   Turn turn;
-   Weapons weapons;
+   public int gameId;
+   private int size;         // number of Players in this Game session (# of characters, not the active users)
+   private int userAllowed;    // maximum number of human users accepted in the game session
+   private ArrayList<String> userList;
+   private HashMap<String, Player> playerList;
+   private HashMap<String, String> userToPlayerMap;
+   private CardEnvelope cardFile;
+   private HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
+   private ClueMap Map;
+   private HashMap<String, String> playerLocation;    // map each Player name to Location key
+   private HashMap<String, Boolean> hasMadeSuggestion;      // track each Player status in order to define the available action
+   private HashMap<String, Boolean> hasMoved;      // track each Player move status
+   public Turn turn;
+   public Weapons weapons;
+
 
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
    private static final HashMap<String, String> colorMap = new HashMap<>() {{
@@ -25,12 +29,12 @@ public class Game {
       put("Colonel Mustard", "yellow");
    }};
    private static final HashMap<String, Integer[]> iniLocation = new HashMap<>() {{
-      put("Miss Scarlet", new Integer[] {4,5});
-      put("Professor Plum", new Integer[] {1,4});
-      put("Mr. Green", new Integer[] {2,1});
-      put("Mrs. White", new Integer[] {4,1});
-      put("Mrs. Peacock", new Integer[] {1,2});
-      put("Colonel Mustard", new Integer[] {1,2});
+      put("Miss Scarlet", new Integer[] {3,4});
+      put("Professor Plum", new Integer[] {0,3});
+      put("Mr. Green", new Integer[] {1,0});
+      put("Mrs. White", new Integer[] {3,0});
+      put("Mrs. Peacock", new Integer[] {0,1});
+      put("Colonel Mustard", new Integer[] {0,1});
    }};
 
    // constructor
@@ -91,18 +95,27 @@ public class Game {
 
       // initialize the Map and distribute each Player to pre-defined location
       this.Map = new ClueMap();
+      this.playerLocation = new HashMap<>();
+      this.hasMadeSuggestion = new HashMap<>();
+      this.hasMoved = new HashMap<>();
       for (String playerName : fullPlayerList) {
          if (playerList.containsKey(playerName)) {
             int x = iniLocation.get(playerName)[0];
             int y = iniLocation.get(playerName)[1];
-            // set the X,Y cord in Player object
-            playerList.get(playerName).setXCord(x);
-            playerList.get(playerName).setYCord(y);
-            // mark the Map as occupied
+            // addOne to the room
             Map.moveInto(x,y);
+            String key = "(" + x + "," + y + ")";
+            playerLocation.put(playerName, key);   // map the Player to his location key
+            hasMadeSuggestion.put(playerName, false);  // track Player status
+            hasMoved.put(playerName, false);
+            // build availableMove list for each player
+            Player player = playerList.get(playerName);
+            player.addAvailableMove("accusation");
+            for (String move : Map.potentialMove(key)) {
+               player.addAvailableMove(move);
+            }
          }
       }
-
 
       // turn the Turn back to Miss Scarlet
       while(!turn.isMyTurn("Miss Scarlet")) {
@@ -164,23 +177,9 @@ public class Game {
       return this.size;
    }
 
-   public ArrayList<String> getUserList() {
-      return this.userList;
-   }
-
-   public int getUserAllowed() {
-      return this.userAllowed;
-   }
-
-   public ArrayList<String> getPlayerList() {
-      Turn tempTurn = new Turn(size);
-      ArrayList<String> result = new ArrayList<>();
-      for (int i = 0; i < size; i++) {
-         result.add(tempTurn.getTurn());
-         tempTurn.nextTurn();
-      }
-      return result;
-   }
+   /*
+   get Player object by userId
+    */
    public Player getUserPlayer(String userId) {
       if (userToPlayerMap.containsKey(userId)) {
          return playerList.get(userToPlayerMap.get(userId));
@@ -188,6 +187,12 @@ public class Game {
       return null;
    }
 
+   /*
+   get Player object by playerName
+    */
+   public Player getPlayer(String playerName) {
+      return playerList.get(playerName);
+   }
 
    /*
    this method is called when a user is exiting this game
@@ -206,6 +211,61 @@ public class Game {
       }
       return false;
    }
+
+   /*
+   this method is used to perform a Player move
+    */
+   public boolean move(String userId, String action) {
+      if (!getUserPlayer(userId).isAvailableMove(action)){
+         return false;
+      }
+      else {
+         String playerName = userToPlayerMap.get(userId);
+         if (hasMoved.get(playerName)) {
+            System.out.println("user "+playerName+" has already moved in this turn.");
+            return false;
+         }
+         String keyOfCurrLoc = playerLocation.get(playerName);
+         Location current = Map.mainMap.get(keyOfCurrLoc);
+         String neighbourKey = "";
+         if (action.equals("up")) {
+            neighbourKey = Map.mainMap.get(keyOfCurrLoc).upNeighbour();
+         }
+         else if (action.equals("down")) {
+            neighbourKey = Map.mainMap.get(keyOfCurrLoc).downNeighbour();
+         }
+         else if (action.equals("left")) {
+            neighbourKey = Map.mainMap.get(keyOfCurrLoc).leftNeighbour();
+         }
+         else if (action.equals("right")) {
+            neighbourKey = Map.mainMap.get(keyOfCurrLoc).rightNeighbour();
+         }
+         else {
+            neighbourKey = Map.mainMap.get(keyOfCurrLoc).diagNeighbour();
+         }
+         Location destination = Map.mainMap.get(neighbourKey);
+         // update the occupancy
+         current.removeOne();
+         destination.addOne();
+         // update playerLocation Map
+         playerLocation.put(userId, neighbourKey);
+         // clear Player availableMove list of all move option
+         Player player = getUserPlayer(userId);
+         player.refreshAvailableMove();
+         player.addAvailableMove("accusation");
+
+         // check if a suggestion has been made in his turn
+         if(!hasMadeSuggestion.get(playerName) && Map.isRoom(neighbourKey)) {
+            player.addAvailableMove("suggestion");
+         }
+         return true;
+      }
+
+   }
+
+   /*
+   this method make a suggestion
+    */
    public boolean makeSuggestion(String UserId, String Suspect, Integer x, Integer y,WeaponType weapon){
       return false;
    }

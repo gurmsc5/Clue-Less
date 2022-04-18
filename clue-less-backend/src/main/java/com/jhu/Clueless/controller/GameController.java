@@ -188,4 +188,28 @@ public class GameController {
    }
 
 
+   /*
+   this method handle the POST request to perform a move action for a certain Player
+    */
+
+   @RequestMapping(value="/playgame/{gameId}/move", produces="application/json")
+   @PostMapping
+   public ResponseEntity<?> move(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="action") String action) {
+      JsonObject resultObject = new JsonObject();
+      boolean msg = gameService.move(userId, gameId, action);
+      if (msg) {
+         resultObject.addProperty("Move",action);
+         resultObject.addProperty("Message","success");
+         return new ResponseEntity<>(resultObject, HttpStatus.ACCEPTED);
+      }
+      else {
+         resultObject.addProperty("Error","something wrong happens");
+         resultObject.addProperty("Message","fail");
+         return new ResponseEntity<>(resultObject, HttpStatus.BAD_REQUEST);
+      }
+   }
+
+
+
+
 }

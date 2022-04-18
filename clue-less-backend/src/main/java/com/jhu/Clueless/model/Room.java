@@ -10,11 +10,13 @@ public class Room extends Location{
       super(name, xCord, yCord);
    }
 
+   @Override
    public boolean isAvailable() {
       return true;
    }
 
    // return upNeighbour key string or null if there is no up neighbour
+   @Override
    public String upNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -36,6 +38,7 @@ public class Room extends Location{
    }
 
    // return downNeighbour key string or null if there is no down neighbour
+   @Override
    public String downNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -57,6 +60,7 @@ public class Room extends Location{
    }
 
    // return leftNeighbour key string or null if there is no left neighbour
+   @Override
    public String leftNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -78,6 +82,7 @@ public class Room extends Location{
    }
 
    // return rightNeighbour key string or null if there is no right neighbour
+   @Override
    public String rightNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -98,6 +103,7 @@ public class Room extends Location{
       }
    }
 
+   @Override
    public String diagNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {

@@ -32,4 +32,21 @@ public class Location {
    public void removeOne() {
       occupancy -= 1;
    }
+
+   public boolean isAvailable(){return true;}
+
+   public String upNeighbour(){return null;}
+
+   public String downNeighbour(){return null;}
+
+   public String leftNeighbour(){return null;}
+
+   public String rightNeighbour(){return null;}
+
+   public String diagNeighbour(){return null;}
+
+   public boolean atHallway() {
+      return name.split("#").length == 2;
+   }
+
 }

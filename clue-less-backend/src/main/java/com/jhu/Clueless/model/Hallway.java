@@ -11,11 +11,13 @@ public class Hallway extends Location{
    }
 
    // return true only if the hallway has no one inside
+   @Override
    public boolean isAvailable() {
       return super.getOccupancy()<1;
    }
 
    // return upNeighbour key string or null if there is no up neighbour
+   @Override
    public String upNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -37,6 +39,7 @@ public class Hallway extends Location{
    }
 
    // return downNeighbour key string or null if there is no down neighbour
+   @Override
    public String downNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -58,6 +61,7 @@ public class Hallway extends Location{
    }
 
    // return leftNeighbour key string or null if there is no left neighbour
+   @Override
    public String leftNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -79,6 +83,7 @@ public class Hallway extends Location{
    }
 
    // return rightNeighbour key string or null if there is no right neighbour
+   @Override
    public String rightNeighbour() {
       String key = "("+getXCord()+","+getYCord()+")";
       switch(key) {
@@ -99,6 +104,7 @@ public class Hallway extends Location{
       }
    }
 
+   @Override
    public String diagNeighbour() {
       return null;
    }
