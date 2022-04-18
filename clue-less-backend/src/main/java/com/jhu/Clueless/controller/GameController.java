@@ -7,12 +7,10 @@ this class defines the controller that is handling any request regarding a game
 
 package com.jhu.Clueless.controller;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.jhu.Clueless.model.Game;
-import com.jhu.Clueless.model.GameList;
-import com.jhu.Clueless.model.Lobby;
-import com.jhu.Clueless.model.Player;
+import com.jhu.Clueless.model.*;
 import com.jhu.Clueless.service.GameService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,19 +192,32 @@ public class GameController {
 
    @RequestMapping(value="/playgame/{gameId}/move", produces="application/json")
    @PostMapping
-   public ResponseEntity<?> move(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="action") String action) {
+   public String move(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="action") String action) {
       JsonObject resultObject = new JsonObject();
       boolean msg = gameService.move(userId, gameId, action);
       if (msg) {
          resultObject.addProperty("Move",action);
          resultObject.addProperty("Message","success");
-         return new ResponseEntity<>(resultObject, HttpStatus.ACCEPTED);
       }
       else {
          resultObject.addProperty("Error","something wrong happens");
          resultObject.addProperty("Message","fail");
-         return new ResponseEntity<>(resultObject, HttpStatus.BAD_REQUEST);
       }
+      return resultObject.toString();
+   }
+
+   /*
+   print out game status
+    */
+   @RequestMapping(value="/status/{gameId}", produces="application/json")
+   @GetMapping
+   public ResponseEntity<?> gameStatus(@PathVariable(value="gameId") int gameId) {
+
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      Gson gson = new Gson();
+      String result = gson.toJson(targetGame);
+
+      return new ResponseEntity(result, HttpStatus.ACCEPTED);
    }
 
 

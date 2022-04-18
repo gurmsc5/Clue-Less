@@ -7,16 +7,15 @@ public class Game {
    private int size;         // number of Players in this Game session (# of characters, not the active users)
    private int userAllowed;    // maximum number of human users accepted in the game session
    private ArrayList<String> userList;
-   private HashMap<String, Player> playerList;
-   private HashMap<String, String> userToPlayerMap;
+   private Map<String, Player> playerList;
+   private Map<String, String> userToPlayerMap;
    private CardEnvelope cardFile;
-   private HashMap<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
+   private Map<String, ArrayList<Card>> cardDistribution;    // card in each Player's hand
    private ClueMap Map;
-   private HashMap<String, String> playerLocation;    // map each Player name to Location key
-   private HashMap<String, Boolean> hasMadeSuggestion;      // track each Player status in order to define the available action
-   private HashMap<String, Boolean> hasMoved;      // track each Player move status
+   private Map<String, String> playerLocation;    // map each Player name to Location key
+   private Map<String, Boolean> hasMadeSuggestion;      // track each Player status in order to define the available action
+   private Map<String, Boolean> hasMoved;      // track each Player move status
    public Turn turn;
-   public Weapons weapons;
 
 
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
@@ -34,7 +33,7 @@ public class Game {
       put("Mr. Green", new Integer[] {1,0});
       put("Mrs. White", new Integer[] {3,0});
       put("Mrs. Peacock", new Integer[] {0,1});
-      put("Colonel Mustard", new Integer[] {0,1});
+      put("Colonel Mustard", new Integer[] {4,3});
    }};
 
    // constructor
@@ -43,7 +42,6 @@ public class Game {
       this.size = size;
       this.userList = new ArrayList<>();
       this.userAllowed = userAllowed;
-      this.weapons = new Weapons();
 
       // initialize the Player/character
       this.playerList = new HashMap<>();
@@ -248,7 +246,7 @@ public class Game {
          current.removeOne();
          destination.addOne();
          // update playerLocation Map
-         playerLocation.put(userId, neighbourKey);
+         playerLocation.put(playerName, neighbourKey);
          // clear Player availableMove list of all move option
          Player player = getUserPlayer(userId);
          player.refreshAvailableMove();
@@ -258,6 +256,8 @@ public class Game {
          if(!hasMadeSuggestion.get(playerName) && Map.isRoom(neighbourKey)) {
             player.addAvailableMove("suggestion");
          }
+         // update move status
+         hasMoved.put(playerName, true);
          return true;
       }
 

@@ -13,7 +13,6 @@ import java.util.Queue;
 public class Turn {
    private Queue<String> playerQ = new LinkedList<>();
    static private ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
-   int size;
 
    // constructor
    public Turn(int size) {
