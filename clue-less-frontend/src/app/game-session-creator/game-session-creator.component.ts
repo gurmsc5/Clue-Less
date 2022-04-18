@@ -1,10 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {GameService} from "../game.service";
-import {Game} from "../game";
 import {Location} from "@angular/common";
 import {Router} from "@angular/router";
-import {MessageService} from "../message.service";
 
 @Component({
   selector: 'app-game-session-creator',
@@ -19,6 +17,7 @@ export class GameSessionCreatorComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private router: Router,
+              private location: Location,
               private gameService: GameService)
   { }
 
@@ -30,6 +29,10 @@ export class GameSessionCreatorComponent implements OnInit {
       .subscribe(g => {
         this.router.navigate([`/game-session/${g.gameId}`])
       });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }

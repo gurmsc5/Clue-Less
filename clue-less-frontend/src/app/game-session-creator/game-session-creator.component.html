@@ -6,9 +6,15 @@
   <input id="player-count" type="number" formControlName="playerCount" required>
 </form>
 
+<button type="goback"
+        (click)="goBack()">
+Go Back
+</button>
+
 <button type="submit"
         [disabled]="!gameSessionForm.valid"
         (click)="createGameSession()"
 >
   Submit
 </button>
+
