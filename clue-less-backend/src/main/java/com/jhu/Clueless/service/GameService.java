@@ -40,7 +40,7 @@ public class GameService {
       }
       Game game = GameList.getInstance().getGame(gameId);
       if(!game.getUserPlayer(userId).isAvailableMove(action)) {
-         System.out.println(action + "is not allowed at this time.");
+         System.out.println(action + " is not allowed at this time.");
          return false;
       }
       else {
