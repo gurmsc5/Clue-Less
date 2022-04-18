@@ -76,8 +76,8 @@ export class GameSessionComponent implements OnInit {
   }
 
   exitGame(): void {
-    if (this.selectedPlayer && this.lobby) {
-      this.gameService.exitGame(this.selectedPlayer.id, this.lobby.id)
+    if (this.selectedPlayer && this.gameState) {
+      this.gameService.exitGame(this.selectedPlayer.id, this.gameState.gameId)
         .subscribe(() => { this.router.navigate(["/banner"])});
     }
     else {
