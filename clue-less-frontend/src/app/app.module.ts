@@ -16,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { GameboardComponent } from './gameboard/gameboard.component';
+import { GameBoardComponent } from './gameboard/game-board.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -25,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { ReactiveFormsModule } from "@angular/forms";
 import { GameSessionCreatorComponent } from './game-session-creator/game-session-creator.component';
+import { JoinExistingGameComponent } from './join-existing-game/join-existing-game.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +33,9 @@ import { GameSessionCreatorComponent } from './game-session-creator/game-session
     BannerComponent,
     MessagesComponent,
     GameSessionComponent,
-    GameboardComponent,
+    GameBoardComponent,
     GameSessionCreatorComponent,
+    JoinExistingGameComponent,
   ],
     imports: [
         BrowserModule,

@@ -1,10 +1,15 @@
 <form [formGroup]="gameSessionForm" (ngSubmit)="createGameSession()">
-  <label for="game-name">Name: </label>
-  <input id="game-name" type="text" formControlName="name" required>
+  <label for="game-id">Game ID: </label>
+  <input id="game-id" type="text" formControlName="id" required>
 
   <label for="player-count">Player Count: </label>
   <input id="player-count" type="number" formControlName="playerCount" required>
 </form>
+
+<button type="goback"
+        (click)="goBack()">
+Go Back
+</button>
 
 <button type="submit"
         [disabled]="!gameSessionForm.valid"
@@ -12,3 +17,4 @@
 >
   Submit
 </button>
+

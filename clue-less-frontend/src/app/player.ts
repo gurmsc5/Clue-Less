@@ -1,5 +1,11 @@
 import { Card } from "./card";
 
+export interface PlayerLocation {
+  name: string;
+  xCoord: number;
+  yCoord: number;
+}
+
 export interface Player {
   id: number;
   name: string;
@@ -7,4 +13,5 @@ export interface Player {
   color?: string;
   cardInHand?: Card[];
   coordinate?: number[];
+  availableMove?: string[]
 }

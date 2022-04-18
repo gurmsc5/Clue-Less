@@ -1,0 +1,18 @@
+<form [formGroup]="gameSessionForm" (ngSubmit)="joinGameSession()">
+  <label for="game-id">Game ID: </label>
+  <input id="game-id" type="text" formControlName="id" required>
+
+</form>
+
+<button type="goback"
+        (click)="goBack()">
+  Go Back
+</button>
+
+<button type="submit"
+        [disabled]="!gameSessionForm.valid"
+        (click)="joinGameSession()"
+>
+  Submit
+</button>
+

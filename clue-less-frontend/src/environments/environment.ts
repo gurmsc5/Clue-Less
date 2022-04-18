@@ -8,8 +8,10 @@ export const environment = {
   gameServerApiUrl: "http://localhost",
   lobbyApiUrl: "api/lobby",
   selectPlayerApiUrl: "joingame",
-  createGameApiUrl: "creategame",
+  createGameApiUrl: "game",
   exitGameApiUrl: "exitgame",
+  startGameApiUrl: "startgame",
+  gameStatusApiUrl: "status"
 };
 
 /*
