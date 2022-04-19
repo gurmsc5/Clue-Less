@@ -266,15 +266,42 @@ public class Game {
    /*
    this method make a suggestion
     */
-   public boolean makeSuggestion(String userId, String suspect, String location ,String weapon){
+   public String makeSuggestion(String userId, String suspect,String weapon){
       String playerName = userToPlayerMap.get(userId);
       if(hasMadeSuggestion.get(playerName)){ //if player has already made suggestion return error
-         return false;
+         return "Player "+playerName+" has already made the suggestion in this round!";
       }
-      hasMadeSuggestion.put(playerName,true);
+      if(hasMoved.get(playerName)){
+         return "Player "+playerName+" has not moved this round nor been moved previously";
+      }
+      // get caller location
+      String callerKey = playerLocation.get(playerName).CoordinatesToString();
+      Location callerLoc = Map.mainMap.get(callerKey);
+      // get suspect location
+      String suspectKey = playerLocation.get(suspect).CoordinatesToString();
+      Location suspectLoc = Map.mainMap.get(suspectKey);
+      // take care of occupancy
+      callerLoc.addOne();
+      suspectLoc.removeOne();
+      // update playerLocation map in Game
+      playerLocation.put(suspect, playerLocation.get(playerName));
 
+      Player caller = playerList.get(playerName);
+      Player callee = playerList.get(suspect);
+      // update caller available move list (removing suggestion)
+      caller.refreshAvailableMove();
+      caller.addAvailableMove("accusation");
+      // update callee available move list (rebuild and add suggestion so he can make suggestion directly next time)
+      callee.refreshAvailableMove();
+      for (String move : Map.potentialMove(callerKey)) {
+         callee.addAvailableMove(move);
+      }
+      callee.addAvailableMove("suggestion");
+      callee.addAvailableMove("accusation");
 
-      return false;
+      hasMoved.put(suspect, true);  // mark the callee as hasMoved so he can make suggestion directly next round
+      hasMadeSuggestion.put(playerName,true);   // mark it hasMade suggestion this turn
+      return "suggestion";
    }
 
    /*

@@ -244,22 +244,20 @@ public class GameController {
    @PutMapping
    public String handleSuggestion(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId,
                                   @RequestParam(value="suspect") String suspect,
-                                  @RequestParam(value="location") String location, // location format-> (x,y)
                                   @RequestParam(value="weapon") String weapon) {
       JsonObject resultObject = new JsonObject();
       Game targetGame = GameList.getInstance().getGame(gameId);
-      String result =targetGame.makeSuggestion(userId,suspect, location, weapon);
+      String result =targetGame.makeSuggestion(userId, suspect, weapon);
 
-      if (result.contains("error")) {
-         resultObject.addProperty("Error",result);
-         resultObject.addProperty("Message","fail");
+      if (result.equals("suggestion")) {
+         resultObject.addProperty("UserId","userId has made suggestion!");
+         resultObject.addProperty("Message","success");
 
       }
       else {
-         resultObject.addProperty("userId",result);
-         resultObject.addProperty("Message","success");
+         resultObject.addProperty("Error",result);
+         resultObject.addProperty("Message","fail");
       }
-
       return resultObject.toString();
    }
 
