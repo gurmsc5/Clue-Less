@@ -1,11 +1,14 @@
 export const environment = {
-  production: false,
-  gameServerPort: "8080",
+  production: true,
+  gameServerPort: "8088",
   gameServerApiUrl: "http://localhost",
   lobbyApiUrl: "api/lobby",
   selectPlayerApiUrl: "joingame",
   createGameApiUrl: "game",
   exitGameApiUrl: "exitgame",
   startGameApiUrl: "startgame",
-  gameStatusApiUrl: "status"
+  gameStatusApiUrl: "status",
+  playGameApiUrl: "playgame",
+  movePlayerApiUrl: "move",
+  suggestApiUrl: "suggestion"
 };

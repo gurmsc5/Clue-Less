@@ -323,14 +323,14 @@ export const MOCKGAME: Game = {
       }
     }
   },
-  playerLocation: [
-    {name: "Professor Plum", xCoord: 0, yCoord: 3},
-    {name: "Mrs. White", xCoord: 3, yCoord: 0},
-    {name: "Mrs. Peacock", xCoord: 0, yCoord: 1},
-    {name: "Miss Scarlet", xCoord: 2, yCoord: 4},
-    {name: "Colonel Mustard", xCoord: 4, yCoord: 3},
-    {name: "Mr. Green", xCoord: 1, yCoord: 0},
-  ],
+  playerLocation: {
+    "Professor Plum": { x: 0, y: 3 },
+    "Mrs. White": { x: 3, y: 0 },
+    "Mrs. Peacock": { x: 0, y: 1 },
+    "Miss Scarlet": { x: 2, y: 4 },
+    "Colonel Mustard": { x: 4, y: 3 },
+    "Mr. Green": { x: 1, y: 0 },
+  },
   hasMadeSuggestion: {
     "Professor Plum": false,
     "Mrs. White": false,
@@ -356,5 +356,6 @@ export const MOCKGAME: Game = {
       "Mrs. Peacock",
       "Colonel Mustard"
     ]
-  }
+  },
+  inProgress: false
 };

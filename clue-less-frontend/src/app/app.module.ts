@@ -16,7 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { GameBoardComponent } from './gameboard/game-board.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -33,7 +32,6 @@ import { JoinExistingGameComponent } from './join-existing-game/join-existing-ga
     BannerComponent,
     MessagesComponent,
     GameSessionComponent,
-    GameBoardComponent,
     GameSessionCreatorComponent,
     JoinExistingGameComponent,
   ],
