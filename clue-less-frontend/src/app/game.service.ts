@@ -17,13 +17,15 @@ const env = environment;
 })
 export class GameService {
 
-  private selectPlayerApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.selectPlayerApiUrl}`;
-  private lobbyApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.lobbyApiUrl}`;
-  private createGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.createGameApiUrl}`;
-  private exitGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.exitGameApiUrl}`;
-  private startGameApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.startGameApiUrl}`;
-  private gameStatusApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.gameStatusApiUrl}`;
-  private movePlayerApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/${env.movePlayerApiUrl}`;
+  private baseApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}`;
+  private selectPlayerApiUrl = `${this.baseApiUrl}/${env.selectPlayerApiUrl}`;
+  private lobbyApiUrl = `${this.baseApiUrl}/${env.lobbyApiUrl}`;
+  private createGameApiUrl = `${this.baseApiUrl}/${env.createGameApiUrl}`;
+  private exitGameApiUrl = `${this.baseApiUrl}/${env.exitGameApiUrl}`;
+  private startGameApiUrl = `${this.baseApiUrl}/${env.startGameApiUrl}`;
+  private gameStatusApiUrl = `${this.baseApiUrl}/${env.gameStatusApiUrl}`;
+  private playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
+
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -130,7 +132,7 @@ export class GameService {
    * @param action - movement requested
    */
   movePlayer(userId: number, gameId: number, action: string): Observable<any> {
-    const movePlayerUrl = `${this.movePlayerApiUrl}/${gameId}/move?userId=${userId}&action=${action}`;
+    const movePlayerUrl = `${this.playGameApiUrl}/${gameId}/move?userId=${userId}&action=${action}`;
 
     return this.http.post<any>(movePlayerUrl, this.httpOptions).pipe(
       tap(() => this.log(`Player movement request completed successfully for player w/ id=${userId}`)),
@@ -138,6 +140,17 @@ export class GameService {
     )
 
   }
+
+
+  makeSuggestion(gameId: number, userId: number, suspect: string, weapon: string) {
+    const suggestionUrl = `${this.playGameApiUrl}/${gameId}/suggestion?userId=${userId}&suspect=${suspect}&weapon=${weapon}`;
+
+    return this.http.post<any>(suggestionUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/ id =  w/ id=${userId} successfully made suggestion`)),
+      catchError(this.handleError<any>('makeSuggestion'))
+    )
+  }
+
 
   /**
    * Handle Http operation that failed.

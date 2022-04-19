@@ -1,11 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Game } from '../game';
-import { GameService } from '../game.service';
-import { Lobby } from '../lobby';
-import { MessageService } from '../message.service';
-import { Player, PlayerLocation } from '../player';
-import { ActivatedRoute, Router} from "@angular/router";
-import { BoardLocation } from "../boardLocation";
+import {Component, OnInit} from '@angular/core';
+import {Game} from '../game';
+import {GameService} from '../game.service';
+import {Lobby} from '../lobby';
+import {MessageService} from '../message.service';
+import {Player, PlayerLocation} from '../player';
+import {ActivatedRoute, Router} from "@angular/router";
+import {BoardLocation} from "../boardLocation";
+import {WeaponType} from "../weapon-type";
+import {FormBuilder, Validators} from "@angular/forms";
+import {PLAYERS} from "../mock-players";
 
 @Component({
   selector: 'app-game-session',
@@ -16,6 +19,16 @@ export class GameSessionComponent implements OnInit {
 
   lobby: Lobby | undefined;
   gameState: Game | undefined;
+
+  suggestionForm = this.fb.group({
+    weaponType: ['', [Validators.required]],
+    suspect: ['', [Validators.required]]
+  })
+
+  accusationForm = this.fb.group({
+    weaponType: ['', [Validators.required]],
+    suspect: ['', [Validators.required]]
+  })
 
   public clueMap: Array<Array<BoardLocation>> = [
     [{name: "Conservatory", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: ""},
@@ -45,13 +58,35 @@ export class GameSessionComponent implements OnInit {
       {name: "Lounge", xCord: 4, yCord: 4, occupancy: 0, playerOccupancy: ""}]
   ]
 
+  public allRooms: string[];
+  public allWeapons: string[];
+  allPlayers: Player[] = PLAYERS;
+
   selectedPlayer?: Player;
 
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private gameService: GameService,
     private router: Router,
-    private messageService: MessageService) { }
+    private messageService: MessageService) {
+
+    this.allWeapons = [
+      WeaponType[WeaponType.CANDLESTICK],
+      WeaponType[WeaponType.DAGGER],
+      WeaponType[WeaponType.LEAD_PIPE],
+      WeaponType[WeaponType.REVOLVER],
+      WeaponType[WeaponType.ROPE],
+      WeaponType[WeaponType.WRENCH]
+    ]
+
+    this.allRooms = [];
+    this.clueMap.forEach(row => {
+      row.forEach(roomItem => {
+        this.allRooms.push(roomItem.name);
+      })
+    })
+  }
 
   ngOnInit(): void {
     this.getGameSession();
@@ -165,4 +200,45 @@ export class GameSessionComponent implements OnInit {
         })
     }
   }
+
+  /**
+   * Method to make suggestion
+   */
+  makeSuggestion() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+    const suspect = this.suggestionSuspect?.value;
+    const weapon = this.suggestionWeapon?.value;
+    this.gameService.makeSuggestion(gameId, userId, suspect, weapon)
+      .subscribe(() => {
+        this.gameService.getGameStatus(gameId)
+          .subscribe(g => {
+            this.gameState = g;
+            this.resetPlayerOccupancy();
+          })
+      });
+
+  }
+
+
+  changeSuggestionWeapon(e: any) {
+    this.suggestionWeapon?.setValue(e.target.value, {
+      onlySelf: true
+    })
+  }
+
+  get suggestionWeapon() {
+    return this.suggestionForm.get('weaponType');
+  }
+
+  changeSuggestionSuspect(e: any) {
+    this.suggestionSuspect?.setValue(e.target.value, {
+      onlySelf: true
+    })
+  }
+
+  get suggestionSuspect() {
+    return this.suggestionForm.get('suspect');
+  }
+
 }

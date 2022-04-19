@@ -12,7 +12,9 @@ export const environment = {
   exitGameApiUrl: "exitgame",
   startGameApiUrl: "startgame",
   gameStatusApiUrl: "status",
-  movePlayerApiUrl: "playgame"
+  playGameApiUrl: "playgame",
+  movePlayerApiUrl: "move",
+  suggestApiUrl: "suggestion"
 };
 
 /*

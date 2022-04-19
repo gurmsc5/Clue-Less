@@ -51,6 +51,25 @@
     <button type="button" class="move-down" title="move down"
             (click)="moveDown()">Move Down</button>
   </div>
+  <div class="container">
+    <form [formGroup]="suggestionForm" (ngSubmit)="makeSuggestion()">
+      <div class="mb-3">
+        <select class="select-weapon" (change)="changeSuggestionWeapon($event)" formControlName="weaponType">
+          <option value="">Choose weapon to suggest</option>
+          <option *ngFor="let weapon of allWeapons" [ngValue]="weapon">{{weapon}}</option>
+        </select>
+        <select class="select-suspect" (change)="changeSuggestionSuspect($event)" formControlName="suspect">
+          <option value="">Choose suspect to suggest</option>
+          <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect.name}}</option>
+        </select>
+      </div>
+      <button type="submit"
+              [disabled]="!suggestionForm.valid">
+        Make Suggestion
+      </button>
+    </form>
+  </div>
+
   <button type="button" class="exit" (click)="exitGame()">Exit Game</button>
 </div>
 
