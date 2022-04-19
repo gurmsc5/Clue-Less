@@ -250,7 +250,7 @@ public class GameController {
       String result =targetGame.makeSuggestion(userId, suspect, weapon);
 
       if (result.equals("suggestion")) {
-         resultObject.addProperty("UserId","userId has made suggestion!");
+         resultObject.addProperty("UserId",userId + " has made suggestion!");
          resultObject.addProperty("Message","success");
 
       }

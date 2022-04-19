@@ -8,8 +8,10 @@ public class Coordinates {
         y=Y;
     }
     Coordinates(String location){
-        x= (int) location.charAt(1);
-        y= (int) location.charAt(3);;
+        x= Character.getNumericValue(location.charAt(1));
+        y= Character.getNumericValue(location.charAt(3));
+        System.out.println(location);
+        System.out.println("x: "+x+" y: "+y);
     }
     public Integer getX(){
         return x;
