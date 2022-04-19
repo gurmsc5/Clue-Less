@@ -260,6 +260,28 @@ public class GameController {
       }
       return resultObject.toString();
    }
+   @RequestMapping(value="/playgame/{gameId}/accusation", produces="application/json")
+   @PutMapping
+   public String handleAccusation(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId,
+                                  @RequestParam(value="suspect") String suspect,
+                                  @RequestParam(value="room") String room, // location format-> (x,y)
+                                  @RequestParam(value="weapon") String weapon) {
+      JsonObject resultObject = new JsonObject();
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      String result =targetGame.makeAccusation(userId,suspect, room, weapon);
+
+      if (result.contains("won")) {
+         resultObject.addProperty("Message",result);
+         resultObject.addProperty("winner",userId);
+
+      }
+      else {
+         resultObject.addProperty("Message",result);
+         resultObject.addProperty("Message","success");
+      }
+
+      return resultObject.toString();
+   }
 
 
 
