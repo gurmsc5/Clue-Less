@@ -266,15 +266,33 @@ public class Game {
    /*
    this method make a suggestion
     */
-   public boolean makeSuggestion(String userId, String suspect, String location ,String weapon){
+   public String makeSuggestion(String userId, String suspect, String location ,String weapon){
+
       String playerName = userToPlayerMap.get(userId);
       if(hasMadeSuggestion.get(playerName)){ //if player has already made suggestion return error
-         return false;
+         return "error player has already made suggestion";
       }
-      hasMadeSuggestion.put(playerName,true);
+      hasMoved.put(suspect,true);
+      Player Suspect =getPlayer(suspect);
+      Suspect.getAvailableMove().add("suggestion");
+      hasMadeSuggestion.put(playerName,true); // player is allowed to make suggestion and makes it.
+      getUserPlayer(userId).getAvailableMove().remove("suggestion");
 
 
-      return false;
+      return playerName+" suggested that"+ suspect + " is suspect with weapon "+ weapon;
+   }
+   public String makeAccusation(String userId, String suspect, String room ,String weapon){
+
+      String playerName = userToPlayerMap.get(userId);
+      if(suspect == this.cardFile.reveal().get(0).getName() &&
+      weapon== this.cardFile.reveal().get(1).getName() &&
+      room == this.cardFile.reveal().get(2).getName())
+      {
+         return playerName+ "has correctly guess and won";
+      }
+      // TODO need to end the game when the user's accusation is incorrect
+      userExit(userId);
+      return playerName+" accused that"+ suspect + " is murderer with weapon "+ weapon +"which is false. You lose";
    }
 
    /*
