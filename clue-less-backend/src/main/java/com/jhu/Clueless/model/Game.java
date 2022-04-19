@@ -272,6 +272,7 @@ public class Game {
       if(!hasMoved.get(playerName)){
          return "Player "+playerName+" has not moved this round nor been moved previously";
       }
+      System.out.println("User:: "+userId+" suggests -> { suspect: "+suspect+", weapon: "+weapon);
       // get caller location
       String callerKey = playerLocation.get(playerName).CoordinatesToString();
       Location callerLoc = Map.mainMap.get(callerKey);
