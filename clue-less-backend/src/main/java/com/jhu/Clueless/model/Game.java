@@ -271,7 +271,7 @@ public class Game {
       if(hasMadeSuggestion.get(playerName)){ //if player has already made suggestion return error
          return "Player "+playerName+" has already made the suggestion in this round!";
       }
-      if(hasMoved.get(playerName)){
+      if(!hasMoved.get(playerName)){
          return "Player "+playerName+" has not moved this round nor been moved previously";
       }
       // get caller location
