@@ -1,9 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
 import { Injectable } from '@angular/core';
 import { Observable, of, retry } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Lobby } from './lobby';
-
+import { playerinfo } from './playerinfo';
 import { environment } from '../environments/environment';
 import { MessageService } from './message.service';
 import { Player } from './player';
@@ -17,7 +19,7 @@ const env = environment;
 })
 export class GameService {
 
-  private baseApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}`;
+  private baseApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}/ws`;
   private selectPlayerApiUrl = `${this.baseApiUrl}/${env.selectPlayerApiUrl}`;
   private lobbyApiUrl = `${this.baseApiUrl}/${env.lobbyApiUrl}`;
   private createGameApiUrl = `${this.baseApiUrl}/${env.createGameApiUrl}`;
@@ -25,8 +27,38 @@ export class GameService {
   private startGameApiUrl = `${this.baseApiUrl}/${env.startGameApiUrl}`;
   private gameStatusApiUrl = `${this.baseApiUrl}/${env.gameStatusApiUrl}`;
   private playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
-
-
+  // private webSocketEndPoint: string = 'http://localhost:8080/ws';
+  stompClient:any;
+  game:string ="/game/joingame/";
+  _connect() {
+    console.log("Initialize WebSocket Connection");
+    let ws = new SockJS(this.baseApiUrl);
+    this.stompClient = Stomp.over(ws);
+    const _this = this;
+    _this.stompClient.connect({}, function (frame) {
+        _this.stompClient.subscribe(_this.game, function (sdkEvent) {
+            _this.onMessageReceived(sdkEvent);
+        });
+        _this.stompClient.reconnect_delay = 2000;
+    }
+    , this.errorCallBack);
+};
+_disconnect() {
+  if (this.stompClient !== null) {
+      this.stompClient.disconnect();
+  }
+  console.log("Disconnected");
+}
+errorCallBack(error) {
+  console.log("errorCallBack -> " + error)
+  setTimeout(() => {
+      this._connect();
+  }, 5000);
+}
+onMessageReceived(message) {
+  console.log("Message Recieved from Server :: " + message);
+  // this.appComponent.handleMessage(JSON.stringify(message.body));
+}
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -74,6 +106,13 @@ export class GameService {
    */
   selectPlayer(player: Player, gameId: number): Observable<Player> {
     const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
+    this._connect();
+    const pinfo:playerinfo ={
+      gameid:String(gameId),
+      character: player.name,
+      userid:String(player.id),
+    };
+    this.stompClient.send("/app/joingame/", {}, JSON.stringify(pinfo));
     return this.http.post<Player>(selectPlayerUrl, player, this.httpOptions).pipe(
       tap((selectedPlayer: Player) => this.log(`Selected player w/ id=${selectedPlayer.id}`)),
       catchError(this.handleError<Player>('selectPlayer'))

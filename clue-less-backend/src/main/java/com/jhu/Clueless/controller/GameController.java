@@ -16,6 +16,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ import java.util.*;
 @Log4j2
 @CrossOrigin
 @RestController
+@Controller
 public class GameController {
 
    private final GameService gameService;
@@ -42,7 +46,8 @@ public class GameController {
    @param userCount: identify the number of active players in this game. single player game requires this filed to be 1
    @param size: identify the total number of players in the game. range[3,6]
     */
-   @RequestMapping(value="/game", produces="application/json")
+   @RequestMapping(value="/game/create", produces="application/json")
+
    @PostMapping
    public String createGame(@RequestParam(value="userCount") int userCount, @RequestParam(value="size") int size, @RequestParam(value="gameId") int gameId) {
       log.info("Request received to start a new game session with id: " +gameId);
@@ -55,7 +60,8 @@ public class GameController {
 
    }
 
-   @RequestMapping(value="/exitgame/{gameId}", produces="application/json")
+
+   @RequestMapping(value="/game/exitgame/{gameId}", produces="application/json")
    @PutMapping
    public String exitGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
       log.info("Request received to exit game with id: " +gameId+ " by userId: " +userId);
@@ -86,9 +92,16 @@ public class GameController {
    @param gameId: identify the target gameId the user tries to join
    @param character: identify the target suspect/character the user tries to control
     */
-   @RequestMapping(value="/joingame/{gameId}", produces="application/json")
-   @PutMapping
-   public ResponseEntity<?> joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
+   @MessageMapping("/joingame/")
+   @SendTo("/game/joingame/")
+   public ResponseEntity<?> joinGame(playerinfo message){
+   int gameId = Integer.getInteger(message.getGameid());
+   String playerName = message.getCharacter();
+   String userId = message.getUserid();
+//   }
+//   @RequestMapping(value="/game/joingame/{gameId}", produces="application/json")
+//   @PutMapping
+//   public ResponseEntity<?> joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
       JsonObject joinObject = new JsonObject();
       if (!GameList.getInstance().isGameExist(gameId)){
          joinObject.addProperty("Error","The target game session does not exist!");
@@ -133,7 +146,7 @@ public class GameController {
    # maxUserAllowed: maximum allowed Users in this game
     */
 
-   @RequestMapping(value="/api/lobby/{gameId}", produces="application/json")
+   @RequestMapping(value="/game/api/lobby/{gameId}", produces="application/json")
    @GetMapping
    public ResponseEntity<?> viewGameLobby(@PathVariable(value="gameId") int gameId) {
       log.debug("Received lobby information request for game id: " +gameId);
@@ -190,7 +203,7 @@ public class GameController {
    this method handle the POST request to perform a move action for a certain Player
     */
 
-   @RequestMapping(value="/playgame/{gameId}/move", produces="application/json")
+   @RequestMapping(value="/game/playgame/{gameId}/move", produces="application/json")
    @PostMapping
    public String move(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="action") String action) {
       JsonObject resultObject = new JsonObject();
@@ -209,7 +222,7 @@ public class GameController {
    /*
    print out game status
     */
-   @RequestMapping(value="/status/{gameId}", produces="application/json")
+   @RequestMapping(value="/game/status/{gameId}", produces="application/json")
    @GetMapping
    public ResponseEntity<?> gameStatus(@PathVariable(value="gameId") int gameId) {
 
@@ -223,7 +236,7 @@ public class GameController {
    /*
    end a user/player turn
     */
-   @RequestMapping(value="/playgame/{gameId}/endturn", produces="application/json")
+   @RequestMapping(value="/game/playgame/{gameId}/endturn", produces="application/json")
    @PutMapping
    public String endTurn(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId) {
       JsonObject resultObject = new JsonObject();
@@ -240,7 +253,7 @@ public class GameController {
 
       return resultObject.toString();
    }
-   @RequestMapping(value="/playgame/{gameId}/suggestion", produces="application/json")
+   @RequestMapping(value="/game/playgame/{gameId}/suggestion", produces="application/json")
    @PutMapping
    public String handleSuggestion(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId,
                                   @RequestParam(value="suspect") String suspect,
@@ -260,7 +273,7 @@ public class GameController {
       }
       return resultObject.toString();
    }
-   @RequestMapping(value="/playgame/{gameId}/accusation", produces="application/json")
+   @RequestMapping(value="/game/playgame/{gameId}/accusation", produces="application/json")
    @PutMapping
    public String handleAccusation(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId,
                                   @RequestParam(value="suspect") String suspect,
