@@ -30,11 +30,13 @@ export class GameService {
   private playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
 
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders(
+      {'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': 'true'
+      })
   };
 
   stompClient: any;
-  game: string = "/game/joingame/";
 
   _connect() {
     console.log("Initialize WebSocket Connection");
@@ -45,8 +47,9 @@ export class GameService {
       'Access-Control-Allow-Origin': true
     };
     _this.stompClient.connect(headers, function (frame) {
-        _this.stompClient.subscribe(_this.game, function (sdkEvent) {
+        _this.stompClient.subscribe("/game/lobby", function (sdkEvent) {
           _this.onMessageReceived(sdkEvent);
+          console.log(JSON.parse(sdkEvent.body).content);
         });
         _this.stompClient.reconnect_delay = 2000;
       }
@@ -68,7 +71,7 @@ export class GameService {
   }
 
   onMessageReceived(message) {
-    console.log("Message Recieved from Server :: " + message);
+    console.log("Message Received from Server :: " + message);
     // this.appComponent.handleMessage(JSON.stringify(message.body));
   }
 
@@ -116,19 +119,20 @@ export class GameService {
    * @param player - Player character selected by user
    * @param gameId - ID of the game session
    */
-  selectPlayer(player: Player, gameId: number): Observable<Player> {
-    const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
+  selectPlayer(player: Player, gameId: number): void {
+    //const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
     const pinfo: playerinfo = {
       gameid: String(gameId),
       character: player.name,
       userid: String(player.id),
     };
-    this.stompClient.send("/clueless/game/joingame/", {}, JSON.stringify(pinfo));
-
+    this.stompClient.send("/clueless/joingame", {}, JSON.stringify(pinfo));
+/*
     return this.http.post<Player>(selectPlayerUrl, player, this.httpOptions).pipe(
       tap((selectedPlayer: Player) => this.log(`Selected player w/ id=${selectedPlayer.id}`)),
       catchError(this.handleError<Player>('selectPlayer'))
     );
+ */
   }
 
   /**

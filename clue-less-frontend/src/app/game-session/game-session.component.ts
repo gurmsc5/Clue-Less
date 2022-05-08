@@ -128,8 +128,8 @@ export class GameSessionComponent implements OnInit {
    */
   onSelect(player: Player): void {
     if (this.lobby) {
-      this.gameService.selectPlayer(player, this.lobby.id)
-        .subscribe(p => this.selectedPlayer = p);
+      this.gameService.selectPlayer(player, this.lobby.id);
+        //.subscribe(p => this.selectedPlayer = p);
     }
   }
 

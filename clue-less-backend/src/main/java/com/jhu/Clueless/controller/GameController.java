@@ -91,10 +91,10 @@ public class GameController {
     @param gameId: identify the target gameId the user tries to join
     @param character: identify the target suspect/character the user tries to control
      */
-    @MessageMapping("/joingame/")
-    @SendTo("/game/joingame/")
-    public ResponseEntity<?> joinGame(playerinfo message) {
-        int gameId = Integer.getInteger(message.getGameid());
+    @MessageMapping("/joingame")
+    @SendTo("/game/lobby")
+    public String joinGame(playerinfo message) {
+        int gameId = Integer.parseInt(message.getGameid());
         String playerName = message.getCharacter();
         String userId = message.getUserid();
 //   }
@@ -105,14 +105,16 @@ public class GameController {
         if (!GameList.getInstance().isGameExist(gameId)) {
             joinObject.addProperty("Error", "The target game session does not exist!");
             joinObject.addProperty("Message", "fail");
-            return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+            return joinObject.toString();
         }
 
         Game targetGame = GameList.getInstance().getGame(gameId);
         if (!targetGame.availablePlayers().containsKey(playerName)) {
             joinObject.addProperty("Error", "The target suspect is selected by other user!");
             joinObject.addProperty("Message", "fail");
-            return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+            //return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+            return joinObject.toString();
         }
         if (targetGame.userJoin(userId)) {
             targetGame.userSelectPlayer(userId, playerName);
@@ -123,14 +125,16 @@ public class GameController {
 
             // Return player info
             Player player = targetGame.getUserPlayer(userId);
-            return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
+            Gson gson = new Gson();
+            return gson.toJson(player);
+            //return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
 
         } else {
             joinObject.addProperty("Error", "userId already in the game or already reach the maximum allowed users count");
             joinObject.addProperty("Message", "fail");
         }
 
-        return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+        return joinObject.toString();
     }
 
    /*
