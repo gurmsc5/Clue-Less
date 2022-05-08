@@ -81,7 +81,7 @@ export class GameService implements OnDestroy {
   }
 
   onMessageReceived(message) {
-    console.log("Message Received from Server :: " + message);
+    console.log("Game status received from Server");
     this.gameDataSubject.next(message.body);
   }
   /**
@@ -220,7 +220,7 @@ export class GameService implements OnDestroy {
     const suggestionUrl = `${this.playGameApiUrl}/${gameId}/suggestion?userId=${userId}&suspect=${suspect}&weapon=${weapon}`;
 
     return this.http.post<any>(suggestionUrl, this.httpOptions).pipe(
-      tap(() => this.log(`Player w/ id =  w/ id=${userId} successfully made suggestion`)),
+      tap(() => this.log(`Player w/ id =  w/ id=${userId} attempted suggestion action`)),
       catchError(this.handleError<any>('makeSuggestion'))
     )
   }

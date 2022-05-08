@@ -60,7 +60,7 @@
         </select>
         <select class="select-suspect" (change)="changeSuggestionSuspect($event)" formControlName="suspect">
           <option value="">Choose suspect to suggest</option>
-          <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect.name}}</option>
+          <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect}}</option>
         </select>
       </div>
       <button type="submit"

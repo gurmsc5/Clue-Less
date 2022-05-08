@@ -80,8 +80,7 @@ public class GameController {
             exitObject.addProperty("Error", "userId not found or already exited");
             exitObject.addProperty("Message", "fail");
         }
-
-        gameService.sendGameStatusUpdate(gameId);
+        
         return exitObject.toString();
 
     }
@@ -128,7 +127,7 @@ public class GameController {
             // Return player info
             Player player = targetGame.getUserPlayer(userId);
             Gson gson = new Gson();
-            gameService.sendGameStatusUpdate(gameId);
+            
             //return gson.toJson(player);
             return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
 
@@ -136,7 +135,7 @@ public class GameController {
             joinObject.addProperty("Error", "userId already in the game or already reach the maximum allowed users count");
             joinObject.addProperty("Message", "fail");
         }
-       gameService.sendGameStatusUpdate(gameId);
+       
        return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
     }
 
@@ -199,7 +198,7 @@ public class GameController {
         Map<String, Player> players = targetGame.availablePlayers();
 
         lobby.setPlayers(new HashSet<>(players.values()));
-        gameService.sendGameStatusUpdate(gameId);
+        
         return new ResponseEntity<>(lobby, HttpStatus.ACCEPTED);
     }
 
@@ -220,7 +219,7 @@ public class GameController {
             resultObject.addProperty("Error", "something wrong happens");
             resultObject.addProperty("Message", "fail");
         }
-        gameService.sendGameStatusUpdate(gameId);
+        
         return resultObject.toString();
     }
 
@@ -258,7 +257,7 @@ public class GameController {
             resultObject.addProperty("Error", msg);
             resultObject.addProperty("Message", "fail");
         }
-        gameService.sendGameStatusUpdate(gameId);
+        
         return resultObject.toString();
     }
 
@@ -280,7 +279,7 @@ public class GameController {
             resultObject.addProperty("Error", result);
             resultObject.addProperty("Message", "fail");
         }
-        gameService.sendGameStatusUpdate(gameId);
+        
         return resultObject.toString();
     }
 
@@ -302,7 +301,7 @@ public class GameController {
             resultObject.addProperty("Message", result);
             resultObject.addProperty("Message", "success");
         }
-        gameService.sendGameStatusUpdate(gameId);
+        
         return resultObject.toString();
     }
 
