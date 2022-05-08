@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  enableInterceptors: false,
   gameServerPort: "8088",
   gameServerApiUrl: "http://localhost",
   lobbyApiUrl: "game/api/lobby",

@@ -90,6 +90,20 @@ export class GameSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGameSession();
+    this.getUpdatedGameStatus();
+  }
+
+
+  getUpdatedGameStatus() {
+    this.gameService.getUpdatedGameStatus().subscribe(resp => {
+      if (typeof(resp) === "string"){
+        this.gameState = JSON.parse(resp) as Game;
+      }
+      else {
+        this.gameState = resp as Game;
+      }
+      this.resetPlayerOccupancy();
+    })
   }
 
   /**
@@ -99,14 +113,6 @@ export class GameSessionComponent implements OnInit {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.gameService.getLobby(gameId)
      .subscribe(l => this.lobby = l);
-
-    this.gameService.getGameStatus(gameId)
-      .subscribe(g => {
-        this.gameState = g;
-
-        this.resetPlayerOccupancy();
-
-      });
   }
 
   /**
@@ -128,8 +134,8 @@ export class GameSessionComponent implements OnInit {
    */
   onSelect(player: Player): void {
     if (this.lobby) {
-      this.gameService.selectPlayer(player, this.lobby.id);
-        //.subscribe(p => this.selectedPlayer = p);
+      this.gameService.selectPlayer(player, this.lobby.id)
+        .subscribe(p => this.selectedPlayer = p);
     }
   }
 
@@ -156,10 +162,15 @@ export class GameSessionComponent implements OnInit {
       })
     })
 
+    if (this.gameState == null)
+      return;
+
+    console.log("Updated game state: " +this.gameState);
+
     let playerKeys: string[];
-    playerKeys = Object.keys(this.gameState?.playerLocation!);
+    playerKeys = Object.keys(this.gameState.playerLocation);
     playerKeys.forEach(k => {
-      let playerLoc: PlayerLocation = this.gameState?.playerLocation[k]!;
+      let playerLoc: PlayerLocation = this.gameState.playerLocation[k];
 
       if (playerLoc) {
         this.clueMap[playerLoc.x][playerLoc.y].playerOccupancy = k;
@@ -192,14 +203,11 @@ export class GameSessionComponent implements OnInit {
     if (this.selectedPlayer && this.gameState) {
       this.gameService.movePlayer(this.selectedPlayer.id, this.gameState.gameId, action)
         .subscribe(() => {
-          this.gameService.getGameStatus(gameId)
-            .subscribe(g => {
-              this.gameState = g;
-              this.resetPlayerOccupancy();
-            })
+          this.getUpdatedGameStatus();
         })
     }
   }
+
 
   /**
    * Method to make suggestion
@@ -211,11 +219,7 @@ export class GameSessionComponent implements OnInit {
     const weapon = this.suggestionWeapon?.value;
     this.gameService.makeSuggestion(gameId, userId, suspect, weapon)
       .subscribe(() => {
-        this.gameService.getGameStatus(gameId)
-          .subscribe(g => {
-            this.gameState = g;
-            this.resetPlayerOccupancy();
-          })
+        this.getUpdatedGameStatus();
       });
 
   }

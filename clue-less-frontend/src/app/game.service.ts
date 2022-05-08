@@ -1,8 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import {Injectable} from '@angular/core';
-import {Observable, of, retry} from 'rxjs';
+import {Injectable, OnDestroy} from '@angular/core';
+import {BehaviorSubject, Observable, of, retry} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {Lobby} from './lobby';
 import {playerinfo} from './playerinfo';
@@ -17,7 +17,7 @@ const env = environment;
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
+export class GameService implements OnDestroy {
 
   private baseApiUrl = `${env.gameServerApiUrl}:${env.gameServerPort}`;
   private webSocketEndPoint = `${this.baseApiUrl}/ws`;
@@ -37,6 +37,19 @@ export class GameService {
   };
 
   stompClient: any;
+  gameState: Game = null;
+  private gameDataSubject = new BehaviorSubject<Game>(undefined);
+
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService) {
+    this._connect();
+  }
+
+  ngOnDestroy(): void {
+    this.gameDataSubject.unsubscribe();
+    this._disconnect();
+  }
 
   _connect() {
     console.log("Initialize WebSocket Connection");
@@ -47,13 +60,17 @@ export class GameService {
       'Access-Control-Allow-Origin': true
     };
     _this.stompClient.connect(headers, function (frame) {
-        _this.stompClient.subscribe("/game/lobby", function (sdkEvent) {
+        _this.stompClient.subscribe("/game/status", function (sdkEvent) {
           _this.onMessageReceived(sdkEvent);
-          console.log(JSON.parse(sdkEvent.body).content);
         });
         _this.stompClient.reconnect_delay = 2000;
       }
-      );
+      , function(e) {
+        console.log("Game status WS error callback: " +e);
+        setTimeout(() => {
+          _this._connect();
+        }, 5000);
+      });
   };
 
   _disconnect() {
@@ -63,23 +80,20 @@ export class GameService {
     console.log("Disconnected");
   }
 
-  errorCallBack(error) {
-    console.log("errorCallBack -> " + error)
-    setTimeout(() => {
-      this._connect();
-    }, 5000);
-  }
-
   onMessageReceived(message) {
     console.log("Message Received from Server :: " + message);
-    // this.appComponent.handleMessage(JSON.stringify(message.body));
+    this.gameDataSubject.next(message.body);
+  }
+  /**
+   * Get game status information via websocket
+   * @param gameId - unique game ID to get status info for
+   */
+  getGameStatus(gameId: number): void {
+    this.stompClient.send("/clueless/get-status", {}, gameId);
   }
 
-
-  constructor(
-    private http: HttpClient,
-    private messageService: MessageService) {
-    this._connect();
+  getUpdatedGameStatus(): Observable<Game> {
+    return this.gameDataSubject.asObservable();
   }
 
   /**
@@ -102,10 +116,11 @@ export class GameService {
   /**
    * Get game status information
    * @param gameId - game to get status information for
-   */
-  getGameStatus(gameId: number): Observable<Game> {
+
+  getGameStatus(gameId: number): void {
     this.log("Sending request to fetch game status info");
     const gameStatusUrl = `${this.gameStatusApiUrl}/${gameId}`;
+
     return this.http.get<Game>(gameStatusUrl).pipe(
       tap(game => {
         this.log(`fetched game status info: ${game.gameId}`);
@@ -113,26 +128,23 @@ export class GameService {
       catchError(this.handleError<Game>('getGameStatus'))
     );
   }
+   */
+
+
 
   /**
    * Request to select a player for a given game session
    * @param player - Player character selected by user
    * @param gameId - ID of the game session
    */
-  selectPlayer(player: Player, gameId: number): void {
-    //const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
-    const pinfo: playerinfo = {
-      gameid: String(gameId),
-      character: player.name,
-      userid: String(player.id),
-    };
-    this.stompClient.send("/clueless/joingame", {}, JSON.stringify(pinfo));
-/*
+  selectPlayer(player: Player, gameId: number): Observable<Player> {
+    const selectPlayerUrl = `${this.selectPlayerApiUrl}/${gameId}?userId=${player.id}&character=${player.name}`;
+    //this.stompClient.send("/clueless/joingame", {}, JSON.stringify(pinfo));
+
     return this.http.post<Player>(selectPlayerUrl, player, this.httpOptions).pipe(
       tap((selectedPlayer: Player) => this.log(`Selected player w/ id=${selectedPlayer.id}`)),
       catchError(this.handleError<Player>('selectPlayer'))
     );
- */
   }
 
   /**
@@ -196,7 +208,14 @@ export class GameService {
 
   }
 
-
+  /**
+   * Send request to backend for player's suggestion action
+   *
+   * @param gameId - unique game ID
+   * @param userId - user making the suggestion
+   * @param suspect - suspect of the suggestion
+   * @param weapon - weapon used
+   */
   makeSuggestion(gameId: number, userId: number, suspect: string, weapon: string) {
     const suggestionUrl = `${this.playGameApiUrl}/${gameId}/suggestion?userId=${userId}&suspect=${suspect}&weapon=${weapon}`;
 

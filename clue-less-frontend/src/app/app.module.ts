@@ -39,7 +39,7 @@ import { JoinExistingGameComponent } from './join-existing-game/join-existing-ga
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
-        !environment.production ? HttpClientInMemoryWebApiModule.forRoot(
+        environment.enableInterceptors ? HttpClientInMemoryWebApiModule.forRoot(
             InMemoryDataService, {dataEncapsulation: false}
         ) : [],
         BrowserAnimationsModule,
@@ -55,7 +55,7 @@ import { JoinExistingGameComponent } from './join-existing-game/join-existing-ga
         ReactiveFormsModule,
     ],
   providers: [
-    !environment.production ? httpInterceptorProviders : []
+    environment.enableInterceptors ? httpInterceptorProviders : []
   ],
   bootstrap: [AppComponent]
 })

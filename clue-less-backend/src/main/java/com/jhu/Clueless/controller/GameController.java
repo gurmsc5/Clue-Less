@@ -81,6 +81,7 @@ public class GameController {
             exitObject.addProperty("Message", "fail");
         }
 
+        gameService.sendGameStatusUpdate(gameId);
         return exitObject.toString();
 
     }
@@ -91,6 +92,7 @@ public class GameController {
     @param gameId: identify the target gameId the user tries to join
     @param character: identify the target suspect/character the user tries to control
      */
+    /**
     @MessageMapping("/joingame")
     @SendTo("/game/lobby")
     public String joinGame(playerinfo message) {
@@ -98,23 +100,23 @@ public class GameController {
         String playerName = message.getCharacter();
         String userId = message.getUserid();
 //   }
-//   @RequestMapping(value="/game/joingame/{gameId}", produces="application/json")
-//   @PutMapping
-//   public ResponseEntity<?> joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
+    */
+   @RequestMapping(value="/game/joingame/{gameId}", produces="application/json")
+   @PutMapping
+   public ResponseEntity<?> joinGame(@PathVariable(value="gameId") int gameId, @RequestParam(value="userId") String userId, @RequestParam(value="character") String playerName) {
         JsonObject joinObject = new JsonObject();
         if (!GameList.getInstance().isGameExist(gameId)) {
             joinObject.addProperty("Error", "The target game session does not exist!");
             joinObject.addProperty("Message", "fail");
-            //return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
-            return joinObject.toString();
+            return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
+            //return joinObject.toString();
         }
 
         Game targetGame = GameList.getInstance().getGame(gameId);
         if (!targetGame.availablePlayers().containsKey(playerName)) {
             joinObject.addProperty("Error", "The target suspect is selected by other user!");
             joinObject.addProperty("Message", "fail");
-            //return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
-            return joinObject.toString();
+            //return joinObject.toString();
         }
         if (targetGame.userJoin(userId)) {
             targetGame.userSelectPlayer(userId, playerName);
@@ -126,15 +128,16 @@ public class GameController {
             // Return player info
             Player player = targetGame.getUserPlayer(userId);
             Gson gson = new Gson();
-            return gson.toJson(player);
-            //return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
+            gameService.sendGameStatusUpdate(gameId);
+            //return gson.toJson(player);
+            return new ResponseEntity<>(player, HttpStatus.ACCEPTED);
 
         } else {
             joinObject.addProperty("Error", "userId already in the game or already reach the maximum allowed users count");
             joinObject.addProperty("Message", "fail");
         }
-
-        return joinObject.toString();
+       gameService.sendGameStatusUpdate(gameId);
+       return new ResponseEntity<>(joinObject, HttpStatus.BAD_REQUEST);
     }
 
    /*
@@ -196,7 +199,7 @@ public class GameController {
         Map<String, Player> players = targetGame.availablePlayers();
 
         lobby.setPlayers(new HashSet<>(players.values()));
-
+        gameService.sendGameStatusUpdate(gameId);
         return new ResponseEntity<>(lobby, HttpStatus.ACCEPTED);
     }
 
@@ -217,21 +220,26 @@ public class GameController {
             resultObject.addProperty("Error", "something wrong happens");
             resultObject.addProperty("Message", "fail");
         }
+        gameService.sendGameStatusUpdate(gameId);
         return resultObject.toString();
     }
 
     /*
     print out game status
-     */
+
     @RequestMapping(value = "/game/status/{gameId}", produces = "application/json")
     @GetMapping
     public ResponseEntity<?> gameStatus(@PathVariable(value = "gameId") int gameId) {
-
+*/
+    @MessageMapping("/get-status")
+    @SendTo("/game/status")
+    public String gameStatus(int gameId) {
+        log.debug("Received request for game status for game id: " +gameId);
         Game targetGame = GameList.getInstance().getGame(gameId);
         Gson gson = new Gson();
-        String result = gson.toJson(targetGame);
+        return gson.toJson(targetGame);
 
-        return new ResponseEntity(result, HttpStatus.ACCEPTED);
+        //return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
     }
 
     /*
@@ -250,13 +258,14 @@ public class GameController {
             resultObject.addProperty("Error", msg);
             resultObject.addProperty("Message", "fail");
         }
-
+        gameService.sendGameStatusUpdate(gameId);
         return resultObject.toString();
     }
 
     @RequestMapping(value = "/game/playgame/{gameId}/suggestion", produces = "application/json")
     @PutMapping
-    public String handleSuggestion(@PathVariable(value = "gameId") int gameId, @RequestParam(value = "userId") String userId,
+    public String handleSuggestion(@PathVariable(value = "gameId") int gameId,
+                                   @RequestParam(value = "userId") String userId,
                                    @RequestParam(value = "suspect") String suspect,
                                    @RequestParam(value = "weapon") String weapon) {
         JsonObject resultObject = new JsonObject();
@@ -271,6 +280,7 @@ public class GameController {
             resultObject.addProperty("Error", result);
             resultObject.addProperty("Message", "fail");
         }
+        gameService.sendGameStatusUpdate(gameId);
         return resultObject.toString();
     }
 
@@ -292,7 +302,7 @@ public class GameController {
             resultObject.addProperty("Message", result);
             resultObject.addProperty("Message", "success");
         }
-
+        gameService.sendGameStatusUpdate(gameId);
         return resultObject.toString();
     }
 
