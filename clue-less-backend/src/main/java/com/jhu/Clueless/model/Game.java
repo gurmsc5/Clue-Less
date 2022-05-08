@@ -303,9 +303,9 @@ public class Game {
    public String makeAccusation(String userId, String suspect, String room ,String weapon){
 
       String playerName = userToPlayerMap.get(userId);
-      if(suspect == this.cardFile.reveal().get(0).getName() &&
-              weapon== this.cardFile.reveal().get(1).getName() &&
-              room == this.cardFile.reveal().get(2).getName())
+      if(suspect.equals(this.cardFile.reveal().get(0).getName()) &&
+              weapon.equals(this.cardFile.reveal().get(1).getName()) &&
+              room.equals(this.cardFile.reveal().get(2).getName()))
       {
          return playerName+ "has correctly guess and won";
       }
