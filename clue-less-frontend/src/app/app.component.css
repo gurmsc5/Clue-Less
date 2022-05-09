@@ -1,3 +1,11 @@
 h1 {
-  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+div {
+ background-image: '/assets/Banner Background.jpg';
+ background-size: cover;
+ background-repeat: no-repeat;
 }

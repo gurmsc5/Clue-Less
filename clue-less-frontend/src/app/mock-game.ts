@@ -12,7 +12,7 @@ export const MOCKGAME: Game = {
       id: 1,
       name: "Professor Plum",
       color: "purple",
-      available: true,
+      available: false,
       cardInHand: [
         {
           type: "ROOM",
