@@ -17,13 +17,6 @@ a {
   flex: 0 1 auto;
   align-self: auto;
 }
-.background-image {
-  position: absolute;
-  top: 0;
-  z-index: -3;
-  width: 100%;
-  height: 100%;
-}
 .game-session-options {
   display: flex;
   justify-content: center;
