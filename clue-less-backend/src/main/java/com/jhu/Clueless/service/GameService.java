@@ -6,8 +6,14 @@ it preserves all active Game objects in memory
 
 package com.jhu.Clueless.service;
 
+import com.google.gson.Gson;
 import com.jhu.Clueless.model.Game;
 import com.jhu.Clueless.model.GameList;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,8 +21,25 @@ import java.util.Arrays;
 import java.util.List;
 
 
+@Log4j2
 @Service
 public class GameService {
+
+   @Value("${game.id}")
+   private int gameId;
+
+   @Autowired
+   private SimpMessagingTemplate template;
+
+   @Scheduled(fixedRate = 2000)
+   public void sendGameStatusUpdate(){
+      log.debug("Sending game status update for ID: " +gameId);
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      Gson gson = new Gson();
+
+      this.template.convertAndSend("/game/status", gson.toJson(targetGame));
+   }
+
 
    /*
    create a game session with predefined gameId

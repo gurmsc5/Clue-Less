@@ -60,7 +60,7 @@ export class GameSessionComponent implements OnInit {
 
   public allRooms: string[];
   public allWeapons: string[];
-  allPlayers: Player[] = PLAYERS;
+  allPlayers: string[] = [];
 
   selectedPlayer?: Player;
 
@@ -90,6 +90,22 @@ export class GameSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGameSession();
+    this.getUpdatedGameStatus();
+  }
+
+
+  getUpdatedGameStatus() {
+    this.gameService.getUpdatedGameStatus().subscribe(resp => {
+      if (typeof resp === "string"){
+        this.gameState = JSON.parse(resp) as Game;
+      }
+      else {
+        this.gameState = resp as Game;
+      }
+
+      this.allPlayers = Object.keys(this.gameState.playerList);
+      this.resetPlayerOccupancy();
+    })
   }
 
   /**
@@ -99,14 +115,6 @@ export class GameSessionComponent implements OnInit {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.gameService.getLobby(gameId)
      .subscribe(l => this.lobby = l);
-
-    this.gameService.getGameStatus(gameId)
-      .subscribe(g => {
-        this.gameState = g;
-
-        this.resetPlayerOccupancy();
-
-      });
   }
 
   /**
@@ -156,10 +164,13 @@ export class GameSessionComponent implements OnInit {
       })
     })
 
+    if (this.gameState == null)
+      return;
+
     let playerKeys: string[];
-    playerKeys = Object.keys(this.gameState?.playerLocation!);
+    playerKeys = Object.keys(this.gameState.playerLocation);
     playerKeys.forEach(k => {
-      let playerLoc: PlayerLocation = this.gameState?.playerLocation[k]!;
+      let playerLoc: PlayerLocation = this.gameState.playerLocation[k];
 
       if (playerLoc) {
         this.clueMap[playerLoc.x][playerLoc.y].playerOccupancy = k;
@@ -188,18 +199,14 @@ export class GameSessionComponent implements OnInit {
    * @param action - desired movement
    */
   playerMovement(action: string) {
-    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     if (this.selectedPlayer && this.gameState) {
       this.gameService.movePlayer(this.selectedPlayer.id, this.gameState.gameId, action)
-        .subscribe(() => {
-          this.gameService.getGameStatus(gameId)
-            .subscribe(g => {
-              this.gameState = g;
-              this.resetPlayerOccupancy();
-            })
+        .subscribe((resp) => {
+          console.log(resp);
         })
     }
   }
+
 
   /**
    * Method to make suggestion
@@ -207,15 +214,12 @@ export class GameSessionComponent implements OnInit {
   makeSuggestion() {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     const userId = this.selectedPlayer?.id!;
-    const suspect = this.suggestionSuspect?.value;
-    const weapon = this.suggestionWeapon?.value;
+    const regex = /([0-9]): ([a-zA-Z. ]+)/;
+    const suspect = this.suggestionSuspect.value.match(regex)[2];
+    const weapon = this.suggestionWeapon.value.match(regex)[2];
     this.gameService.makeSuggestion(gameId, userId, suspect, weapon)
-      .subscribe(() => {
-        this.gameService.getGameStatus(gameId)
-          .subscribe(g => {
-            this.gameState = g;
-            this.resetPlayerOccupancy();
-          })
+      .subscribe((resp) => {
+        console.log(resp);
       });
 
   }
