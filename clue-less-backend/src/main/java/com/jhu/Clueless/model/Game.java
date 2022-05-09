@@ -219,6 +219,9 @@ public class Game {
       if (!getUserPlayer(userId).isAvailableMove(action)){
          return false;
       }
+      else if(stage.equals("disapproving")){
+         return false;
+      }
       else {
          String playerName = userToPlayerMap.get(userId);
          if (hasMoved.get(playerName)) {
@@ -269,6 +272,9 @@ public class Game {
     */
    public String makeSuggestion(String userId, String suspect,String weapon){
       String playerName = userToPlayerMap.get(userId);
+      if(stage.equals("disapproving")){
+         return "This is disapproving round, can not make suggestion";
+      }
       if(hasMadeSuggestion.get(playerName)){ //if player has already made suggestion return error
          return "Player "+playerName+" has already made the suggestion in this round!";
       }
@@ -304,18 +310,68 @@ public class Game {
 
       // update suggestion buffer
       // used by disapprove process
+      String room = callerLoc.getName();
       sugBuffer.add(suspect);
-      sugBuffer.add(callerLoc.getName());
+      sugBuffer.add(room);
       sugBuffer.add(weapon);
-
-      // stage the game to disapproving
-      stage = "disapproving";
-
-      return "suggestion";
+      // if the suggestion is correct
+      if(suspect.equals(this.cardFile.reveal().get(0).getName()) &&
+              weapon.equals(this.cardFile.reveal().get(1).getName()) &&
+              room.equals(this.cardFile.reveal().get(2).getName()))
+      {
+         // stage the game to complete
+         stage = "complete";
+         return playerName+ "has correctly guess and won";
+      }
+      // if the suggestion is not correct
+      // assign available action disapproving to all players that can disapprove
+      else {
+         // stage the game to disapproving
+         stage = "disapproving";
+         for (Player player : playerList.values()){
+            if (player.hasCard(suspect) || player.hasCard(weapon) || player.hasCard(room)) {
+               player.addAvailableMove("disapprove");
+            }
+         }
+         return "suggestion";
+      }
    }
+
+   /*
+   this method is used to disapprove someone else suggestion
+    */
+   public String disapprove(String userId){
+      if (!getUserPlayer(userId).isAvailableMove("disapprove")){
+         return userId + "cannot make disapprove.";
+      }
+      if (!stage.equals("disapproving")){
+         return "notturn for disapproving.";
+      }
+      // stage the game back to inprogress
+      stage = "inprogress";
+      // we don't need to remove available move "disapprove" from any applicable player
+      // since the game stage is already back to inprogress
+      // once the inTurn player end Turn
+      // available move list will be rebuilt
+      Player player = playerList.get(userToPlayerMap.get(userId));
+      if (player.hasCard(sugBuffer.get(0))) {
+         return sugBuffer.get(0);
+      } else if (player.hasCard(sugBuffer.get(1))) {
+         return sugBuffer.get(1);
+      } else {
+         return sugBuffer.get(2);
+      }
+   }
+
+   /*
+   this method is used to make accusation
+    */
    public String makeAccusation(String userId, String suspect, String room ,String weapon){
 
       String playerName = userToPlayerMap.get(userId);
+      if(!turn.isMyTurn(playerName) || stage.equals("disapproving")) {
+         return "notturn";
+      }
       if(suspect.equals(this.cardFile.reveal().get(0).getName()) &&
               weapon.equals(this.cardFile.reveal().get(1).getName()) &&
               room.equals(this.cardFile.reveal().get(2).getName()))
@@ -339,6 +395,9 @@ public class Game {
    public String endTurn(String userId) {
       String playerName = userToPlayerMap.get(userId);
       Player player = playerList.get(playerName);
+      if (stage.equals("disapproving")) {
+         return "Please wait for other players to disapprove your suggestion.";
+      }
       if (player.getAvailableMove().contains("suggestion") || !hasMadeSuggestion.get(playerName)) {
          return "Please make suggestion before ending your turn!";
       }

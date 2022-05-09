@@ -272,9 +272,12 @@ public class GameController {
         String result = targetGame.makeSuggestion(userId, suspect, weapon);
 
         if (result.equals("suggestion")) {
-            resultObject.addProperty("UserId", userId + " has made suggestion!");
+            resultObject.addProperty("UserId", userId + " has made suggestion! Please wait for potential disapprove.");
             resultObject.addProperty("Message", "success");
 
+        } else if (result.contains("won")) {
+           resultObject.addProperty("UserId", userId + " has made correct suggestion!");
+           resultObject.addProperty("Message", result);
         } else {
             resultObject.addProperty("Error", result);
             resultObject.addProperty("Message", "fail");
@@ -297,6 +300,9 @@ public class GameController {
             resultObject.addProperty("Message", result);
             resultObject.addProperty("winner", userId);
 
+        } else if(result.contains("notturn")) {
+           resultObject.addProperty("Message", "you can only make accusation in your turn");
+           resultObject.addProperty("Message", "fail");
         } else {
             resultObject.addProperty("Message", result);
             resultObject.addProperty("Message", "success");
@@ -304,6 +310,24 @@ public class GameController {
         
         return resultObject.toString();
     }
+
+   @RequestMapping(value = "/game/playgame/{gameId}/disapprove", produces = "application/json")
+   @PutMapping
+   public String disapprove(@PathVariable(value = "gameId") int gameId, @RequestParam(value = "userId") String userId){
+      JsonObject resultObject = new JsonObject();
+      Game targetGame = GameList.getInstance().getGame(gameId);
+      String result = targetGame.disapprove(userId);
+
+      if (result.contains("cannot") || result.contains("notturn")) {
+         resultObject.addProperty("Error", result);
+         resultObject.addProperty("Message", "fail");
+      } else {
+         resultObject.addProperty("UserId", userId + " has disapproved the suggestion! " + result + "is in his/her hand.");
+         resultObject.addProperty("Message", "successful");
+      }
+
+      return resultObject.toString();
+   }
 
 
 }

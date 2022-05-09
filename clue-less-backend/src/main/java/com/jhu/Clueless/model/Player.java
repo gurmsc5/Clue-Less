@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -56,6 +54,16 @@ public class Player extends Object {
    // re-initial the availableMove list
    public void refreshAvailableMove(){
       availableMove.clear();
+   }
+
+   // check if the given card is in hand thus be able to disapprove
+   public boolean hasCard(String cardName) {
+      for (Card item : cardInHand) {
+         if (item.getName().equals(cardName)){
+            return true;
+         }
+      }
+      return false;
    }
 
    @Override
