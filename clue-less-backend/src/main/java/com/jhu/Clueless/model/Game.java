@@ -15,7 +15,9 @@ public class Game {
    private Map<String, Coordinates> playerLocation;    // map each Player name to Location key
    private Map<String, Boolean> hasMadeSuggestion;      // track each Player status in order to define the available action
    private Map<String, Boolean> hasMoved;      // track each Player move status
+   private ArrayList<String> sugBuffer = new ArrayList<>();      // record the latest suggestion
    public Turn turn;
+   public String stage;
 
 
    private static final ArrayList<String> fullPlayerList = new ArrayList<>(Arrays.asList("Miss Scarlet", "Professor Plum", "Mr. Green", "Mrs. White", "Mrs. Peacock", "Colonel Mustard"));
@@ -42,6 +44,7 @@ public class Game {
       this.size = size;
       this.userList = new ArrayList<>();
       this.userAllowed = userAllowed;
+      this.stage = "inprogress";
 
       // initialize the Player/character
       this.playerList = new HashMap<>();
@@ -272,10 +275,10 @@ public class Game {
       if(!hasMoved.get(playerName)){
          return "Player "+playerName+" has not moved this round nor been moved previously";
       }
-      System.out.println("User:: "+userId+" suggests -> { suspect: "+suspect+", weapon: "+weapon);
       // get caller location
       String callerKey = playerLocation.get(playerName).CoordinatesToString();
       Location callerLoc = Map.mainMap.get(callerKey);
+      System.out.println("User:: "+userId+" suggests -> { suspect: "+suspect+", room: " + callerLoc.getName() + ", weapon: "+weapon);
       // get suspect location
       String suspectKey = playerLocation.get(suspect).CoordinatesToString();
       Location suspectLoc = Map.mainMap.get(suspectKey);
@@ -298,6 +301,16 @@ public class Game {
       callee.addAvailableMove("accusation");
       hasMoved.put(suspect, true);  // mark the callee as hasMoved so he can make suggestion directly next round
       hasMadeSuggestion.put(playerName,true);   // mark it hasMade suggestion this turn
+
+      // update suggestion buffer
+      // used by disapprove process
+      sugBuffer.add(suspect);
+      sugBuffer.add(callerLoc.getName());
+      sugBuffer.add(weapon);
+
+      // stage the game to disapproving
+      stage = "disapproving";
+
       return "suggestion";
    }
    public String makeAccusation(String userId, String suspect, String room ,String weapon){
@@ -307,11 +320,17 @@ public class Game {
               weapon.equals(this.cardFile.reveal().get(1).getName()) &&
               room.equals(this.cardFile.reveal().get(2).getName()))
       {
+         // stage the game to complete
+         stage = "complete";
          return playerName+ "has correctly guess and won";
       }
-      // TODO need to end the game when the user's accusation is incorrect
-      userExit(userId);
-      return playerName+" accused that"+ suspect + " is murderer with weapon "+ weapon +"which is false. You lose";
+      else {
+         // user exit the game
+         userExit(userId);
+         // unlink the user and the character
+         userToPlayerMap.remove(userId);
+         return playerName + " accused that" + suspect + " is the murderer with weapon " + weapon + " in " + room +" which is false. " + playerName + " has left the game!";
+      }
    }
 
    /*
@@ -336,7 +355,7 @@ public class Game {
          hasMadeSuggestion.put(playerName, false);
          hasMoved.put(playerName, false);
 
-         turn.nextTurn();;
+         turn.nextTurn();
          return "ended";
       }
    }

@@ -49,4 +49,6 @@ public class Location {
       return name.split("#").length == 2;
    }
 
+   public String getName() {return name;}
+
 }
