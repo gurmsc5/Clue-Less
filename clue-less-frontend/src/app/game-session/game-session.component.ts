@@ -63,6 +63,7 @@ export class GameSessionComponent implements OnInit {
   allPlayers: string[] = [];
 
   selectedPlayer?: Player;
+  isPlayersTurn: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -104,6 +105,14 @@ export class GameSessionComponent implements OnInit {
       }
 
       this.allPlayers = Object.keys(this.gameState.playerList);
+
+      // check if its current player's turn
+      if (this.selectedPlayer != null) {
+        this.isPlayersTurn = this.gameState.turn.playerQ[0] == this.selectedPlayer.name;
+      }
+      else {
+        this.isPlayersTurn = false;
+      }
       this.resetPlayerOccupancy();
     })
   }
@@ -170,7 +179,7 @@ export class GameSessionComponent implements OnInit {
     let playerKeys: string[];
     playerKeys = Object.keys(this.gameState.playerLocation);
     playerKeys.forEach(k => {
-      let playerLoc: PlayerLocation = this.gameState.playerLocation[k];
+      let playerLoc: PlayerLocation = this.gameState!.playerLocation[k];
 
       if (playerLoc) {
         this.clueMap[playerLoc.x][playerLoc.y].playerOccupancy = k;
@@ -202,7 +211,7 @@ export class GameSessionComponent implements OnInit {
     if (this.selectedPlayer && this.gameState) {
       this.gameService.movePlayer(this.selectedPlayer.id, this.gameState.gameId, action)
         .subscribe((resp) => {
-          console.log(resp);
+          this.messageService.add(JSON.stringify(resp));
         })
     }
   }
@@ -215,15 +224,14 @@ export class GameSessionComponent implements OnInit {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     const userId = this.selectedPlayer?.id!;
     const regex = /([0-9]): ([a-zA-Z. ]+)/;
-    const suspect = this.suggestionSuspect.value.match(regex)[2];
-    const weapon = this.suggestionWeapon.value.match(regex)[2];
+    const suspect = this.suggestionSuspect?.value.match(regex)[2];
+    const weapon = this.suggestionWeapon?.value.match(regex)[2];
     this.gameService.makeSuggestion(gameId, userId, suspect, weapon)
       .subscribe((resp) => {
-        console.log(resp);
+        this.messageService.add(JSON.stringify(resp));
       });
 
   }
-
 
   changeSuggestionWeapon(e: any) {
     this.suggestionWeapon?.setValue(e.target.value, {
@@ -245,4 +253,17 @@ export class GameSessionComponent implements OnInit {
     return this.suggestionForm.get('suspect');
   }
 
+
+  /**
+   * Method to end current turn
+   */
+  endTurn() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+
+    this.gameService.endTurn(gameId, userId)
+      .subscribe((resp) => {
+        this.messageService.add(JSON.stringify(resp))
+      });
+  }
 }

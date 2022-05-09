@@ -29,6 +29,7 @@ export class GameService implements OnDestroy {
   private gameStatusApiUrl = `${this.baseApiUrl}/${env.gameStatusApiUrl}`;
   private playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
 
+
   httpOptions = {
     headers: new HttpHeaders(
       {'Content-Type': 'application/json',
@@ -37,8 +38,8 @@ export class GameService implements OnDestroy {
   };
 
   stompClient: any;
-  gameState: Game = null;
-  private gameDataSubject = new BehaviorSubject<Game>(undefined);
+  gameState: Game | undefined;
+  private gameDataSubject: BehaviorSubject<Game> = new BehaviorSubject<Game>(undefined);
 
   constructor(
     private http: HttpClient,
@@ -204,7 +205,7 @@ export class GameService implements OnDestroy {
     return this.http.post<any>(movePlayerUrl, this.httpOptions).pipe(
       tap(() => this.log(`Player movement request completed successfully for player w/ id=${userId}`)),
       catchError(this.handleError<any>('movePlayer'))
-    )
+    );
 
   }
 
@@ -220,11 +221,25 @@ export class GameService implements OnDestroy {
     const suggestionUrl = `${this.playGameApiUrl}/${gameId}/suggestion?userId=${userId}&suspect=${suspect}&weapon=${weapon}`;
 
     return this.http.post<any>(suggestionUrl, this.httpOptions).pipe(
-      tap(() => this.log(`Player w/ id =  w/ id=${userId} attempted suggestion action`)),
+      tap(() => this.log(`Player w/id =${userId} attempted suggestion action`)),
       catchError(this.handleError<any>('makeSuggestion'))
-    )
+    );
   }
 
+
+  /**
+   *
+   * @param gameId
+   * @param userId
+   */
+  endTurn(gameId: number, userId: number) {
+    const endTurnUrl = `${this.playGameApiUrl}/${gameId}/${env.endTurnGameApiUrl}?userId=${userId}`;
+    return this.http.post<any>(endTurnUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/id=${userId} attempted to end turn`)),
+      catchError(this.handleError<any>('endTurn'))
+    );
+
+  }
 
   /**
    * Handle Http operation that failed.
