@@ -17,9 +17,12 @@
   <div class="row" *ngFor="let row of clueMap;let i=index">
     <div class="cell" *ngFor="let box of row;let j=index" id='columns'>
       <img *ngIf="box.image" src="{{box.image}}">
+      {{box.playerOccupancy}}
+      <!--
       <div class="player-occupancy">
         <img *ngIf="box.playerOccupancyImg" src={{box.playerOccupancyImg}}>
       </div>
+      -->
     </div>
   </div>
 </div>

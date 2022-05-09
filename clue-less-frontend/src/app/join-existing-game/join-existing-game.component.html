@@ -4,7 +4,13 @@
 
 <form [formGroup]="gameSessionForm" (ngSubmit)="joinGameSession()">
   <label for="game-id">Game ID: </label>
-  <input id="game-id" type="text" formControlName="id" required>
+  <input id="game-id" type="text" formControlName="id" required><br>
+
+  <label for="game-server">Game Server IP: </label>
+  <input id="game-server" type="text" formControlName="serverIp" required><br>
+
+  <label for="game-port">Game Server Port: </label>
+  <input id="game-port" type="text" formControlName="serverPort" required><br>
 
 </form>
 

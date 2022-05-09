@@ -29,7 +29,6 @@ export class GameService implements OnDestroy {
   private gameStatusApiUrl = `${this.baseApiUrl}/${env.gameStatusApiUrl}`;
   private playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
 
-
   httpOptions = {
     headers: new HttpHeaders(
       {'Content-Type': 'application/json',
@@ -39,12 +38,13 @@ export class GameService implements OnDestroy {
 
   stompClient: any;
   gameState: Game | undefined;
+  serverIsConnected: boolean = false;
+
   private gameDataSubject: BehaviorSubject<Game> = new BehaviorSubject<Game>(undefined);
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) {
-    this._connect();
   }
 
   ngOnDestroy(): void {
@@ -65,6 +65,7 @@ export class GameService implements OnDestroy {
           _this.onMessageReceived(sdkEvent);
         });
         _this.stompClient.reconnect_delay = 2000;
+        _this.serverIsConnected = true;
       }
       , function(e) {
         console.log("Game status WS error callback: " +e);
@@ -95,6 +96,33 @@ export class GameService implements OnDestroy {
 
   getUpdatedGameStatus(): Observable<Game> {
     return this.gameDataSubject.asObservable();
+  }
+
+  private updateServerApiVars(gameServerIp: string, gameServerPort: string) {
+    this.baseApiUrl = `http://${gameServerIp}:${gameServerPort}`;
+    this.webSocketEndPoint = `${this.baseApiUrl}/ws`;
+    this.selectPlayerApiUrl = `${this.baseApiUrl}/${env.selectPlayerApiUrl}`;
+    this.lobbyApiUrl = `${this.baseApiUrl}/${env.lobbyApiUrl}`;
+    this.createGameApiUrl = `${this.baseApiUrl}/${env.createGameApiUrl}`;
+    this.exitGameApiUrl = `${this.baseApiUrl}/${env.exitGameApiUrl}`;
+    this.startGameApiUrl = `${this.baseApiUrl}/${env.startGameApiUrl}`;
+    this.gameStatusApiUrl = `${this.baseApiUrl}/${env.gameStatusApiUrl}`;
+    this.playGameApiUrl = `${this.baseApiUrl}/${env.playGameApiUrl}`;
+  }
+
+  /**
+   * Request to see the lobby of the game session (assuming game hasn't been started yet)
+   * @param gameId - ID of the game session
+   * @param gameServerIp - Game server IP
+   * @param gameServerPort - Game server port
+   */
+  connectToServer(gameId: number, gameServerIp: string, gameServerPort): Observable<Lobby> {
+    if (!this.serverIsConnected) {
+      this.updateServerApiVars(gameServerIp, gameServerPort);
+      this._connect();
+    }
+
+    return this.getLobby(gameId);
   }
 
   /**
