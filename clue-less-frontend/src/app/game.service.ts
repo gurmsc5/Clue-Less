@@ -254,6 +254,29 @@ export class GameService implements OnDestroy {
     );
   }
 
+  /**
+   * Send request to backend for player's accusation action
+   *
+   * @param gameId - unique game ID
+   * @param userId - user making the suggestion
+   * @param suspect - suspect of the suggestion
+   * @param weapon - weapon used
+   * @param room - room where murder took place
+   */
+  makeAccusation(gameId: number,
+                 userId: number,
+                 suspect: string,
+                 weapon: string,
+                 room: string) {
+
+    const accusationUrl =`${this.playGameApiUrl}/${gameId}/accusation?userId=${userId}&suspect=${suspect}&weapon=${weapon}&room=${room}`;
+
+    return this.http.post<any>(accusationUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/id=${userId} made an accusation`)),
+      catchError(this.handleError<any>('makeAccusation'))
+    );
+
+  }
 
   /**
    *
@@ -294,5 +317,5 @@ export class GameService implements OnDestroy {
     this.messageService.add(`GameService: ${message}`);
   }
 
-
 }
+

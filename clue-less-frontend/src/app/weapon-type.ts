@@ -1,8 +1,8 @@
 export enum WeaponType {
-  REVOLVER,
-  DAGGER,
-  LEAD_PIPE,
-  ROPE,
-  CANDLESTICK,
-  WRENCH
+  REVOLVER = "Revolver",
+  KNIFE = "Knife",
+  LEAD_PIPE = "Lead Pipe",
+  ROPE = "Rope",
+  CANDLESTICK = "Candlestick",
+  WRENCH = "Wrench"
 }

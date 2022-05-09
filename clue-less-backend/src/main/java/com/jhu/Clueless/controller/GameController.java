@@ -308,10 +308,10 @@ public class GameController {
 
         } else if(result.contains("notturn")) {
            resultObject.addProperty("Message", "you can only make accusation in your turn");
-           resultObject.addProperty("Message", "fail");
+           resultObject.addProperty("Status", "fail");
         } else {
             resultObject.addProperty("Message", result);
-            resultObject.addProperty("Message", "success");
+            resultObject.addProperty("Status", "success");
         }
         
         return resultObject.toString();
