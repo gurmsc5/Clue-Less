@@ -59,6 +59,9 @@
               (click)="moveUp()">Move Up</button>
       <button type="button" class="move-down" title="move down"
               (click)="moveDown()">Move Down</button>
+
+      <button type="button" class="move-down" title="move down"
+              (click)="moveDiag()">Secret Passage</button>
     </div>
     <div class="container">
       <form [formGroup]="suggestionForm" (ngSubmit)="makeSuggestion()">
