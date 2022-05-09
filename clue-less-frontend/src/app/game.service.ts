@@ -279,9 +279,9 @@ export class GameService implements OnDestroy {
   }
 
   /**
-   *
-   * @param gameId
-   * @param userId
+   * End a player's turn
+   * @param gameId - unique game ID
+   * @param userId - user's player ID
    */
   endTurn(gameId: number, userId: number) {
     const endTurnUrl = `${this.playGameApiUrl}/${gameId}/${env.endTurnGameApiUrl}?userId=${userId}`;
@@ -290,6 +290,19 @@ export class GameService implements OnDestroy {
       catchError(this.handleError<any>('endTurn'))
     );
 
+  }
+
+  /**
+   *
+   * @param gameId
+   * @param userId
+   */
+  disapproveSuggestion(gameId: number, userId: number) {
+    const disapproveUrl = `${this.playGameApiUrl}/${gameId}/${env.disapproveApiUrl}?userId=${userId}`;
+    return this.http.post<any>(disapproveUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/id=${userId} attempted to disapprove suggestion`)),
+      catchError(this.handleError<any>('disapproveSuggestion'))
+    );
   }
 
   /**

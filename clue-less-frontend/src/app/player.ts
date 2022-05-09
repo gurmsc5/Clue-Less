@@ -12,5 +12,5 @@ export interface Player {
   color?: string;
   cardInHand?: Card[];
   coordinate?: number[];
-  availableMove?: string[]
+  availableMove?: Set<string>;
 }

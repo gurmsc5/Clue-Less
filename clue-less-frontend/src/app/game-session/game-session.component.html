@@ -51,16 +51,25 @@
   <div *ngIf="isPlayersTurn">
     <div class="movements">
       <label>Player movements: </label>
-      <button type="button" class="move-left" title="move left"
-              (click)="moveLeft()">Move Left</button>
-      <button type="button" class="move-right" title="move right"
-              (click)="moveRight()">Move Right</button>
-      <button type="button" class="move-up" title="move up"
-              (click)="moveUp()">Move Up</button>
-      <button type="button" class="move-down" title="move down"
-              (click)="moveDown()">Move Down</button>
+      <div *ngIf="selectedPlayer.availableMove.has('left')">
+        <button type="button" class="move-left" title="move left"
+                (click)="moveLeft()">Move Left</button>
+      </div>
+      <div *ngIf="selectedPlayer.availableMove.has('right')">
+        <button type="button" class="move-right" title="move right"
+                (click)="moveRight()">Move Right</button>
+      </div>
+      <div *ngIf="selectedPlayer.availableMove.has('up')">
+        <button type="button" class="move-up" title="move up"
+                (click)="moveUp()">Move Up</button>
+      </div>
+      <div *ngIf="selectedPlayer.availableMove.has('down')">
+        <button type="button" class="move-down" title="move down"
+                (click)="moveDown()">Move Down</button>
+      </div>
     </div>
-    <div class="container">
+
+    <div *ngIf="selectedPlayer.availableMove.has('suggestion')" class="container">
       <form [formGroup]="suggestionForm" (ngSubmit)="makeSuggestion()">
         <div class="mb-3">
           <select class="select-weapon" (change)="changeSuggestionWeapon($event)" formControlName="weaponType">
@@ -80,7 +89,7 @@
     </div>
   </div>
 
-  <div class="container">
+  <div *ngIf="selectedPlayer.availableMove.has('accusation')" class="container">
     <form [formGroup]="accusationForm" (ngSubmit)="makeAccusation()">
       <div class="mb-3">
         <select class="select-weapon" (change)="changeAccusationWeapon($event)" formControlName="weaponType">
@@ -103,8 +112,15 @@
     </form>
   </div>
 
+  <div *ngIf="selectedPlayer.availableMove.has('disapprove')">
+    <button type="button" class="disapprove" title="disapprove"
+            (click)="disapproveSuggestion()">Disapprove</button>
+  </div>
 
-  <button type="button" class="endturn" (click)="endTurn()">End Turn</button>
+  <div *ngIf="gameState.stage ==='inprogress'">
+    <button type="button" class="endturn" (click)="endTurn()">End Turn</button>
+  </div>
+
   <button type="button" class="exit" (click)="exitGame()">Exit Game</button>
 </div>
 
