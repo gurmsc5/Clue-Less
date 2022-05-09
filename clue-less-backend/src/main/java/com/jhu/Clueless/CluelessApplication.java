@@ -12,7 +12,6 @@ public class CluelessApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CluelessApplication.class, args);
-
 		// initialize a game session with gameId=999 for skeletal inc
 		Game newGame = new Game(4, 999, 6);
 		GameList.getInstance().addGame(newGame);

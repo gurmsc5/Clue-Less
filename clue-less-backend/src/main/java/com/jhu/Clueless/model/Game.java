@@ -4,6 +4,7 @@ import java.util.*;
 
 public class Game {
    public int gameId;
+   private int numPeopleDisapproved=0;
    private int size;         // number of Players in this Game session (# of characters, not the active users)
    private int userAllowed;    // maximum number of human users accepted in the game session
    private ArrayList<String> userList;
@@ -345,10 +346,16 @@ public class Game {
          return userId + "cannot make disapprove.";
       }
       if (!stage.equals("disapproving")){
-         return "notturn for disapproving.";
+         return "not turn for disapproving.";
       }
+      numPeopleDisapproved++;
+      if(numPeopleDisapproved==(userList.size()-1)){
+         stage = "inprogress";
+      }
+      else
+         stage = "disapproving";
       // stage the game back to inprogress
-      stage = "inprogress";
+
       // we don't need to remove available move "disapprove" from any applicable player
       // since the game stage is already back to inprogress
       // once the inTurn player end Turn
