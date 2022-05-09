@@ -27,10 +27,11 @@ export class GameSessionComponent implements OnInit {
 
   accusationForm = this.fb.group({
     weaponType: ['', [Validators.required]],
-    suspect: ['', [Validators.required]]
+    suspect: ['', [Validators.required]],
+    room: ['', [Validators.required]]
   })
 
-  public imagePath: string = '../../assets'
+  public imagePath: string = '../../assets';
 
   public clueMap: Array<Array<BoardLocation>> = [
     [
@@ -85,18 +86,21 @@ export class GameSessionComponent implements OnInit {
     private messageService: MessageService) {
 
     this.allWeapons = [
-      WeaponType[WeaponType.CANDLESTICK],
-      WeaponType[WeaponType.DAGGER],
-      WeaponType[WeaponType.LEAD_PIPE],
-      WeaponType[WeaponType.REVOLVER],
-      WeaponType[WeaponType.ROPE],
-      WeaponType[WeaponType.WRENCH]
+      WeaponType.CANDLESTICK,
+      WeaponType.KNIFE,
+      WeaponType.LEAD_PIPE,
+      WeaponType.REVOLVER,
+      WeaponType.ROPE,
+      WeaponType.WRENCH
     ]
 
     this.allRooms = [];
     this.clueMap.forEach(row => {
       row.forEach(roomItem => {
-        this.allRooms.push(roomItem.name);
+        const roomName: string = roomItem.name.toLowerCase();
+        if (!roomName.includes('hallway') && !roomName.includes('wall')) {
+          this.allRooms.push(roomItem.name);
+        }
       })
     })
   }
@@ -254,10 +258,23 @@ export class GameSessionComponent implements OnInit {
 
   }
 
+  makeAccusation() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+    const regex = /([0-9]): ([a-zA-Z. ]+)/;
+    const suspect = this.accusationSuspect?.value.match(regex)[2];
+    const weapon = this.accusationWeapon?.value.match(regex)[2];
+    const room = this.accusationRoom?.value.match(regex)[2];
+    this.gameService.makeAccusation(gameId, userId, suspect, weapon, room)
+      .subscribe((resp) => {
+        this.messageService.add(JSON.stringify(resp));
+      });
+  }
+
   changeSuggestionWeapon(e: any) {
     this.suggestionWeapon?.setValue(e.target.value, {
       onlySelf: true
-    })
+    });
   }
 
   get suggestionWeapon() {
@@ -267,11 +284,41 @@ export class GameSessionComponent implements OnInit {
   changeSuggestionSuspect(e: any) {
     this.suggestionSuspect?.setValue(e.target.value, {
       onlySelf: true
-    })
+    });
   }
 
   get suggestionSuspect() {
     return this.suggestionForm.get('suspect');
+  }
+
+  changeAccusationRoom(e: any) {
+    this.accusationRoom?.setValue(e.target.value, {
+      onlySelf: true
+    });
+  }
+
+  changeAccusationWeapon(e: any) {
+    this.accusationWeapon?.setValue(e.target.value, {
+      onlySelf: true
+    });
+  }
+
+  changeAccusationSuspect(e: any) {
+    this.accusationSuspect?.setValue(e.target.value, {
+      onlySelf: true
+    });
+  }
+
+  get accusationWeapon() {
+    return this.accusationForm.get('weaponType');
+  }
+
+  get accusationSuspect() {
+    return this.accusationForm.get('suspect');
+  }
+
+  get accusationRoom() {
+    return this.accusationForm.get('room');
   }
 
 
