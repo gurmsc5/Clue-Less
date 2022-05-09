@@ -250,8 +250,11 @@ public class GameController {
         JsonObject resultObject = new JsonObject();
         Game targetGame = GameList.getInstance().getGame(gameId);
         String msg = targetGame.endTurn(userId);
+        Player userPlayer = targetGame.getUserPlayer(userId);
+        String userPlayerName = userPlayer != null ? userPlayer.getName() : "";
+
         if (msg.equals("ended")) {
-            resultObject.addProperty("userId", "turn ended for: " + userId);
+            resultObject.addProperty("userId", "turn ended for: " + userPlayerName);
             resultObject.addProperty("Message", "success");
         } else {
             resultObject.addProperty("Error", msg);
@@ -267,12 +270,15 @@ public class GameController {
                                    @RequestParam(value = "userId") String userId,
                                    @RequestParam(value = "suspect") String suspect,
                                    @RequestParam(value = "weapon") String weapon) {
+
         JsonObject resultObject = new JsonObject();
         Game targetGame = GameList.getInstance().getGame(gameId);
         String result = targetGame.makeSuggestion(userId, suspect, weapon);
+        Player userPlayer = targetGame.getUserPlayer(userId);
+        String userPlayerName = userPlayer != null ? userPlayer.getName() : "";
 
         if (result.equals("suggestion")) {
-            resultObject.addProperty("UserId", userId + " has made suggestion!");
+            resultObject.addProperty("UserId", userPlayerName + " has made suggestion!");
             resultObject.addProperty("Message", "success");
 
         } else {

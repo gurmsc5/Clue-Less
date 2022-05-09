@@ -43,7 +43,7 @@
 </div>
 -->
 
-<div *ngIf="selectedPlayer && gameState">
+<div *ngIf="selectedPlayer && gameState && isPlayersTurn">
 
   <div class="movements">
     <label>Player movements: </label>
@@ -74,7 +74,7 @@
       </button>
     </form>
   </div>
-
+  <button type="button" class="endturn" (click)="endTurn()">End Turn</button>
   <button type="button" class="exit" (click)="exitGame()">Exit Game</button>
 </div>
 
