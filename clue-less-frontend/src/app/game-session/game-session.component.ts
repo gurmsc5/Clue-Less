@@ -232,6 +232,11 @@ export class GameSessionComponent implements OnInit {
     this.playerMovement("down")
   }
 
+  moveDiag() {
+    this.playerMovement("diag")
+  }
+
+
   /**
    * Action for player movement
    * @param action - desired movement

@@ -30,7 +30,7 @@ public class Game {
       put("Colonel Mustard", "yellow");
    }};
    private static final HashMap<String, Integer[]> iniLocation = new HashMap<>() {{
-      put("Miss Scarlet", new Integer[] {3,4});
+      put("Miss Scarlet", new Integer[] {0,4});
       put("Professor Plum", new Integer[] {0,3});
       put("Mr. Green", new Integer[] {1,0});
       put("Mrs. White", new Integer[] {3,0});

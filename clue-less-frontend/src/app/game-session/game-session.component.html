@@ -67,6 +67,11 @@
         <button type="button" class="move-down" title="move down"
                 (click)="moveDown()">Move Down</button>
       </div>
+      
+      <div *ngIf=selectionPlayer.availableMove.has('diag')">
+        <button type="button" class="move-diag" title="move diag"
+              (click)="moveDiag()">Secret Passage</button>
+      </div>
     </div>
 
     <div *ngIf="selectedPlayer.availableMove.has('suggestion')" class="container">
