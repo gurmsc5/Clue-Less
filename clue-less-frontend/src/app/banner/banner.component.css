@@ -17,7 +17,10 @@ a {
   flex: 0 1 auto;
   align-self: auto;
 }
-
+.game-session-options {
+  display: flex;
+  justify-content: center;
+}
 @media (min-width: 600px) {
   a {
     width: 18%;
@@ -28,3 +31,4 @@ a {
 a:hover {
   background-color: black;
 }
+
