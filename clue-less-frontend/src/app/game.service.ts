@@ -130,13 +130,13 @@ export class GameService implements OnDestroy {
    * @param gameId - ID of the game session
    */
   getLobby(gameId: number): Observable<Lobby> {
-    this.log("Sending request to fetch lobby info");
+    //this.log("Sending request to fetch lobby info");
     const lobbyApiUrl = `${this.lobbyApiUrl}/${gameId}`
     return this.http.get<Lobby>(lobbyApiUrl)
       .pipe(
         tap(lobby => {
-          this.log(`fetched lobby info: ${lobby.id}`);
-          lobby.players.forEach((player) => this.log(`player id=${player.id}, name=${player.name}, available=${player.available}`));
+          //this.log(`fetched lobby info: ${lobby.id}`);
+          //lobby.players.forEach((player) => this.log(`player id=${player.id}, name=${player.name}, available=${player.available}`));
         }),
         catchError(this.handleError<Lobby>('getLobby'))
       );

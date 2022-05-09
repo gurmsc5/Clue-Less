@@ -1,6 +1,7 @@
 package com.jhu.Clueless.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Game {
    public int gameId;
@@ -30,7 +31,7 @@ public class Game {
       put("Colonel Mustard", "yellow");
    }};
    private static final HashMap<String, Integer[]> iniLocation = new HashMap<>() {{
-      put("Miss Scarlet", new Integer[] {0,4});
+      put("Miss Scarlet", new Integer[] {3,4});
       put("Professor Plum", new Integer[] {0,3});
       put("Mr. Green", new Integer[] {1,0});
       put("Mrs. White", new Integer[] {3,0});
@@ -69,6 +70,8 @@ public class Game {
 
       // build the confidential card envelope
       this.cardFile = new CardEnvelope(suspectCardList.get(0), weaponCardList.get(0), roomCardList.get(0));
+      System.out.println("Card file: " +this.cardFile.reveal().stream().map(Card::getName).collect(Collectors.toList()));
+
       suspectCardList.remove(0);
       weaponCardList.remove(0);
       roomCardList.remove(0);
@@ -356,8 +359,10 @@ public class Game {
       if (!stage.equals("disapproving")){
          return "notturn for disapproving.";
       }
-      // stage the game back to inprogress
+
       stage = "inprogress";
+      // stage the game back to inprogress
+
       // we don't need to remove available move "disapprove" from any applicable player
       // since the game stage is already back to inprogress
       // once the inTurn player end Turn

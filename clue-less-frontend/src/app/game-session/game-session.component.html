@@ -123,7 +123,7 @@
     </button>
   </div>
 
-  <div *ngIf="gameState.stage ==='inprogress'">
+  <div *ngIf="gameState.stage ==='inprogress' && isPlayersTurn">
     <button type="button" class="endturn" (click)="endTurn()">End Turn</button>
   </div>
 
