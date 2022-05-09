@@ -179,147 +179,147 @@ export const MOCKGAME: Game = {
         xCord: 1,
         yCord: 2,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(0,3)": {
         name: "Hallway#03",
         xCord: 0,
         yCord: 3,
         occupancy: 1,
-        playerOccupancy: "Professor Plum"
+        playerOccupancy: ["Professor Plum"]
       },
       "(2,0)": {
         name: "Ballroom",
         xCord: 2,
         yCord: 0,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(3,0)": {
         name: "Hallway#30",
         xCord: 3,
         yCord: 0,
         occupancy: 1,
-        playerOccupancy: "Mrs. White"
+        playerOccupancy: ["Mrs. White"]
       },
       "(2,1)": {
         name: "Hallway#21",
         xCord: 2,
         yCord: 1,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(0,2)": {
         name: "Library",
         xCord: 0,
         yCord: 2,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(1,4)": {
         name: "Hallway#14",
         xCord: 1,
         yCord: 4,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(4,0)": {
         name: "Kitchen",
         xCord: 4,
         yCord: 0,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(2,2)": {
         name: "Billiard Room",
         xCord: 2,
         yCord: 2,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(4,1)": {
         name: "Hallway#41",
         xCord: 4,
         yCord: 1,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(3,2)": {
         name: "Hallway#32",
         xCord: 3,
         yCord: 2,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(2,3)": {
         name: "Hallway#23",
         xCord: 2,
         yCord: 3,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(0,4)": {
         name: "Study",
         xCord: 0,
         yCord: 4,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(1,0)": {
         name: "Hallway#10",
         xCord: 1,
         yCord: 0,
         occupancy: 1,
-        playerOccupancy: "Mr. Green"
+        playerOccupancy: ["Mr. Green"]
       },
       "(0,1)": {
         name: "Hallway#01",
         xCord: 0,
         yCord: 1,
         occupancy: 1,
-        playerOccupancy: "Mrs. Peacock"
+        playerOccupancy: ["Mrs. Peacock"]
       },
       "(0,0)": {
         name: "Conservatory",
         xCord: 0,
         yCord: 0,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(4,2)": {
         name: "Dining Room",
         xCord: 4,
         yCord: 2,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(2,4)": {
         name: "Hall",
         xCord: 2,
         yCord: 4,
         occupancy: 1,
-        playerOccupancy: "Miss Scarlet"
+        playerOccupancy: ["Miss Scarlet"]
       },
       "(4,3)": {
         name: "Hallway#43",
         xCord: 4,
         yCord: 3,
         occupancy: 1,
-        playerOccupancy: "Colonel Mustard"
+        playerOccupancy: ["Colonel Mustard"]
       },
       "(3,4)": {
         name: "Hallway#34",
         xCord: 3,
         yCord: 4,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       },
       "(4,4)": {
         name: "Lounge",
         xCord: 4,
         yCord: 4,
         occupancy: 0,
-        playerOccupancy: ""
+        playerOccupancy: []
       }
     }
   },

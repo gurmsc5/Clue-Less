@@ -12,7 +12,9 @@ import {Router} from "@angular/router";
 export class JoinExistingGameComponent implements OnInit {
 
   gameSessionForm = this.fb.group({
-    id: [999, [Validators.required, Validators.min(1), Validators.max(999)]]
+    id: [999, [Validators.required, Validators.min(1), Validators.max(999)]],
+    serverIp: ['localhost', Validators.required],
+    serverPort: ['8088', Validators.required]
   })
 
   constructor(private fb: FormBuilder,
@@ -25,7 +27,10 @@ export class JoinExistingGameComponent implements OnInit {
 
   joinGameSession(): void {
     const gameId = this.gameSessionForm.get('id')?.value;
-    this.gameService.getLobby(gameId)
+    const gameServerIP = this.gameSessionForm.get('serverIp')?.value;
+    const gameServerPort = this.gameSessionForm.get('serverPort')?.value;
+
+    this.gameService.connectToServer(gameId, gameServerIP, gameServerPort)
       .subscribe( l => {
         this.router.navigate([`/game-session/${l.id}`])
       })
