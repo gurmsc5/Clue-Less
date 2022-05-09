@@ -67,8 +67,8 @@
         <button type="button" class="move-down" title="move down"
                 (click)="moveDown()">Move Down</button>
       </div>
-      
-      <div *ngIf=selectionPlayer.availableMove.has('diag')">
+
+      <div *ngIf="selectedPlayer.availableMove.has('diag')">
         <button type="button" class="move-diag" title="move diag"
               (click)="moveDiag()">Secret Passage</button>
       </div>
@@ -119,7 +119,8 @@
 
   <div *ngIf="selectedPlayer.availableMove.has('disapprove')">
     <button type="button" class="disapprove" title="disapprove"
-            (click)="disapproveSuggestion()">Disapprove</button>
+            (click)="disapproveSuggestion()">Disapprove
+    </button>
   </div>
 
   <div *ngIf="gameState.stage ==='inprogress'">
