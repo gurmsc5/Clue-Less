@@ -30,32 +30,34 @@ export class GameSessionComponent implements OnInit {
     suspect: ['', [Validators.required]]
   })
 
+  public imagePath: string = '../../assets/'
+
   public clueMap: Array<Array<BoardLocation>> = [
-    [{name: "Conservatory", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#10", xCord: 1, yCord: 0, occupancy: 0, playerOccupancy: ""},
-      {name: "Ballroom", xCord: 2, yCord: 0, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#30", xCord: 3, yCord: 0, occupancy: 0, playerOccupancy: ""},
-      {name: "Kitchen", xCord: 4, yCord: 0, occupancy: 0, playerOccupancy: ""}],
-    [{name: "Hallway#01", xCord: 0, yCord: 1, occupancy: 0, playerOccupancy: ""},
-      {name: "Wall", xCord: 1, yCord: 1, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#21", xCord: 2, yCord: 1, occupancy: 0, playerOccupancy: ""},
-      {name: "Wall", xCord: 3, yCord: 1, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#41", xCord: 4, yCord: 1, occupancy: 0, playerOccupancy: ""}],
-    [{name: "Library", xCord: 0, yCord: 2, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#12", xCord: 1, yCord: 2, occupancy: 0, playerOccupancy: ""},
-      {name: "Billiard Room", xCord: 2, yCord: 2, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#32", xCord: 3, yCord: 2, occupancy: 0, playerOccupancy: ""},
-      {name: "Dining Room", xCord: 4, yCord: 2, occupancy: 0, playerOccupancy: ""}],
-    [{name: "Hallway#03", xCord: 0, yCord: 3, occupancy: 0, playerOccupancy: ""},
-      {name: "Wall", xCord: 1, yCord: 3, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#23", xCord: 2, yCord: 3, occupancy: 0, playerOccupancy: ""},
-      {name: "Wall", xCord: 3, yCord: 3, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#43", xCord: 4, yCord: 3, occupancy: 0, playerOccupancy: ""}],
-    [{name: "Study", xCord: 0, yCord: 4, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#14", xCord: 1, yCord: 4, occupancy: 0, playerOccupancy: ""},
-      {name: "Hall", xCord: 2, yCord: 4, occupancy: 0, playerOccupancy: ""},
-      {name: "Hallway#34", xCord: 3, yCord: 4, occupancy: 0, playerOccupancy: ""},
-      {name: "Lounge", xCord: 4, yCord: 4, occupancy: 0, playerOccupancy: ""}]
+    [{name: "Study", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Study.png"},
+      {name: "Hallway#10", xCord: 1, yCord: 0, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Ballroom", xCord: 2, yCord: 0, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Library.png"},
+      {name: "Hallway#30", xCord: 3, yCord: 0, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Kitchen", xCord: 4, yCord: 0, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Conservatory.png"}],
+    [{name: "Hallway#01", xCord: 0, yCord: 1, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"},
+      {name: "Wall", xCord: 1, yCord: 1, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Wall.png"},
+      {name: "Hallway#21", xCord: 2, yCord: 1, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"},
+      {name: "Wall", xCord: 3, yCord: 1, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Wall.png"},
+      {name: "Hallway#41", xCord: 4, yCord: 1, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"}],
+    [{name: "Hall", xCord: 0, yCord: 2, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Hall.png"},
+      {name: "Hallway#12", xCord: 1, yCord: 2, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Billiard Room", xCord: 2, yCord: 2, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Billiard Room.png"},
+      {name: "Hallway#32", xCord: 3, yCord: 2, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Dining Room", xCord: 4, yCord: 2, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Ballroom.png"}],
+    [{name: "Hallway#03", xCord: 0, yCord: 3, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"},
+      {name: "Wall", xCord: 1, yCord: 3, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Wall.png"},
+      {name: "Hallway#23", xCord: 2, yCord: 3, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"},
+      {name: "Wall", xCord: 3, yCord: 3, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Wall.png"},
+      {name: "Hallway#43", xCord: 4, yCord: 3, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Horizontal Hallway.png"}],
+    [{name: "Lounge", xCord: 0, yCord: 4, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Lounge.png"},
+      {name: "Hallway#14", xCord: 1, yCord: 4, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Hall", xCord: 2, yCord: 4, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Dining Room.png"},
+      {name: "Hallway#34", xCord: 3, yCord: 4, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Vert Hallway.png"},
+      {name: "Study", xCord: 4, yCord: 4, occupancy: 0, playerOccupancy: "", playerOccupancyImg: "", image: this.imagePath + "Kitchen.png"}]
   ]
 
   public allRooms: string[];
@@ -63,6 +65,7 @@ export class GameSessionComponent implements OnInit {
   allPlayers: string[] = [];
 
   selectedPlayer?: Player;
+  isPlayersTurn: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -104,6 +107,14 @@ export class GameSessionComponent implements OnInit {
       }
 
       this.allPlayers = Object.keys(this.gameState.playerList);
+
+      // check if its current player's turn
+      if (this.selectedPlayer != null) {
+        this.isPlayersTurn = this.gameState.turn.playerQ[0] == this.selectedPlayer.name;
+      }
+      else {
+        this.isPlayersTurn = false;
+      }
       this.resetPlayerOccupancy();
     })
   }
@@ -161,6 +172,7 @@ export class GameSessionComponent implements OnInit {
     this.clueMap.forEach(row => {
       row.forEach(boardItem => {
         boardItem.playerOccupancy = '';
+        boardItem.playerOccupancyImg = '';
       })
     })
 
@@ -170,10 +182,11 @@ export class GameSessionComponent implements OnInit {
     let playerKeys: string[];
     playerKeys = Object.keys(this.gameState.playerLocation);
     playerKeys.forEach(k => {
-      let playerLoc: PlayerLocation = this.gameState.playerLocation[k];
+      let playerLoc: PlayerLocation = this.gameState!.playerLocation[k];
 
       if (playerLoc) {
         this.clueMap[playerLoc.x][playerLoc.y].playerOccupancy = k;
+        this.clueMap[playerLoc.x][playerLoc.y].playerOccupancyImg = this.imagePath + k.replace(/\./g, '').replace(/\s/, '-').toLowerCase() + '.png';
       }
     })
   }
@@ -202,7 +215,7 @@ export class GameSessionComponent implements OnInit {
     if (this.selectedPlayer && this.gameState) {
       this.gameService.movePlayer(this.selectedPlayer.id, this.gameState.gameId, action)
         .subscribe((resp) => {
-          console.log(resp);
+          this.messageService.add(JSON.stringify(resp));
         })
     }
   }
@@ -215,15 +228,14 @@ export class GameSessionComponent implements OnInit {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     const userId = this.selectedPlayer?.id!;
     const regex = /([0-9]): ([a-zA-Z. ]+)/;
-    const suspect = this.suggestionSuspect.value.match(regex)[2];
-    const weapon = this.suggestionWeapon.value.match(regex)[2];
+    const suspect = this.suggestionSuspect?.value.match(regex)[2];
+    const weapon = this.suggestionWeapon?.value.match(regex)[2];
     this.gameService.makeSuggestion(gameId, userId, suspect, weapon)
       .subscribe((resp) => {
-        console.log(resp);
+        this.messageService.add(JSON.stringify(resp));
       });
 
   }
-
 
   changeSuggestionWeapon(e: any) {
     this.suggestionWeapon?.setValue(e.target.value, {
@@ -245,4 +257,17 @@ export class GameSessionComponent implements OnInit {
     return this.suggestionForm.get('suspect');
   }
 
+
+  /**
+   * Method to end current turn
+   */
+  endTurn() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+
+    this.gameService.endTurn(gameId, userId)
+      .subscribe((resp) => {
+        this.messageService.add(JSON.stringify(resp))
+      });
+  }
 }

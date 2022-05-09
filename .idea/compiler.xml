@@ -2,10 +2,18 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+<<<<<<< HEAD
+=======
+      <profile default="true" name="Default" enabled="true" />
+>>>>>>> 262a0e67e0625ad7aa45e5f824db9c7aabc97c4f
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+<<<<<<< HEAD
+=======
+        <module name="Clueless" />
+>>>>>>> 262a0e67e0625ad7aa45e5f824db9c7aabc97c4f
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
