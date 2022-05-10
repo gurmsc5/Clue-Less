@@ -76,16 +76,25 @@ public class Game {
 
       // distribute the remaining cards
       ArrayList<Card> fullCardList = new ArrayList<>();
-      fullCardList.addAll(suspectCardList);
-      fullCardList.addAll(weaponCardList);
-      fullCardList.addAll(roomCardList);
-      Collections.shuffle(fullCardList);
+//      fullCardList.addAll(suspectCardList);
+//      fullCardList.addAll(weaponCardList);
+//      fullCardList.addAll(roomCardList);
 
-      while(fullCardList.size() != 0) {
+
+      while(weaponCardList.size() != 0) {
          String player = turn.getTurn();
-         Card item = fullCardList.get(0);
-         playerList.get(player).buildCardInHand(item);
-         fullCardList.remove(0);
+         Collections.shuffle(suspectCardList);
+         Collections.shuffle(weaponCardList);
+         Collections.shuffle(roomCardList);
+         Card suspectitem = suspectCardList.get(0);
+         Card roomitem =roomCardList.get(0);
+         Card weaponitem=weaponCardList.get(0);
+         playerList.get(player).buildCardInHand(suspectitem);
+         playerList.get(player).buildCardInHand(roomitem);
+         playerList.get(player).buildCardInHand(weaponitem);
+         suspectCardList.remove(0);
+         roomCardList.remove(0);
+         weaponCardList.remove(0);
          turn.nextTurn();
       }
 
