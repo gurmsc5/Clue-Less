@@ -1,113 +1,131 @@
-
 <div id="lobby" *ngIf="lobby && !selectedPlayer">
   <div class="vertical-lobby">
     <h2>Lobby: Available characters</h2>
   </div>
   <ul class="players">
-    <li class = "player" *ngFor="let player of lobby.players">
-      <button type="button" [disabled]="!player.available" (click)="onSelect(player)">
-      <span class="badge">{{player.id}}</span>
-      <span class="name">{{player.name}}</span>
+    <li class="player" *ngFor="let player of lobby.players">
+      <button type="button" [disabled]="!player.available" (click)="onSelect(player)" class="button-55">
+        <span class="badge">{{player.id}}</span>
+        <span class="name">{{player.name}}</span>
       </button>
     </li>
   </ul>
 </div>
-
-<div class="gameMap">
-  <div class="row" *ngFor="let row of clueMap;let i=index">
-    <div class="cell" *ngFor="let box of row;let j=index" id='columns'>
-      <img *ngIf="box.image" src="{{box.image}}">
-      {{box.playerOccupancy}}
-      <!--
-      <div class="player-occupancy">
-        <img *ngIf="box.playerOccupancyImg" src={{box.playerOccupancyImg}}>
+<div class="notes-map-container">
+  <div class="notes-vertical-container">
+    <div class="notes-container">
+      <h3>Detective notepad: </h3>
+      <textarea></textarea>
+    </div>
+  </div>
+  <div class="gameMap">
+    <div class="row" *ngFor="let row of clueMap;let i=index">
+      <div class="cell" *ngFor="let box of row;let j=index" id='columns'>
+        <img *ngIf="box.image" src="{{box.image}}">
+        <div class="player-occupancy">
+          <div *ngFor="let image of box.playerOccupancyImg; let k=index" >
+            <img *ngIf="image" src={{image}} style="margin-left:{{-k*60}}px">
+          </div>
+        </div>
       </div>
-      -->
     </div>
   </div>
 </div>
-<div *ngIf="selectedPlayer">
+<h2 *ngIf="selectedPlayer">Selected {{selectedPlayer.name | uppercase}}</h2>
+<div class="actions-and-cards">
+  <div *ngIf="selectedPlayer">
 
-  <h2>Selected {{selectedPlayer.name | uppercase}}</h2>
-  <h3>Player Cards</h3>
-  <ul class="player-cards">
-    <li *ngFor="let card of selectedPlayer.cardInHand" class="card">
-      <div class="badge"> {{card.type}}</div>
-      <div class="name"> {{card.name}}</div>
-    </li>
-  </ul>
 
-</div>
-<!--
-
-<div *ngIf="gameState && !gameState.inProgress">
-  <button type="button" class="start" title="start game"
-  (click)="startSession()">Start Game!</button>
-</div>
--->
-
-<div *ngIf="selectedPlayer && gameState">
-
-  <div *ngIf="isPlayersTurn">
-    <div class="movements">
-      <label>Player movements: </label>
-      <button type="button" class="move-left" title="move left"
-              (click)="moveLeft()">Move Left</button>
-      <button type="button" class="move-right" title="move right"
-              (click)="moveRight()">Move Right</button>
-      <button type="button" class="move-up" title="move up"
-              (click)="moveUp()">Move Up</button>
-      <button type="button" class="move-down" title="move down"
-              (click)="moveDown()">Move Down</button>
-
-      <button type="button" class="move-down" title="move down"
-              (click)="moveDiag()">Secret Passage</button>
+    <div class="player-cards-container">
+      <h3>Player Cards</h3>
+      <ul class="player-cards">
+        <li *ngFor="let card of selectedPlayer.cardInHand" class="card">
+          <div class="badge"> {{card.type}}</div>
+          <div class="name"> {{card.name}}</div>
+        </li>
+      </ul>
     </div>
-    <div class="container">
-      <form [formGroup]="suggestionForm" (ngSubmit)="makeSuggestion()">
+  </div>
+  <!--
+
+  <div *ngIf="gameState && !gameState.inProgress">
+    <button type="button" class="start" title="start game"
+    (click)="startSession()">Start Game!</button>
+  </div>
+  -->
+
+<div *ngIf="selectedPlayer && gameState" class="inputs">
+
+    <div *ngIf="isPlayersTurn">
+      <div class="movements">
+        <button type="button" class="move-left button-55" title="move left"
+                (click)="moveLeft()">Move Left
+        </button>
+        <button type="button" class="move-right button-55" title="move right"
+                (click)="moveRight()">Move Right
+        </button>
+        <button type="button" class="move-up button-55" title="move up"
+                (click)="moveUp()">Move Up
+        </button>
+        <button type="button" class="move-down button-55" title="move down"
+                (click)="moveDown()">Move Down
+        </button>
+
+        <button type="button" class="move-down button-55" title="move down"
+                (click)="moveDiag()">Secret Passage
+        </button>
+      </div>
+      <div class="container suggestion-input">
+        <form [formGroup]="suggestionForm" (ngSubmit)="makeSuggestion()">
+          <div class="mb-3">
+            <select class="select-weapon" (change)="changeSuggestionWeapon($event)" formControlName="weaponType">
+              <option value="">Choose weapon to suggest</option>
+              <option *ngFor="let weapon of allWeapons" [ngValue]="weapon">{{weapon}}</option>
+            </select>
+            <select class="select-suspect" (change)="changeSuggestionSuspect($event)" formControlName="suspect">
+              <option value="">Choose suspect to suggest</option>
+              <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect}}</option>
+            </select>
+          </div>
+          <button type="submit"
+                  class="button-55"
+                  [disabled]="!suggestionForm.valid">
+            Make Suggestion
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="container accusation-input">
+      <form [formGroup]="accusationForm" (ngSubmit)="makeAccusation()">
         <div class="mb-3">
-          <select class="select-weapon" (change)="changeSuggestionWeapon($event)" formControlName="weaponType">
-            <option value="">Choose weapon to suggest</option>
+          <select class="select-weapon" (change)="changeAccusationWeapon($event)" formControlName="weaponType">
+            <option value="">Choose weapon to accuse</option>
             <option *ngFor="let weapon of allWeapons" [ngValue]="weapon">{{weapon}}</option>
           </select>
-          <select class="select-suspect" (change)="changeSuggestionSuspect($event)" formControlName="suspect">
-            <option value="">Choose suspect to suggest</option>
+          <select class="select-suspect" (change)="changeAccusationSuspect($event)" formControlName="suspect">
+            <option value="">Choose suspect to accuse</option>
             <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect}}</option>
+          </select>
+          <select class="select-room" (change)="changeAccusationRoom($event)" formControlName="room">
+            <option value="">Choose room where suspect committed the crime</option>
+            <option *ngFor="let room of allRooms" [ngValue]="room">{{room}}</option>
           </select>
         </div>
         <button type="submit"
-                [disabled]="!suggestionForm.valid">
-          Make Suggestion
+                class="button-55"
+                [disabled]="!accusationForm.valid">
+          Make Accusation
         </button>
       </form>
     </div>
-  </div>
-
-  <div class="container">
-    <form [formGroup]="accusationForm" (ngSubmit)="makeAccusation()">
-      <div class="mb-3">
-        <select class="select-weapon" (change)="changeAccusationWeapon($event)" formControlName="weaponType">
-          <option value="">Choose weapon to accuse</option>
-          <option *ngFor="let weapon of allWeapons" [ngValue]="weapon">{{weapon}}</option>
-        </select>
-        <select class="select-suspect" (change)="changeAccusationSuspect($event)" formControlName="suspect">
-          <option value="">Choose suspect to accuse</option>
-          <option *ngFor="let suspect of allPlayers" [ngValue]="suspect">{{suspect}}</option>
-        </select>
-        <select class="select-room" (change)="changeAccusationRoom($event)" formControlName="room">
-          <option value="">Choose room where suspect committed the crime</option>
-          <option *ngFor="let room of allRooms" [ngValue]="room">{{room}}</option>
-        </select>
-      </div>
-      <button type="submit"
-              [disabled]="!accusationForm.valid">
-        Make Accusation
-      </button>
-    </form>
+    <div class="end-buttons">
+      <button type="button" class="endturn button-55" (click)="endTurn()">End Turn</button>
+      <button type="button" class="exit button-55" (click)="exitGame()">Exit Game</button>
+    </div>
   </div>
 
 
-  <button type="button" class="endturn" (click)="endTurn()">End Turn</button>
-  <button type="button" class="exit" (click)="exitGame()">Exit Game</button>
 </div>
+
 

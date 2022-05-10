@@ -35,39 +35,39 @@ export class GameSessionComponent implements OnInit {
 
   public clueMap: Array<Array<BoardLocation>> = [
     [
-      {name: "Study", xCord: 0, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Study.png`},
-      {name: "Hallway#03", xCord: 0, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Library", xCord: 0, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Library.png`},
-      {name: "Hallway#01", xCord: 0, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Conservatory", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Conservatory.png`}
+      {name: "Study", xCord: 0, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Study.png`},
+      {name: "Hallway#03", xCord: 0, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Library", xCord: 0, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Library.png`},
+      {name: "Hallway#01", xCord: 0, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Conservatory", xCord: 0, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Conservatory.png`}
     ],
     [
-      {name: "Hallway#41", xCord: 4, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`},
-      {name: "Wall", xCord: 3, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Wall.png`},
-      {name: "Hallway#21", xCord: 2, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`},
-      {name: "Wall", xCord: 1, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Wall.png`},
-      {name: "Hallway#10", xCord: 1, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`}
+      {name: "Hallway#41", xCord: 4, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`},
+      {name: "Wall", xCord: 3, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Wall.png`},
+      {name: "Hallway#21", xCord: 2, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`},
+      {name: "Wall", xCord: 1, yCord: 1, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Wall.png`},
+      {name: "Hallway#10", xCord: 1, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`}
     ],
     [
-      {name: "Hall", xCord: 2, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Hall.png`},
-      {name: "Hallway#32", xCord: 3, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Billiard Room", xCord: 2, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Billiard Room.png`},
-      {name: "Hallway#12", xCord: 1, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Ballroom", xCord: 2, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Ballroom.png`},
+      {name: "Hall", xCord: 2, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Hall.png`},
+      {name: "Hallway#32", xCord: 3, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Billiard Room", xCord: 2, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Billiard Room.png`},
+      {name: "Hallway#12", xCord: 1, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Ballroom", xCord: 2, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Ballroom.png`},
     ],
     [
-      {name: "Hallway#43", xCord: 4, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`},
-      {name: "Wall", xCord: 3, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Wall.png`},
-      {name: "Hallway#23", xCord: 2, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`},
-      {name: "Wall", xCord: 1, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Wall.png`},
-      {name: "Hallway#30", xCord: 3, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Horizontal Hallway.png`},
+      {name: "Hallway#43", xCord: 4, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`},
+      {name: "Wall", xCord: 3, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Wall.png`},
+      {name: "Hallway#23", xCord: 2, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`},
+      {name: "Wall", xCord: 1, yCord: 3, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Wall.png`},
+      {name: "Hallway#30", xCord: 3, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Horizontal Hallway.png`},
     ],
     [
-      {name: "Lounge", xCord: 4, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Lounge.png`},
-      {name: "Hallway#34", xCord: 3, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Dining Room", xCord: 4, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Dining Room.png`},
-      {name: "Hallway#14", xCord: 1, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Vert Hallway.png`},
-      {name: "Kitchen", xCord: 4, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: "", image: `${this.imagePath}/Kitchen.png`}
+      {name: "Lounge", xCord: 4, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Lounge.png`},
+      {name: "Hallway#34", xCord: 3, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Dining Room", xCord: 4, yCord: 2, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Dining Room.png`},
+      {name: "Hallway#14", xCord: 1, yCord: 4, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Vert Hallway.png`},
+      {name: "Kitchen", xCord: 4, yCord: 0, occupancy: 0, playerOccupancy: [], playerOccupancyImg: [], image: `${this.imagePath}/Kitchen.png`}
     ]
   ]
 
@@ -186,7 +186,7 @@ export class GameSessionComponent implements OnInit {
     this.clueMap.forEach(row => {
       row.forEach(boardItem => {
         boardItem.playerOccupancy = [];
-        boardItem.playerOccupancyImg = '';
+        boardItem.playerOccupancyImg = [];
       })
     })
 
@@ -202,12 +202,11 @@ export class GameSessionComponent implements OnInit {
 
       if (playerLoc) {
         this.clueMap[playerLoc.x][playerLoc.y].playerOccupancy.push(k);
-        this.clueMap[playerLoc.x][playerLoc.y].playerOccupancyImg =
-          this.imagePath + '/'
+        this.clueMap[playerLoc.x][playerLoc.y].playerOccupancyImg.push(this.imagePath + '/'
           + k
             .replace(/\./g, '')
             .replace(/\s/, '-')
-            .toLowerCase() + '.png';
+            .toLowerCase() + '.png');
       }
     })
   }

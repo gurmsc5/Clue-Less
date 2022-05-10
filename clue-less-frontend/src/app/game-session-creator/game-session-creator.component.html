@@ -1,22 +1,28 @@
-<img src="../../assets/Session%20Background.jpg">
+<img src="../../assets/Session%20Background.jpg" class="background-image">
 
 
 <form [formGroup]="gameSessionForm" (ngSubmit)="createGameSession()">
-  <label for="game-id">Game ID: </label>
-  <input id="game-id" type="text" formControlName="id" required>
+  <div class="game-field">
+    <label for="game-id">Game ID: </label>
+    <input id="game-id" type="text" formControlName="id" required>
+  </div>
 
-  <label for="player-count">Player Count: </label>
-  <input id="player-count" type="number" formControlName="playerCount" required>
+  <div class="game-field">
+    <label for="player-count">Player Count: </label>
+    <input id="player-count" type="number" formControlName="playerCount" required>
+  </div>
 </form>
+<div class="button-container">
+  <button type="goback"
+          class="button-55"
+          (click)="goBack()">
+    Go Back
+  </button>
 
-<button type="goback"
-        (click)="goBack()">
-Go Back
-</button>
-
-<button type="submit"
-        [disabled]="!gameSessionForm.valid"
->
-  Submit
-</button>
-
+  <button type="submit"
+          class="button-55"
+          [disabled]="!gameSessionForm.valid"
+  >
+    Submit
+  </button>
+</div>

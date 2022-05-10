@@ -1,28 +1,34 @@
-<img src="../../assets/Session%20Background.jpg">
-
+<img src="../../assets/Session%20Background.jpg" class="background-image">
 
 
 <form [formGroup]="gameSessionForm" (ngSubmit)="joinGameSession()">
-  <label for="game-id">Game ID: </label>
-  <input id="game-id" type="text" formControlName="id" required><br>
-
-  <label for="game-server">Game Server IP: </label>
-  <input id="game-server" type="text" formControlName="serverIp" required><br>
-
-  <label for="game-port">Game Server Port: </label>
-  <input id="game-port" type="text" formControlName="serverPort" required><br>
-
+  <div class="game-field">
+    <label for="game-id">Game ID: </label>
+    <input id="game-id" type="text" formControlName="id" required><br>
+  </div>
+  <div class="game-field">
+    <label for="game-server">Game Server IP: </label>
+    <input id="game-server" type="text" formControlName="serverIp" required><br>
+  </div>
+  <div class="game-field">
+    <label for="game-port">Game Server Port: </label>
+    <input id="game-port" type="text" formControlName="serverPort" required><br>
+  </div>
 </form>
+<div class="button-container">
+  <button type="goback"
+          class="button-55"
+          (click)="goBack()">
+    Go Back
+  </button>
 
-<button type="goback"
-        (click)="goBack()">
-  Go Back
-</button>
+  <button type="submit"
+          class="button-55"
+          [disabled]="!gameSessionForm.valid"
+          (click)="joinGameSession()"
+  >
+    Submit
+  </button>
 
-<button type="submit"
-        [disabled]="!gameSessionForm.valid"
-        (click)="joinGameSession()"
->
-  Submit
-</button>
+</div>
 
