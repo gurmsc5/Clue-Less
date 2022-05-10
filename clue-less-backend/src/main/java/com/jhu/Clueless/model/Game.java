@@ -361,13 +361,8 @@ public class Game {
       if (!stage.equals("disapproving")){
          return "not turn for disapproving.";
       }
-      numPeopleDisapproved++;
-      if(numPeopleDisapproved==(userList.size()-1)){
-         stage = "inprogress";
-      }
-      else
-         stage = "disapproving";
-
+      
+      stage = "inprogress";
 
       // stage the game back to inprogress
 
