@@ -365,13 +365,10 @@ public class Game {
       if(numPeopleDisapproved==(userList.size()-1)){
          stage = "inprogress";
       }
-<<<<<<< HEAD
       else
          stage = "disapproving";
-=======
 
-      stage = "inprogress";
->>>>>>> e6e3a84f24c79be1329d2d0d4d491cc1e51890c0
+
       // stage the game back to inprogress
 
       // we don't need to remove available move "disapprove" from any applicable player
