@@ -78,6 +78,8 @@ export class GameSessionComponent implements OnInit {
   selectedPlayer?: Player;
   isPlayersTurn: boolean = false;
 
+  disapproveStage: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -106,7 +108,6 @@ export class GameSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getGameSession();
     this.getUpdatedGameStatus();
   }
 
@@ -119,7 +120,7 @@ export class GameSessionComponent implements OnInit {
       else {
         this.gameState = resp as Game;
       }
-
+      this.getGameSession();
       this.allPlayers = Object.keys(this.gameState.playerList);
 
       // check if its current player's turn
@@ -131,8 +132,16 @@ export class GameSessionComponent implements OnInit {
       else {
         this.isPlayersTurn = false;
       }
+
+      if (this.gameState.stage === "disapproving" &&
+        this.gameState.sugBuffer &&
+        !this.disapproveStage) {
+        this.disapproveStage = true;
+        this.messageService.add("Suggestion made: " +this.gameState.sugBuffer);
+      }
+
       this.resetPlayerOccupancy();
-    })
+    });
   }
 
   /**
