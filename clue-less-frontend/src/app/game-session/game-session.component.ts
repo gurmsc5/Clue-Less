@@ -124,6 +124,8 @@ export class GameSessionComponent implements OnInit {
 
       // check if its current player's turn
       if (this.selectedPlayer != null) {
+        this.selectedPlayer = this.gameState.playerList[this.selectedPlayer.name];
+        this.selectedPlayer.availableMove = new Set(this.selectedPlayer.availableMove);
         this.isPlayersTurn = this.gameState.turn.playerQ[0] == this.selectedPlayer.name;
       }
       else {
@@ -162,7 +164,10 @@ export class GameSessionComponent implements OnInit {
   onSelect(player: Player): void {
     if (this.lobby) {
       this.gameService.selectPlayer(player, this.lobby.id)
-        .subscribe(p => this.selectedPlayer = p);
+        .subscribe(p => {
+          this.selectedPlayer = p;
+          this.selectedPlayer.availableMove = new Set(this.selectedPlayer.availableMove);
+        });
     }
   }
 
@@ -195,7 +200,6 @@ export class GameSessionComponent implements OnInit {
 
     let playerKeys: string[];
     playerKeys = Object.keys(this.gameState.playerLocation);
-    console.log('player keys: ' +playerKeys);
 
     playerKeys.forEach(k => {
       let playerLoc: PlayerLocation = this.gameState!.playerLocation[k];
@@ -263,6 +267,9 @@ export class GameSessionComponent implements OnInit {
 
   }
 
+  /**
+   * Method to make accusation
+   */
   makeAccusation() {
     const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     const userId = this.selectedPlayer?.id!;
@@ -272,6 +279,33 @@ export class GameSessionComponent implements OnInit {
     const room = this.accusationRoom?.value.match(regex)[2];
     this.gameService.makeAccusation(gameId, userId, suspect, weapon, room)
       .subscribe((resp) => {
+        this.messageService.add(JSON.stringify(resp));
+      });
+  }
+
+
+  /**
+   * Method to end current turn
+   */
+  endTurn() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+
+    this.gameService.endTurn(gameId, userId)
+      .subscribe((resp) => {
+        this.messageService.add(JSON.stringify(resp))
+      });
+  }
+
+  /**
+   * Disapprove a player's suggestion
+   */
+  disapproveSuggestion() {
+    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const userId = this.selectedPlayer?.id!;
+
+    this.gameService.disapproveSuggestion(gameId, userId)
+      .subscribe(resp => {
         this.messageService.add(JSON.stringify(resp));
       });
   }
@@ -327,16 +361,4 @@ export class GameSessionComponent implements OnInit {
   }
 
 
-  /**
-   * Method to end current turn
-   */
-  endTurn() {
-    const gameId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    const userId = this.selectedPlayer?.id!;
-
-    this.gameService.endTurn(gameId, userId)
-      .subscribe((resp) => {
-        this.messageService.add(JSON.stringify(resp))
-      });
-  }
 }

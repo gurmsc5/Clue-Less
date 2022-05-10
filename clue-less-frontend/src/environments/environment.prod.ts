@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  enableInterceptors: false,
   gameServerPort: "8088",
   gameServerApiUrl: "http://localhost",
   lobbyApiUrl: "game/api/lobby",
@@ -9,5 +10,7 @@ export const environment = {
   startGameApiUrl: "game/startgame",
   gameStatusApiUrl: "game/status",
   playGameApiUrl: "game/playgame",
-  movePlayerApiUrl: "game/move"
+  movePlayerApiUrl: "game/move",
+  endTurnGameApiUrl: "endturn",
+  disapproveApiUrl: "disapprove"
 };
