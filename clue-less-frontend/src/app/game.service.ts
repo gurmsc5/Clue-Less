@@ -254,11 +254,34 @@ export class GameService implements OnDestroy {
     );
   }
 
+  /**
+   * Send request to backend for player's accusation action
+   *
+   * @param gameId - unique game ID
+   * @param userId - user making the suggestion
+   * @param suspect - suspect of the suggestion
+   * @param weapon - weapon used
+   * @param room - room where murder took place
+   */
+  makeAccusation(gameId: number,
+                 userId: number,
+                 suspect: string,
+                 weapon: string,
+                 room: string) {
+
+    const accusationUrl =`${this.playGameApiUrl}/${gameId}/accusation?userId=${userId}&suspect=${suspect}&weapon=${weapon}&room=${room}`;
+
+    return this.http.post<any>(accusationUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/id=${userId} made an accusation`)),
+      catchError(this.handleError<any>('makeAccusation'))
+    );
+
+  }
 
   /**
-   *
-   * @param gameId
-   * @param userId
+   * End a player's turn
+   * @param gameId - unique game ID
+   * @param userId - user's player ID
    */
   endTurn(gameId: number, userId: number) {
     const endTurnUrl = `${this.playGameApiUrl}/${gameId}/${env.endTurnGameApiUrl}?userId=${userId}`;
@@ -267,6 +290,19 @@ export class GameService implements OnDestroy {
       catchError(this.handleError<any>('endTurn'))
     );
 
+  }
+
+  /**
+   *
+   * @param gameId
+   * @param userId
+   */
+  disapproveSuggestion(gameId: number, userId: number) {
+    const disapproveUrl = `${this.playGameApiUrl}/${gameId}/${env.disapproveApiUrl}?userId=${userId}`;
+    return this.http.post<any>(disapproveUrl, this.httpOptions).pipe(
+      tap(() => this.log(`Player w/id=${userId} attempted to disapprove suggestion`)),
+      catchError(this.handleError<any>('disapproveSuggestion'))
+    );
   }
 
   /**
@@ -294,5 +330,5 @@ export class GameService implements OnDestroy {
     this.messageService.add(`GameService: ${message}`);
   }
 
-
 }
+

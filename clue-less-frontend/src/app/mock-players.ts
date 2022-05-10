@@ -15,10 +15,10 @@ export const PLAYERS: Player[] = [
         name: "Rope"
       }
     ],
-    availableMove: [
+    availableMove: new Set([
       "accusation",
       "down"
-    ]},
+    ])},
   { id: 2, name: 'Professor Plum', available: true},
   { id: 3, name: 'Mrs. Peacock', available: true},
   { id: 4, name: 'Colonel Mustard', available: true},

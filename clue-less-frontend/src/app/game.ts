@@ -19,5 +19,7 @@ export interface Game {
   hasMoved: Record<string, boolean>;
   turn: Turn;
   inProgress: boolean;
+  stage: string;
   cardDistribution?: Map<string, Card[]>;
+  sugBuffer?: string[];
 }

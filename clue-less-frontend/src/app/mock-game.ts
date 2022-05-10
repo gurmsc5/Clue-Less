@@ -27,10 +27,10 @@ export const MOCKGAME: Game = {
           name: "Kitchen"
         }
       ],
-      availableMove: [
+      availableMove: new Set([
         "accusation",
         "down"
-      ]
+      ])
     },
     {
       id: 3,
@@ -51,11 +51,11 @@ export const MOCKGAME: Game = {
           name: "Mrs. Peacock"
         }
       ],
-      availableMove: [
+      availableMove: new Set([
         "accusation",
         "left",
         "right"
-      ]
+      ])
     },
     {
       id: 4,
@@ -76,10 +76,10 @@ export const MOCKGAME: Game = {
           name: "Wrench"
         }
       ],
-      availableMove: [
+      availableMove: new Set( [
         "accusation",
         "down"
-      ]
+      ])
     },
     {
       id: 0,
@@ -100,10 +100,10 @@ export const MOCKGAME: Game = {
           name: "Ballroom"
         }
       ],
-      availableMove: [
+      availableMove: new Set([
         "accusation",
         "suggestion"
-      ]
+      ])
     },
     {
       id: 5,
@@ -124,10 +124,10 @@ export const MOCKGAME: Game = {
           name: "Rope"
         }
       ],
-      availableMove: [
+      availableMove: new Set([
         "accusation",
         "down"
-      ]
+      ])
     },
     {
       id: 2,
@@ -148,11 +148,11 @@ export const MOCKGAME: Game = {
           name: "Library"
         }
       ],
-      availableMove: [
+      availableMove: new Set([
         "accusation",
         "left",
         "right"
-      ]
+      ])
     }
   ],
   userToPlayerMap: {
@@ -357,5 +357,6 @@ export const MOCKGAME: Game = {
       "Colonel Mustard"
     ]
   },
-  inProgress: false
+  inProgress: false,
+  stage: "inprogress"
 };
